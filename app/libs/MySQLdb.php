@@ -15,7 +15,7 @@
                 $this->usuario,
                 $this->clave
             );
-            echo "Conectado";
+            //echo "Conectado";
            } catch (Exception $e) {
                 die("No se pudo conectar: ".$e->getMessage());
            }
