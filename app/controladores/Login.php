@@ -1,16 +1,17 @@
 <?php
 
-    class Login extends Control{
+    class Login extends Controlador{
 
         private $modelo = "";
         private $sesion;
 
         function __construct() {
-            
+            $this->modelo = $this->modelo("LoginModelo");
         }
 
         public function caratula() {
-            print "<h2>Está es la caratula</h2>";
+            $datos = [];
+            $this->vista("loginCaratulaVista",$datos);
         }
     }
 
