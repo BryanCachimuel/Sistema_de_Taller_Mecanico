@@ -16,6 +16,14 @@
             ];
             $this->vista("loginCaratulaVista",$datos);
         }
+
+        public function olvido() {
+            $datos = [
+                "titulo" => "Olvido de la clave de Acceso",
+                "subtitulo" => "Olvidaste tu clave de acceso"
+            ];
+            $this->vista("loginOlvidoVista",$datos);
+        }
     }
 
 ?>
