@@ -10,7 +10,10 @@
         }
 
         public function caratula() {
-            $datos = [];
+            $datos = [
+                "titulo" => "Inicio de Sesión",
+                "subtitulo" => "Taller Mecánico"
+            ];
             $this->vista("loginCaratulaVista",$datos);
         }
     }
