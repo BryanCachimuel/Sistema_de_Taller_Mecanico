@@ -29,19 +29,38 @@
                 }
                 if(empty($errores)) {
                     $data = $this->modelo->buscarCorreo($correo);
-                    if($data){
+                    if($this->enviarCorreo($data)){
                         Helper::mostrar($correo);
                     }else {
-                        Helper::mostrar("No existe el correo");
+                        array_push($errores, "Error al enviar el correo electrónico");
                     }        
                 }
-                Helper::mostrar($errores);
             }
             $datos = [
                 "titulo" => "Olvido de la clave de Acceso",
-                "subtitulo" => "Olvidaste tu clave de acceso"
+                "subtitulo" => "Olvidaste tu clave de acceso",
+                "errores" => $errores
             ];
             $this->vista("loginOlvidoVista",$datos);
+        }
+
+        public function enviarCorreo(array $data=[]):bool {
+            $salida = false;
+            if(!empty($data)) {
+                $id = 1; // Helper::encriptar($data["id"]);
+                $msg = "Entra en el siguiente enlace para cambiar tu clave de acceso al sistema de control de mi taller mecánico...<br>";
+                $msg.= "<a href='".RUTA."login/cambiarclave/".$id."'>Cambiar tu clave de acceso</a>";
+
+                $headers = "MIME-Version: 1.0\r\n"; 
+			    $headers.= "Content-type:text/html; charset=UTF-8\r\n"; 
+			    $headers.= "From: Taller Mecanico\r\n"; 
+			    $headers.= "Reply-to: ayuda@taller.com\r\n";
+
+			    $asunto = "Cambiar clave de acceso";
+			    //Helper::mostrar($msg);
+			    $salida = @mail($data["correo"],$asunto,$msg, $headers);
+            }
+            return $salida;
         }
     }
 
