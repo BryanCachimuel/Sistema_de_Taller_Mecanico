@@ -17,6 +17,17 @@
         <div class="row content">
             <div class="col-sm-1"></div>
             <div class="col-sm-10">
+                <?php 
+                if(isset($datos["errores"])) {
+                    if(count($datos["errores"]) > 0) {
+                        print "<div class='alert alert-danger alert-dismissible fade show mt-3'><ul>";
+                            foreach ($datos["errores"] as $valor) {
+                                print "<li>".$valor."</li>";
+                            }
+                        print "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button> </ul></div>";
+                    }
+                }
+                ?>
                 <div class="card p-4 mt-3 bg-info-subtle">
                     <div class="card-header text-center">
                         <h2><?php print $datos["subtitulo"]?></h2>
