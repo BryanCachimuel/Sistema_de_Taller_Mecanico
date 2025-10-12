@@ -1,4 +1,5 @@
 <?php
+define('RUTA','/taller/');
 // Tipos de Usuarios
 define('ADMON', 1);
 define('OPERADOR', 2);
