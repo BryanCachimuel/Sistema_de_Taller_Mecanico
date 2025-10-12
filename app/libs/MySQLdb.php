@@ -20,5 +20,15 @@
                 die("No se pudo conectar: ".$e->getMessage());
            }
         }
+
+        public function query(string $sql=''):array {
+            if(empty($sql)) return [];
+            $stmt = $this->conn->query($sql);
+            $salida = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($salida) {
+                return $salida;
+            }
+            return [];
+        }
     }
 ?>
