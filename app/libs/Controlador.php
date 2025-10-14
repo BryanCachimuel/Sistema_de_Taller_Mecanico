@@ -21,6 +21,26 @@
             }
         }
 
+        public function mensaje($titulo="",$subtitulo, $texto, $url, $color, $url2="",$color2="", $texto2="") {
+            $datos = [
+                "titulo" => $titulo,
+                "menu" => true,
+                "errores" => [],
+                "data" => [],
+                "subtitulo" => $subtitulo,
+                "texto" => $texto,
+                "url" => $url,
+                "color" => "alert-".$color,
+                "colorBoton" => "btn-".$color,
+                "textoBoton" => "Regresar",
+                "url2" => $url2,
+                "colorBoton2" => "btn-".$color2,
+                "textoBoton2" => $texto2
+            ];
+            $this->vista("mensaje",$datos);
+            exit;
+        }
+
     }
 
 ?>
