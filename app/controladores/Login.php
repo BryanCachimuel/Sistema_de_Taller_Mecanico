@@ -73,10 +73,42 @@
             $$id=Helper::desencriptar($id);
             $errores=[];
             if ($_SERVER['REQUEST_METHOD']=="POST") {
-                $clave = $_POST['clave']??"";
-                $verifica = $_POST['verifica']??"";
+                $clave1 = $_POST['clave']??"";
+                $clave2 = $_POST['verifica']??"";
                 $id = $_POST['id']??"";
-                Helper::mostrar($_POST);
+
+                // validaciones
+                if(empty($clave1)) {
+                    array_push($errores, "La clave de acceso es requerida");
+                }
+                if(empty($clave2)) {
+                    array_push($errores, "La clave de acceso de verificación es requerida");
+                }
+                if($clave1 != $clave2) {
+                     array_push($errores, "Las claves de acceso no coinciden");
+                }
+                if(count($errores) == 0) {
+                    $clave = hash_hmac("sha512", $clave1, CLAVE);
+                    $data = ["clave"=>$clave, "id"=>$id];
+                    Helper::mostrar($data);
+                    if($this->modelo->actualizarClaveAcceso($data)) {
+                        $this->mensaje(
+                           "Cambio de clave de acceso",
+                            "Cambio de clave de acceso",
+                            "La clave de acceso se modificó correctamente.",
+                            "login",
+                            "success" 
+                        );
+                    }else {
+                        $this->mensaje(
+                            "Cambio de clave de acceso",
+                            "Cambio de clave de acceso",
+                            "Existió un error al actualizar la clave de acceso. Favor de intentarlo más tarde o reportarlo a soporte técnico.",
+                            "login",
+                            "danger"
+                        );
+                    }
+                }
             } else if ($id=="error") {
                 $this->mensaje(
                 "Cambio de clave de acceso",
