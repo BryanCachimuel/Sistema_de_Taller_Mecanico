@@ -53,7 +53,7 @@
         public function enviarCorreo(array $data=[]):bool {
             $salida = false;
             if(!empty($data)) {
-                $id = 1; // Helper::encriptar($data["id"]);
+                $id = Helper::encriptar($data["id"]);
                 $msg = "Entra en el siguiente enlace para cambiar tu clave de acceso al sistema de control de mi taller mecánico...<br>";
                 $msg.= "<a href='".RUTA."login/cambiarclave/".$id."'>Cambiar tu clave de acceso</a>";
 
@@ -63,11 +63,37 @@
 			    $headers.= "Reply-to: ayuda@taller.com\r\n";
 
 			    $asunto = "Cambiar clave de acceso";
-			    //Helper::mostrar($msg);
-			    $salida = @mail($data["correo"],$asunto,$msg, $headers);
+			    Helper::mostrar($msg);
+			    //$salida = @mail($data["correo"],$asunto,$msg, $headers);
             }
             return $salida;
         }
-    }
+
+        public function cambiarClave(string $id=''):void {
+            $$id=Helper::desencriptar($id);
+            $errores=[];
+            if ($_SERVER['REQUEST_METHOD']=="POST") {
+                $clave = $_POST['clave']??"";
+                $verifica = $_POST['verifica']??"";
+                $id = $_POST['id']??"";
+                Helper::mostrar($_POST);
+            } else if ($id=="error") {
+                $this->mensaje(
+                "Cambio de clave de acceso",
+                "Cambio de clave de acceso",
+                "Error al mandar desencriptar. Favor de intentarlo más tarde.",
+                "login",
+                "danger");
+            }
+            $datos = [
+                "titulo" => "Cambiar contraseña",
+                "subtitulo" => "Cambiar contraseña",
+                "errores" => $errores,
+                "data" => $id
+            ];
+            $this->vista("loginCambiarVista",$datos);
+            }
+        }
+    
 
 ?>
