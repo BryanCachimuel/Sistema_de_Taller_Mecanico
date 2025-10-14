@@ -1,4 +1,6 @@
 <?php
+define("LLAVE1","Hombresneciosque");
+define("LLAVE2","acusaisalamujer");
 define('RUTA','/taller/');
 // Tipos de Usuarios
 define('ADMON', 1);
