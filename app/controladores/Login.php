@@ -90,7 +90,6 @@
                 if(count($errores) == 0) {
                     $clave = hash_hmac("sha512", $clave1, CLAVE);
                     $data = ["clave"=>$clave, "id"=>$id];
-                    Helper::mostrar($data);
                     if($this->modelo->actualizarClaveAcceso($data)) {
                         $this->mensaje(
                            "Cambio de clave de acceso",
