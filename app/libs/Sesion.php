@@ -28,6 +28,18 @@
             unset($_SESSION['usuario']);
             $this->login = false;
         }
+
+        public function getLogin() {
+            return $this->login;
+        }
+
+        public function getUsuario() {
+            return $this->usuario;
+        }
+
+        public function setUsuario($data='') {
+            $this->usuario = $_SESSION['usuario'] = $data;
+        }
     }
 
 
