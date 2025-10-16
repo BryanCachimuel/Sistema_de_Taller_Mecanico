@@ -1,8 +1,5 @@
 <?php
 
-/**
- * 
- */
 class Login extends Controlador
 {
     private $modelo = "";
@@ -153,16 +150,18 @@ class Login extends Controlador
                 $clave = hash_hmac("sha512", $clave, CLAVE);
                 $data = $this->modelo->buscarCorreo($usuario);
                 if ($data && $data["clave"] == $clave) {
-                    Helper::mostrar("Bienvenido al sistema de administración de un taller mecánico.");
+                    $this->sesion = new Sesion();
+                    $this->sesion->iniciarLogin($data);
+                    header("location:".RUTA."Tablero");
                 }
+                $this->mensaje(
+                    "Sistema de taller mecánico",
+                    "Sistema de taller mecánico",
+                    "Existió un error al entrar al sistema. Favor de intentarlo nuevamente.",
+                    "login",
+                    "danger"
+                );
             }
-            $this->mensaje(
-                "Sistema de taller mecánico",
-                "Sistema de taller mecánico",
-                "Existió un error al entrar al sistema. Favor de intentarlo nuevamente.",
-                "login",
-                "danger"
-            );
         }
     }
 }
