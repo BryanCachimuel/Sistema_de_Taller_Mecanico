@@ -15,6 +15,13 @@
                 $this->login = false;
             }
         }
+
+        public function iniciarLogin($usuario = '') {
+            if($usuario) {
+                $this->usuario = $_SESSION['usuario'] = $usuario;
+                $this->login = true;
+            }
+        }
     }
 
 
