@@ -22,6 +22,12 @@
                 $this->login = true;
             }
         }
+
+        public function finalizarLogin() {
+            unset($this->usuario);
+            unset($_SESSION['usuario']);
+            $this->login = false;
+        }
     }
 
 
