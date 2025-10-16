@@ -16,28 +16,28 @@
             }
         }
 
-        public function iniciarLogin($usuario = '') {
+        public function iniciarLogin(array $usuario = []):void {
             if($usuario) {
                 $this->usuario = $_SESSION['usuario'] = $usuario;
                 $this->login = true;
             }
         }
 
-        public function finalizarLogin() {
+        public function finalizarLogin():void {
             unset($this->usuario);
             unset($_SESSION['usuario']);
             $this->login = false;
         }
 
-        public function getLogin() {
+        public function getLogin():bool {
             return $this->login;
         }
 
-        public function getUsuario() {
+        public function getUsuario():array {
             return $this->usuario;
         }
 
-        public function setUsuario($data='') {
+        public function setUsuario(array $data=[]):void {
             $this->usuario = $_SESSION['usuario'] = $data;
         }
     }
