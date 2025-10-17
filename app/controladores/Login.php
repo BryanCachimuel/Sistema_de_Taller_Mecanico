@@ -10,17 +10,27 @@ class Login extends Controlador
         $this->modelo = $this->modelo("LoginModelo");
     }
 
-    public function caratula()
-    {
+    public function caratula() {
+        $data = [];
+        if(isset($_COOKIE['datos'])) {
+            $datos_array = explode("|", $_COOKIE['datos']);
+            $usuario = $datos_array[0];
+            $clave = Helper::desencriptar($datos_array[1]);
+            $data = [
+                "usuario" => $usuario,
+                "clave" => $clave
+            ];
+        }
+
         $datos = [
             "titulo" => "Login",
-            "subtitulo" => "Taller mecánico"
+            "subtitulo" => "Taller mecánico",
+            "data" => $data
         ];
         $this->vista("loginCaratulaVista", $datos);
     }
 
-    public function olvido()
-    {
+    public function olvido() {
         $errores = [];
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $correo = $_POST['correo'] ?? "";
@@ -132,13 +142,20 @@ class Login extends Controlador
         $this->vista("loginCambiarVista", $datos);
     }
 
-    public function verificar()
-    {
+    public function verificar() {
         $errores = [];
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id = $_POST["id"] ?? "";
             $usuario = $_POST['usuario'] ?? "";
             $clave = $_POST['clave'] ?? "";
+            $recordar = isset($_POST['recordar'])?"on":"off";
+            $valor = $usuario."|".Helper::encriptar($clave);
+            if($recordar == "on") {
+                $fecha = time()+(60*60*24*7);
+            }else {
+                $fecha = time()-1;
+            }
+            setcookie("datos",$valor,$fecha,RUTA);
             //
             if (empty($clave)) {
                 array_push($errores, "La clave de acceso es requerida.");
