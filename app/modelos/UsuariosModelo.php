@@ -28,6 +28,11 @@
             $sql = "SELECT id, estado FROM estadoUsuario";
             return $this->db->querySelect($sql);
         }
+
+        public function getGeneros() {
+            $sql = "SELECT id, genero FROM generos";
+            return $this->db->querySelect($sql);
+        }
     }
 
 ?>
