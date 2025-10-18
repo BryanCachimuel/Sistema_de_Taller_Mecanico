@@ -19,12 +19,14 @@ class Usuarios extends Controlador {
 
 	public function caratula() {
         $data = $this->modelo->getTabla();
-        Helper::mostrar($data);
  		$datos = [
 			"titulo" => "Usuarios taller mecánico",
 			"subtitulo" => "Usuarios taller mecánico",
 			"usuario"=>$this->usuario,
 			"data"=> $data,
+			"pag" => [
+				"pagina" => 1
+			],
 			"menu" => true
 		];
 		$this->vista("usuariosCaratulaVista",$datos);
