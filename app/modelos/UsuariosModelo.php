@@ -18,6 +18,11 @@
             $sql.= "u.tipoUsuario=tu.id";
             return $this->db->querySelect($sql);
         }
+
+        public function getTipoUsuarios() {
+            $sql = "SELECT id, tipoUsuario FROM tipoUsuario";
+            return $this->db->querySelect($sql);
+        }
     }
 
 ?>
