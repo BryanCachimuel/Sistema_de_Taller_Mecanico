@@ -23,6 +23,11 @@
             $sql = "SELECT id, tipoUsuario FROM tipoUsuario";
             return $this->db->querySelect($sql);
         }
+
+        public function getEstadosUsuarios() {
+            $sql = "SELECT id, estado FROM estadoUsuario";
+            return $this->db->querySelect($sql);
+        }
     }
 
 ?>
