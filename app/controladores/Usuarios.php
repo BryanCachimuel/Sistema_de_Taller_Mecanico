@@ -17,32 +17,7 @@ class Usuarios extends Controlador {
 		}
 	}
 
-	public function alta() {
-		// definir los arreglos
-		$data = array();
-		$errores = array();
-		if(!empty($errores) || $_SERVER['REQUEST_METHOD'] != "POST") {
-			// vista alta
-			$tipoUsuarios = $this->modelo->getTipoUsuarios();
-			$generos = $this->modelo->getGeneros();
-			$estadoUsuarios = $this->modelo->getEstadosUsuarios();
-			$datos = [
-				"titulo" => "Alta de un usuario",
-				"subtitulo" => "Alta de un usuario",
-				"activo" => "usuarios",
-				"usuario"=>$this->usuario,
-				"menu" => true,
-				"admon" => true,
-				"tipoUsuarios" => $tipoUsuarios,
-				"estadosUsuarios" => $estadoUsuarios,
-				"generos" => $generos,
-				"data" => $data
-			];
-			Helper::mostrar($datos);
-			$this->vista("usuariosAltaVista",$datos);
-		}
-	}
-
+	
 	public function caratula() {
         $data = $this->modelo->getTabla();
  		$datos = [
@@ -59,6 +34,92 @@ class Usuarios extends Controlador {
 		$this->vista("usuariosCaratulaVista",$datos);
 	}
 
+	public function alta(){
+	   //Definir los arreglos
+	    $data = array();
+	    $errores = array();
+	    if ($_SERVER['REQUEST_METHOD']=="POST") {
+	      //
+	      $id = $_POST['id'] ?? "";
+	      $tipoUsuario = Helper::cadena($_POST['tipoUsuario'] ?? "");
+	      $nombres = Helper::cadena($_POST['nombres'] ?? "");
+	      $apellidos = Helper::cadena($_POST['apellidos'] ?? "");
+	      $direccion = Helper::cadena($_POST['direccion'] ?? "");
+	      $telefono = Helper::cadena($_POST['telefono'] ?? "");
+	      $correo = Helper::cadena($_POST['correo'] ?? "");
+	      $genero = Helper::cadena($_POST['genero'] ?? "");
+	      //
+	      $pagina = $_POST['pagina'] ?? "1";
+	      //
+	      // Validamos la información
+	      // 
+	      if(empty($nombres)){
+	        array_push($errores,"El nombre del usuario es requerido.");
+	      }
+	      if(empty($apellidos)){
+	        array_push($errores,"Los apellidos del usuario son requeridos.");
+	      }
+	      if(empty($correo)){
+	        array_push($errores,"El correo del usuario es requerido.");
+	      }
+	      if($genero=="void"){
+	        array_push($errores,"El género es obligatorio.");
+	      }
+	      if($tipoUsuario=="void"){
+	        array_push($errores,"El tipo de usuario es obligatorio.");
+	      }
+	      if (Helper::correo($correo)==false) {
+	      	array_push($errores,"El correo no tiene un formato válido.");
+	      } else if(trim($id)==="" && $this->modelo->getCorreo($correo)!=false){
+	        array_push($errores,"El correo ya existe en la base de datos.");
+	      }
+	      //
+	      if (empty($errores)) { 
+			// Crear arreglo de datos
+			//
+			$data = [
+				"id" => $id,
+				"tipoUsuario"=>$tipoUsuario,
+				"nombres"=>$nombres,
+				"apellidos"=>$apellidos,
+				"direccion"=>$direccion,
+				"telefono"=>$telefono,
+				"correo"=>$correo,
+				"clave"=>Helper::generarClave(10),
+				"genero"=>$genero,
+				"estadoUsuario"=>USUARIO_INACTIVO
+			];     
+	        //Enviamos al modelo
+	        if(trim($id)===""){
+	          //Alta
+	          Helper::mostrar($data);
+	        } else {
+			  //Modificar
+			  Helper::mostrar();
+	        }
+	      }
+	    }
+	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
+	    	//Vista Alta
+	    	$tiposUsuarios = $this->modelo->getTipoUsuarios();
+	    	$generos = $this->modelo->getGeneros();
+	    	$estadosUsuarios = $this->modelo->getEstadosUsuarios();
+		    $datos = [
+		      "titulo" => "Alta de un usuario",
+		      "subtitulo" => "Alta de un usuario",
+		      "activo" => "usuarios",
+		      "usuario"=>$this->usuario,
+		      "menu" => true,
+		      "admon" => true,
+		      "errores" => $errores,
+		      "tiposUsuarios" => $tiposUsuarios,
+		      "estadosUsuarios" => $estadosUsuarios,
+		      "generos" => $generos,
+		      "data" => $data
+		    ];
+		    $this->vista("usuariosAltaVista",$datos);
+	    }
+	}
 	
 }
 ?>
