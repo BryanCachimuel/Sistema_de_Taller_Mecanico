@@ -33,6 +33,12 @@
             $sql = "SELECT id, genero FROM generos";
             return $this->db->querySelect($sql);
         }
+
+        public function getCorreo(string $correo='') {
+            if(empty($correo)) return false;
+            $sql = "SELECT id FROM usuarios WHERE correo='".$correo."' AND baja=0";
+            return $this->db->query($sql);
+        }
     }
 
 ?>
