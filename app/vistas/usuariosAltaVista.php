@@ -22,6 +22,11 @@
 	</div>
 
 	<div class="form-group text-start">
+		<label for="apellidos">* Apellidos del usuario:</label>
+		<input id="apellidos" name="apellidos" type="text" class="form-control" placeholder="Apellidos del usuario" required>
+	</div>
+
+	<div class="form-group text-start">
 		<label for="direccion">Dirección:</label>
 		<input id="direccion" name="direccion" type="text" class="form-control" placeholder="Dirección del usuario">
 	</div>
@@ -47,22 +52,6 @@
                 print " selected ";
               }
             print ">".$datos["generos"][$i]["genero"]."</option>";
-          } 
-        ?>
-      </select>
-	</div>
-
-	<div class="form-group text-start">
-	  <label for="estadoUsuario">* Estado del usuario:</label>
-      <select class="form-control" name="estadoUsuario" id="estadoUsuario">
-      <option value="void">---Selecciona el estado del usuario---</option>
-        <?php
-          for ($i=0; $i < count($datos["estadosUsuarios"]); $i++) { 
-            print "<option value='".$datos["estadosUsuarios"][$i]["id"]."'";
-              if(isset($datos["data"]["estado"]) && $datos["data"]["estado"]==$datos["estadosUsuarios"][$i]["id"]){
-                print " selected ";
-              }
-            print ">".$datos["estadosUsuarios"][$i]["estado"]."</option>";
           } 
         ?>
       </select>
