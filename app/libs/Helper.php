@@ -4,12 +4,16 @@
 
         function __construct(){}
 
-        public static function cadena() {
+        public static function cadena($cadena) {
             $buscar = array('^','delete','drop','truncate','exec','system');
             $reemplazar = array('-','dele*te','dr*op','trun*cate','ex*ec','syst*em');
             $cadena = trim(str_replace($buscar,$reemplazar,$cadena));
             $cadena = addslashes(htmlentities($cadena));
             return $cadena;
+        }
+
+        public static function correo($correo='') {
+            return filter_var($correo, FILTER_VALIDATE_EMAIL);
         }
 
         public static function mostrar($data, $detener=true):void {
