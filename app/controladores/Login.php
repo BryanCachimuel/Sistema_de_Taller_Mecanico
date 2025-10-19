@@ -63,29 +63,8 @@ class Login extends Controlador
         $this->vista("loginOlvidoVista", $datos);
     }
 
-    public function enviarCorreo(array $data = []): bool
-    {
-        $salida = false;
-        if (!empty($data)) {
-            $id = Helper::encriptar($data["id"]);
-            //
-            $msg = "Entra en el siguiente enlace para cambiar tu clave de acceso al sistema de control de mi taller mecánico...<br>";
-            $msg .= "<a href='" . RUTA . "login/cambiarclave/" . $id . "'>Cambiar tu clave de acceso</a>";
-
-            $headers = "MIME-Version: 1.0\r\n";
-            $headers .= "Content-type:text/html; charset=UTF-8\r\n";
-            $headers .= "From: Taller Mecanico\r\n";
-            $headers .= "Reply-to: ayuda@taller.com\r\n";
-
-            $asunto = "Cambiar clave de acceso";
-            Helper::mostrar($msg);
-            //$salida = @mail($data["correo"],$asunto,$msg, $headers);
-        }
-        return $salida;
-    }
-
-    public function cambiarClave(string $id = ''): void
-    {
+    
+    public function cambiarClave(string $id = ''): void {
         $id = Helper::desencriptar($id);
         $errores = [];
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -105,7 +84,7 @@ class Login extends Controlador
             //
             if (count($errores) == 0) {
                 $clave = hash_hmac("sha512", $clave1, CLAVE);
-                $data = ["clave" => $clave, "id" => $id];
+                $data = ["clave" => $clave, "id" => $id, "estadoUsuario"=>USUARIO_ACTIVO];
                 if ($this->modelo->actualizarClaveAcceso($data)) {
                     $this->mensaje(
                         "Cambio de clave de acceso",
