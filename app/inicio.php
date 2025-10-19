@@ -7,6 +7,11 @@ define('RUTA','/taller/');
 define('ADMON', 1);
 define('OPERADOR', 2);
 
+// Estados Usuario
+define('USUARIO_ACTIVO',1);
+define('USUARIO_INACTIVO',2);
+define('USUARIO_SUSPENDIDO',3);
+
 require_once("libs/Helper.php");
 require_once("libs/Sesion.php");
 require_once("libs/Controlador.php");
