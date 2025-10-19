@@ -16,6 +16,16 @@
             return filter_var($correo, FILTER_VALIDATE_EMAIL);
         }
 
+        public static function generarClave(int $lon):string {
+            $llave = "";
+            $cadena = "1234567890ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz+*-_";
+            $max = strlen($cadena)-1;
+            for($i = 0; $i < $lon; $i++) {
+                $llave .= substr($cadena, mt_rand(0,$max),1);
+            }
+            return $llave;
+        }
+
         public static function mostrar($data, $detener=true):void {
             print "<pre>";
             var_dump($data);
