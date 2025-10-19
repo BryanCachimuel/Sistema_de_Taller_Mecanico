@@ -2,6 +2,16 @@
 
     class Helper {
 
+        function __construct(){}
+
+        public static function cadena() {
+            $buscar = array('^','delete','drop','truncate','exec','system');
+            $reemplazar = array('-','dele*te','dr*op','trun*cate','ex*ec','syst*em');
+            $cadena = trim(str_replace($buscar,$reemplazar,$cadena));
+            $cadena = addslashes(htmlentities($cadena));
+            return $cadena;
+        }
+
         public static function mostrar($data, $detener=true):void {
             print "<pre>";
             var_dump($data);
