@@ -92,6 +92,36 @@ class Usuarios extends Controlador {
 	        //Enviamos al modelo
 	        if(trim($id)===""){
 	          //Alta
+			  $id = $this->modelo->alta($data);
+
+			  if($id>0) {
+				$data["id"] = $id;
+				if($this->enviarCorreo($data)) {
+					$this->mensaje(
+						"Alta de un usuario", 
+		          		"Alta de un usuario", 
+		          		"Se añadió correctamente el usuario: ".$nombres." ".$apellidos, 
+		          		"usuarios/".$pagina, 
+		          		"success"
+					);
+				} else {
+					$this->mensaje(
+						"Error al enviar el correo al usuario.", 
+						"Error al enviar el correo al usuario.", 
+						"Error al enviar el correo al usuario: ".$nombres." ".$apellidos, 
+						"usuarios/".$pagina,
+						"danger"
+	          		);
+				}
+			  } else {
+				$this->mensaje(
+	          		"Error al añadir el usuario.", 
+	          		"Error al añadir el usuario.", 
+	          		"Error al modificar el usuario: ".$nombres." ".$apellidos, 
+	          		"usuarios/".$pagina,
+	          		"danger"
+	          	);
+			  }
 	          Helper::mostrar($data);
 	        } else {
 			  //Modificar
@@ -119,6 +149,27 @@ class Usuarios extends Controlador {
 		    ];
 		    $this->vista("usuariosAltaVista",$datos);
 	    }
+	}
+
+	public function modificar(string $id, string $pagina="1"):void {
+		// leer los datos de tabla
+		$data = $this->modelo->getId($id);
+		$tiposUsuarios = $this->modelo->getTipoUsuarios();
+	    $generos = $this->modelo->getGeneros();
+	    $estadosUsuarios = $this->modelo->getEstadosUsuarios();
+		$datos = [
+			"titulo" => "Modificar un usuario",
+			"subtitulo" => "Modificar un usuario",
+			"menu" => true,
+			"admon" => true,
+			"usuario"=>$this->usuario,
+			"activo" => "usuarios",
+			"tiposUsuarios" => $tiposUsuarios,
+		    "estadosUsuarios" => $estadosUsuarios,
+		    "generos" => $generos,
+			"data" => $data
+		];
+		$this->vista("usuariosAltaVista",$datos);
 	}
 	
 }
