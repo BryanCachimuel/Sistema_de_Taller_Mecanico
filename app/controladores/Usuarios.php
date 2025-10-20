@@ -191,6 +191,29 @@ class Usuarios extends Controlador {
 		$this->vista("usuariosAltaVista",$datos);
 	}
 
+	public function bajaLogica(string $id='', string $pagina="1"):void {
+		if(isset($id) && $id!="") {
+			if($this->modelo->bajaLogica($id)) {
+				$this->mensaje(
+					"Baja de un usuario",
+					"Baja de un usuario",
+					"Se borró correctamente al usuario: ".$id,
+					"usuarios/".$pagina,
+					"success"
+				);
+			} else {
+				$this->mensaje(
+					"Baja de un usuario",
+					"Baja de un usuario",
+					"Error al borrar al usuario: ".$id,
+					"usuarios/".$pagina,
+					"danger"
+				);
+			}
+			
+		}
+	}
+
 	public function modificar(string $id, string $pagina="1"):void {
 		// leer los datos de tabla
 		$data = $this->modelo->getId($id);
