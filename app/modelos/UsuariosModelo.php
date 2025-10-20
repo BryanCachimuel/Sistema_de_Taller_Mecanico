@@ -34,6 +34,13 @@
             return $salida;
         }
 
+        public function bajaLogica(string $id):bool {
+            $salida = false;
+            $sql = "UPDATE usuarios SET baja=1, baja_dt=(NOW()) WHERE id=".$id;
+            $salida = $this->db->queryNoSelect($sql);
+            return $salida;
+        }
+
         public function getId(string $id=''):array {
             if(empty($id)) return [];
             $sql = "SELECT id, tipoUsuario, nombres, apellidos, direccion, telefono, ";
