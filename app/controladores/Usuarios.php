@@ -125,7 +125,23 @@ class Usuarios extends Controlador {
 	          Helper::mostrar($data);
 	        } else {
 			  //Modificar
-			  Helper::mostrar();
+			  if($this->modelo->modificar($data)){
+				$this->mensaje(
+					"Modificar el usuario", 
+		          	"Modificar el usuario", 
+		          	"Se modifico correctamente el usuario: ".$nombres." ".$apellidos, 
+		          	"usuarios/".$pagina, 
+		          	"success"
+				);
+			  }else {
+				$this->mensaje(
+					"Error al modificar el usuario.", 
+	          		"Error al modificar el usuario.", 
+	          		"Error al modificar el usuario: ".$nombres." ".$apellidos, 
+	          		"usuarios/".$pagina,
+	          		"danger"
+				);
+			  }
 	        }
 	      }
 	    }
