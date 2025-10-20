@@ -72,6 +72,25 @@
             $sql = "SELECT id FROM usuarios WHERE correo='".$correo."' AND baja=0";
             return $this->db->query($sql);
         }
+
+        public function modificar(array $data):bool {
+            $salida = false;
+            if(!empty($data["id"])) {
+                $sql = "UPDATE usuarios SET ";
+                $sql.= "tipoUsuario='".$data['tipoUsuario']."', ";
+                $sql.= "nombres='".$data['nombres']."', ";
+                $sql.= "apellidos='".$data['apellidos']."', ";
+                $sql.= "direccion='".$data['direccion']."', ";
+                $sql.= "telefono='".$data['telefono']."', ";
+                $sql.= "correo='".$data['correo']."', ";
+                $sql.= "genero='".$data['genero']."', ";
+                $sql.= "cambio_dt=(NOW()) ";
+                $sql.= "WHERE id=".$data['id'];
+                // enviar a la base de datos
+                $salida = $this->db->queryNoSelect($sql);
+            }
+            return $salida;
+        }
     }
 
 ?>
