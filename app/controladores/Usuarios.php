@@ -167,6 +167,30 @@ class Usuarios extends Controlador {
 	    }
 	}
 
+	public function borrar($id="", $pagina="1") {
+		// leer datos del registro del id
+		$data = $this->modelo->getId($id);
+		$tiposUsuarios = $this->modelo->getTipoUsuarios();
+	    $generos = $this->modelo->getGeneros();
+	    $estadosUsuarios = $this->modelo->getEstadosUsuarios();
+		$datos = [
+			"titulo" => "Baja de un usuario",
+			"subtitulo" => "Baja de un usuario",
+			"menu" => true,
+			"admon" => true,
+			"usuario"=>$this->usuario,
+			"errores"=>[],
+			"data"=>$data,
+			"activo" => "usuarios",
+			"pagina"=>$pagina,
+			"tiposUsuarios" => $tiposUsuarios,
+		    "estadosUsuarios" => $estadosUsuarios,
+		    "generos" => $generos,
+			"baja"=>true,
+		];
+		$this->vista("usuariosAltaVista",$datos);
+	}
+
 	public function modificar(string $id, string $pagina="1"):void {
 		// leer los datos de tabla
 		$data = $this->modelo->getId($id);
