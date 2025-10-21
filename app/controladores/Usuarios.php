@@ -18,8 +18,11 @@ class Usuarios extends Controlador {
 	}
 
 	
-	public function caratula() {
-        $data = $this->modelo->getTabla();
+	public function caratula($pagina="1") {
+		$num = $this->modelo->getNumRegistros();
+		$inicio = ($pagina-1)*TAMANO_PAGINA;
+		$totalPaginas = ceil($num/TAMANO_PAGINA);
+        $data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
  		$datos = [
 			"titulo" => "Usuarios taller mecánico",
 			"subtitulo" => "Usuarios taller mecánico",
@@ -27,7 +30,9 @@ class Usuarios extends Controlador {
 			"data"=> $data,
 			"activo" => "usuarios",
 			"pag" => [
-				"pagina" => 1
+				"totalPagina" => $totalPaginas,
+				"regresa" => "usuarios",
+				"pagina" => $pagina
 			],
 			"menu" => true
 		];
