@@ -26,6 +26,7 @@
             ?>
         </tbody>
     </table>
+    <?php include_once("paginacion.php"); ?> 
     <a href="<?php print RUTA; ?>usuarios/alta" class="btn btn-success">
         Dar de alta un Usuario</a>
     <?php include_once("piepagina.php"); ?>
