@@ -49,13 +49,22 @@
             return $this->db->query($sql);
         }
 
-        public function getTabla() {
+        public function getNumRegistros():int {
+            $sql = "SELECT COUNT(*) FROM usuarios WHERE baja=0";
+            $salida = $this->db->query($sql);
+            return $salida["COUNT(*)"];
+        }
+
+        public function getTabla($inicio=1,$tamano=0):array {
             $sql = "SELECT u.id, CONCAT(u.apellidos,' ',u.nombres) as nombre, ";
             $sql.= "tu.tipoUsuario, eu.estado ";
             $sql.= "FROM usuarios as u, tipoUsuario as tu, estadoUsuario as eu ";
             $sql.= "WHERE u.baja=0 AND ";
             $sql.= "u.estadoUsuario = eu.id AND ";
             $sql.= "u.tipoUsuario=tu.id";
+            if($tamano>0) {
+                $sql.= " LIMIT ".$inicio.", ".$tamano;
+            }
             return $this->db->querySelect($sql);
         }
 
