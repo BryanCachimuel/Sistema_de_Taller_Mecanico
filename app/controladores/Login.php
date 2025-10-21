@@ -146,9 +146,27 @@ class Login extends Controlador
                 $clave = hash_hmac("sha512", $clave, CLAVE);
                 $data = $this->modelo->buscarCorreo($usuario);
                 if ($data && $data["clave"] == $clave) {
-                    $this->sesion = new Sesion();
-                    $this->sesion->iniciarLogin($data);
-                    header("location:".RUTA."Tablero");
+                    $estadoUsuario = $data["estadoUsuario"];
+                    $tipoUsuario = $data["tipoUsuario"];
+                    if($estadoUsuario == USUARIO_ACTIVO) {
+                        $this->modelo->actualizarLogin($data["id"]);
+                        $this->sesion = new Sesion();
+                        $this->sesion->iniciarLogin($data);
+                        if($tipoUsuario == ADMON) {
+                            header("location:".RUTA."Tablero");
+                        }else if($tipoUsuario == OPERADOR) {
+                            Helper::mostrar("Bienvenido Operador");
+                            //header("location:".RUTA."TableroOperador");
+                        }
+                    }else {
+                      $this->mensaje(
+                            "Error en el acceso",
+                            "Error en el acceso",
+                            "Favor de verificar el estado de tu usuario. No está activo. Habla con el administrador",
+                            "login",
+                            "danger"
+                        );  
+                    }
                 }
                 $this->mensaje(
                     "Sistema de taller mecánico",
