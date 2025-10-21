@@ -3,6 +3,8 @@ define("LLAVE1","Hombresneciosque");
 define("LLAVE2","acusaisalamujer");
 define("CLAVE","mimamamemimamucho");
 define('RUTA','/taller/');
+define("TAMANO_PAGINA",6);
+define("PAGINAS_MAXIMAS",4);
 // Tipos de Usuarios
 define('ADMON', 1);
 define('OPERADOR', 2);
