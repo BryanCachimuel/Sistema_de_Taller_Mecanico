@@ -18,7 +18,7 @@ class Usuarios extends Controlador {
 	}
 
 	
-	public function caratula($pagina="1") {
+	public function caratula(string $pagina="1"):void {
 		$num = $this->modelo->getNumRegistros();
 		$inicio = ($pagina-1)*TAMANO_PAGINA;
 		$totalPaginas = ceil($num/TAMANO_PAGINA);
@@ -30,7 +30,7 @@ class Usuarios extends Controlador {
 			"data"=> $data,
 			"activo" => "usuarios",
 			"pag" => [
-				"totalPagina" => $totalPaginas,
+				"totalPaginas" => $totalPaginas,
 				"regresa" => "usuarios",
 				"pagina" => $pagina
 			],
@@ -172,7 +172,7 @@ class Usuarios extends Controlador {
 	    }
 	}
 
-	public function borrar($id="", $pagina="1") {
+	public function borrar(string $id="", string $pagina="1"):void {
 		// leer datos del registro del id
 		$data = $this->modelo->getId($id);
 		$tiposUsuarios = $this->modelo->getTipoUsuarios();
