@@ -17,6 +17,14 @@
             return false; 
         }
 
+        public function actualizarLogin(string $id=''):bool {
+            if(!empty($data)) {
+                $sql = "UPDATE usuarios SET login_dt=(NOW()) WHERE id=:id";
+                return $this->db->queryNoSelect($sql);
+            }  
+            return false; 
+        }
+
         public function buscarCorreo(string $correo=''): array {
             if($correo == "") return [];
             $sql = "SELECT id, tipoUsuario, nombres, apellidos, direccion, ";
