@@ -152,23 +152,21 @@ class Mecanicos extends Controlador {
 	    }
 	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
 	    	//Vista Alta
-	    	$tiposUsuarios = $this->modelo->getTipoUsuarios();
-	    	$generos = $this->modelo->getGeneros();
-	    	$estadosUsuarios = $this->modelo->getEstadosUsuarios();
+	    	$tipoMecanico = $this->modelo->getTipoMecanico();
+	    	$estadoMecanico = $this->modelo->getEstadoMecanico();
 		    $datos = [
-		      "titulo" => "Alta de un usuario",
-		      "subtitulo" => "Alta de un usuario",
-		      "activo" => "usuarios",
-		      "usuario"=>$this->usuario,
+		      "titulo" => "Alta de un mecánico",
+		      "subtitulo" => "Alta de un mecánico",
+		      "activo" => "mecanicos",
 		      "menu" => true,
 		      "admon" => true,
+              "usuario" => $this->usuario,
 		      "errores" => $errores,
-		      "tiposUsuarios" => $tiposUsuarios,
-		      "estadosUsuarios" => $estadosUsuarios,
-		      "generos" => $generos,
+		      "tipoMecanico" => $tipoMecanico,
+		      "estadoMecanico" => $estadoMecanico,
 		      "data" => $data
 		    ];
-		    $this->vista("usuariosAltaVista",$datos);
+		    $this->vista("mecanicosAltaVista",$datos);
 	    }
 	}
 
