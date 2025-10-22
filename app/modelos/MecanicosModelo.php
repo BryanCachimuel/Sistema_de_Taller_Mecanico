@@ -68,14 +68,19 @@
             return $this->db->querySelect($sql);
         }
 
-        public function getTiposMecanicos() {
+        public function getTipoMecanico() {
             $sql = "SELECT id, tipo FROM tipoMecanico";
             return $this->db->querySelect($sql);
         }
 
-        public function getEstadosMecanicos() {
+        public function getEstadoMecanico() {
             $sql = "SELECT id, estado FROM estadoMecanico";
             return $this->db->querySelect($sql);
+        }
+
+         public function getCorreo(string $correo=""):array {
+            $sql = "SELECT id FROM mecanicos WHERE correo='".$correo."' AND baja=0";
+            return $this->db->query($sql);
         }
 
         public function modificar(array $data):bool {
