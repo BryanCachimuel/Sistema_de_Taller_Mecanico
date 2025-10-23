@@ -204,22 +204,20 @@ class Mecanicos extends Controlador {
 	public function modificar(string $id, string $pagina="1"):void {
 		// leer los datos de tabla
 		$data = $this->modelo->getId($id);
-		$tiposUsuarios = $this->modelo->getTipoUsuarios();
-	    $generos = $this->modelo->getGeneros();
-	    $estadosUsuarios = $this->modelo->getEstadosUsuarios();
+		$tipoMecanico = $this->modelo->getTipoMecanico();
+	    $estadoMecanico = $this->modelo->getEstadoMecanico();
 		$datos = [
-			"titulo" => "Modificar un usuario",
-			"subtitulo" => "Modificar un usuario",
+			"titulo" => "Modificar un mecánico",
+			"subtitulo" => "Modificar un mecánico",
 			"menu" => true,
 			"admon" => true,
 			"usuario"=>$this->usuario,
-			"activo" => "usuarios",
-			"tiposUsuarios" => $tiposUsuarios,
-		    "estadosUsuarios" => $estadosUsuarios,
-		    "generos" => $generos,
+			"activo" => "mecanicos",
+			"tipoMecanico" => $tipoMecanico,
+		    "estadoMecanico" => $estadoMecanico,
 			"data" => $data
 		];
-		$this->vista("usuariosAltaVista",$datos);
+		$this->vista("mecanicosAltaVista",$datos);
 	}
 	
 }
