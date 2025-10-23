@@ -31,6 +31,11 @@ define('MECANICO_DISPONIBLE',1);
 define('MECANICO_OCUPADO',2);
 define('MECANICO_VACACIONES',3);
 //
+//Estados cliente
+//
+define('CLIENTE_ACTIVO',1);
+define('CLIENTE_INACTIVO',2);
+//
 require_once("libs/Helper.php");
 require_once("libs/Sesion.php");
 require_once("libs/Controlador.php");
