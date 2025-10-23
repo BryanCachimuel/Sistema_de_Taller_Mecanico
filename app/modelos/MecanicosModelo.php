@@ -9,29 +9,22 @@
             $this->db = new MySQLdb();
         }
 
-        public function alta(array $data=[]):int {
-           $salida = 0;
-		    $sql = "INSERT INTO mecanicos VALUES(0,"; //1. id 
-            $sql.= "'".$data['tipoUsuario']."', "; 	//2. tipoUsuario
-            $sql.= "'".$data['nombres']."', "; 		//3. nombre
-            $sql.= "'".$data['apellidos']."', "; 	//4. apellidos
-            $sql.= "'".$data['direccion']."', "; 	//5. direccion
+        public function alta(array $data=[]):bool {
+            $sql = "INSERT INTO mecanicos VALUES(0,"; //1. id 
+		    $sql.= "'".$data['nombres']."', "; 		//2. nombre
+            $sql.= "'".$data['apellidos']."', "; 	//3. apellidos
+            $sql.= "'".$data['correo']."', "; 		//4. correo
+            $sql.= "'".$data['clave']."', "; 		//5. clave
             $sql.= "'".$data['telefono']."', "; 	//6. telefono
-            $sql.= "'".$data['correo']."', "; 		//7. correo
-            $sql.= "'".$data['clave']."', "; 		//8. clave
-            $sql.= "'".$data['genero']."', "; 		//9. genero
-            $sql.= "'".$data['estadoUsuario']."', ";//10. estadoUsuario
+            $sql.= "'".$data['idTipoMecanico']."', "; //7. genero
+            $sql.= "'".$data['estado']."', ";//8. estadoUsuario
             //
-            $sql.= "0, ";                   //11. baja
-            $sql.= "'', ";                  //12. fecha login
-            $sql.= "NOW(), ";               //13. fecha alta
-            $sql.= "'', ";                  //14. fecha baja 
-            $sql.= "'')";                   //15. fecha cambio
-            if($this->db->queryNoSelect($sql)){
-                $salida = $this->db->query("SELECT LAST_INSERT_ID()");
-                $salida = $salida["LAST_INSERT_ID()"];
-            }
-            return $salida;
+            $sql.= "0, ";                   //9. baja
+            $sql.= "'', ";                  //10. fecha login
+            $sql.= "NOW(), ";               //11. fecha alta
+            $sql.= "'', ";                  //12. fecha baja 
+            $sql.= "'')";                   //13. fecha cambio
+            return $this->db->queryNoSelect($sql);
         }
 
         public function bajaLogica(string $id):bool {
