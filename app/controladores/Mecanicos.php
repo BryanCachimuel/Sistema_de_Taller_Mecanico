@@ -157,25 +157,23 @@ class Mecanicos extends Controlador {
 	public function borrar(string $id="", string $pagina="1"):void {
 		// leer datos del registro del id
 		$data = $this->modelo->getId($id);
-		$tiposUsuarios = $this->modelo->getTipoUsuarios();
-	    $generos = $this->modelo->getGeneros();
-	    $estadosUsuarios = $this->modelo->getEstadosUsuarios();
+		$tipoMecanico = $this->modelo->getTipoMecanico();
+	    $estadoMecanico = $this->modelo->getEstadoMecanico();
 		$datos = [
-			"titulo" => "Baja de un usuario",
-			"subtitulo" => "Baja de un usuario",
+			"titulo" => "Baja de un mecánico",
+			"subtitulo" => "Baja de un mecánico",
 			"menu" => true,
 			"admon" => true,
 			"usuario"=>$this->usuario,
 			"errores"=>[],
 			"data"=>$data,
-			"activo" => "usuarios",
+			"activo" => "mecanicos",
 			"pagina"=>$pagina,
-			"tiposUsuarios" => $tiposUsuarios,
-		    "estadosUsuarios" => $estadosUsuarios,
-		    "generos" => $generos,
+			"tipoMecanico" => $tipoMecanico,
+		    "estadoMecanico" => $estadoMecanico,
 			"baja"=>true,
 		];
-		$this->vista("usuariosAltaVista",$datos);
+		$this->vista("mecanicosAltaVista",$datos);
 	}
 
 	public function bajaLogica(string $id='', string $pagina="1"):void {
