@@ -50,8 +50,8 @@ class Mecanicos extends Controlador {
 	      $apellidos = Helper::cadena($_POST['apellidos'] ?? "");
 	      $telefono = Helper::cadena($_POST['telefono'] ?? "");
 	      $correo = Helper::cadena($_POST['correo'] ?? "");
-          $tipoMecanico = Helper::cadena($_POST['tipoMecanico'] ?? "");
-          $estado = Helper::cadena($_POST['estado'] ?? "");
+	      $tipoMecanico = Helper::cadena($_POST['tipoMecanico'] ?? "");
+	      $estado = Helper::cadena($_POST['estado'] ?? "");
 	      //
 	      $pagina = $_POST['pagina'] ?? "1";
 	      //
@@ -89,61 +89,47 @@ class Mecanicos extends Controlador {
 				"correo"=>$correo,
 				"clave"=>Helper::generarClave(10),
 				"estado"=>$estado,
-                "tipoMecanico"=>$tipoMecanico,
+				"idTipoMecanico"=>$tipoMecanico
 			];     
 	        //Enviamos al modelo
 	        if(trim($id)===""){
 	          //Alta
-              Helper::mostrar($data);
-			  $id = $this->modelo->alta($data);
-			  if($id>0) {
-				$data["id"] = $id;
-				if($this->enviarCorreo($data)) {
+				if ($this->modelo->alta($data)) {
 					$this->mensaje(
-						"Alta de un usuario", 
-		          		"Alta de un usuario", 
-		          		"Se añadió correctamente el usuario: ".$nombres." ".$apellidos, 
-		          		"usuarios/".$pagina, 
-		          		"success"
+							"Alta de un mecánico", 
+							"Alta de un mecánico", 
+							"Se añadió correctamente el mecánico: ".$nombres." ".$apellidos, 
+							"mecanicos/".$pagina, 
+							"success"
 					);
-				} else {
-					$this->mensaje(
-						"Error al enviar el correo al usuario.", 
-						"Error al enviar el correo al usuario.", 
-						"Error al enviar el correo al usuario: ".$nombres." ".$apellidos, 
-						"usuarios/".$pagina,
-						"danger"
-	          		);
-				}
-			  } else {
-				$this->mensaje(
-	          		"Error al añadir el usuario.", 
-	          		"Error al añadir el usuario.", 
-	          		"Error al modificar el usuario: ".$nombres." ".$apellidos, 
-	          		"usuarios/".$pagina,
-	          		"danger"
-	          	);
-			  }
-	          Helper::mostrar($data);
+		          } else {
+		          	$this->mensaje(
+		          		"Error al añadir el mecánico.", 
+		          		"Error al añadir el mecánico.", 
+		          		"Error al modificar el mecánico: ".$nombres." ".$apellidos, 
+		          		"mecanicos/".$pagina,
+		          		"danger"
+		          	);
+		          }
 	        } else {
 			  //Modificar
-			  if($this->modelo->modificar($data)){
-				$this->mensaje(
-					"Modificar el usuario", 
-		          	"Modificar el usuario", 
-		          	"Se modifico correctamente el usuario: ".$nombres." ".$apellidos, 
-		          	"usuarios/".$pagina, 
-		          	"success"
-				);
-			  }else {
-				$this->mensaje(
-					"Error al modificar el usuario.", 
-	          		"Error al modificar el usuario.", 
-	          		"Error al modificar el usuario: ".$nombres." ".$apellidos, 
-	          		"usuarios/".$pagina,
-	          		"danger"
-				);
-			  }
+			  if ($this->modelo->modificar($data)) {
+					$this->mensaje(
+							"Modificar el usuario", 
+							"Modificar el usuario", 
+							"Se modificó correctamente el usuario: ".$nombres." ".$apellidos,
+							"usuarios/".$pagina, 
+							"success"
+						);
+				} else {
+					$this->mensaje(
+						"Error al modificar el usuario.", 
+						"Error al modificar el usuario.", 
+						"Error al modificar el usuario: ".$nombres." ".$apellidos, 
+						"usuarios/".$pagina, 
+						"danger"
+					);
+				}
 	        }
 	      }
 	    }
@@ -157,7 +143,7 @@ class Mecanicos extends Controlador {
 		      "activo" => "mecanicos",
 		      "menu" => true,
 		      "admon" => true,
-              "usuario" => $this->usuario,
+		      "usuario" => $this->usuario,
 		      "errores" => $errores,
 		      "tipoMecanico" => $tipoMecanico,
 		      "estadoMecanico" => $estadoMecanico,
@@ -165,7 +151,8 @@ class Mecanicos extends Controlador {
 		    ];
 		    $this->vista("mecanicosAltaVista",$datos);
 	    }
-	}
+  	}
+
 
 	public function borrar(string $id="", string $pagina="1"):void {
 		// leer datos del registro del id
