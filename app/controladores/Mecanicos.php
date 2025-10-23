@@ -180,18 +180,18 @@ class Mecanicos extends Controlador {
 		if(isset($id) && $id!="") {
 			if($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
-					"Baja de un usuario",
-					"Baja de un usuario",
-					"Se borró correctamente al usuario: ".$id,
-					"usuarios/".$pagina,
+					"Baja de un mecánico",
+					"Baja de un mecánico",
+					"Se borró correctamente al mecánico: ".$id,
+					"mecanicos/".$pagina,
 					"success"
 				);
 			} else {
 				$this->mensaje(
-					"Baja de un usuario",
-					"Baja de un usuario",
-					"Error al borrar al usuario: ".$id,
-					"usuarios/".$pagina,
+					"Baja de un mecánico",
+					"Baja de un mecánico",
+					"Error al borrar al mecánico: ".$id,
+					"mecanicos/".$pagina,
 					"danger"
 				);
 			}
