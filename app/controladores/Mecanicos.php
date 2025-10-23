@@ -115,18 +115,18 @@ class Mecanicos extends Controlador {
 			  //Modificar
 			  if ($this->modelo->modificar($data)) {
 					$this->mensaje(
-							"Modificar el usuario", 
-							"Modificar el usuario", 
-							"Se modificó correctamente el usuario: ".$nombres." ".$apellidos,
-							"usuarios/".$pagina, 
+							"Modificar el mecanicos", 
+							"Modificar el mecanicos", 
+							"Se modificó correctamente el mecanicos: ".$nombres." ".$apellidos,
+							"mecanicos/".$pagina, 
 							"success"
 						);
 				} else {
 					$this->mensaje(
-						"Error al modificar el usuario.", 
-						"Error al modificar el usuario.", 
-						"Error al modificar el usuario: ".$nombres." ".$apellidos, 
-						"usuarios/".$pagina, 
+						"Error al modificar el mecanicos.", 
+						"Error al modificar el mecanicos.", 
+						"Error al modificar el mecanicos: ".$nombres." ".$apellidos, 
+						"mecanicos/".$pagina, 
 						"danger"
 					);
 				}
