@@ -30,7 +30,7 @@
         <?php
           for ($i=0; $i < count($datos["tipoMecanico"]); $i++) { 
             print "<option value='".$datos["tipoMecanico"][$i]["id"]."'";
-              if(isset($datos["data"]["tipoMecanico"]) && $datos["data"]["tipoMecanico"]==$datos["tipoMecanico"][$i]["id"]){
+              if(isset($datos["data"]["idTipoMecanico"]) && $datos["data"]["idTipoMecanico"]==$datos["tipoMecanico"][$i]["id"]){
                 print " selected ";
               }
             print ">".$datos["tipoMecanico"][$i]["tipo"]."</option>";
@@ -57,7 +57,7 @@
       </select>
     </div>
 
-    <div class="form-group text-start mt-4">
+    <div class="form-group text-start mt-3">
       <input type="hidden" name="id" id="id" value="<?php if (isset($datos['data']['id'])) { print $datos['data']['id']; } else { print ""; } ?>">
       <input type="hidden" name="pagina" id="pagina" value="<?php if (isset($datos['pagina'])) { print $datos['pagina']; } else { print "1"; } ?>">
       
