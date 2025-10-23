@@ -46,13 +46,12 @@ class Mecanicos extends Controlador {
 	    if ($_SERVER['REQUEST_METHOD']=="POST") {
 	      //
 	      $id = $_POST['id'] ?? "";
-	      $tipoUsuario = Helper::cadena($_POST['tipoUsuario'] ?? "");
 	      $nombres = Helper::cadena($_POST['nombres'] ?? "");
 	      $apellidos = Helper::cadena($_POST['apellidos'] ?? "");
-	      $direccion = Helper::cadena($_POST['direccion'] ?? "");
 	      $telefono = Helper::cadena($_POST['telefono'] ?? "");
 	      $correo = Helper::cadena($_POST['correo'] ?? "");
-	      $genero = Helper::cadena($_POST['genero'] ?? "");
+          $tipoMecanico = Helper::cadena($_POST['tipoMecanico'] ?? "");
+          $estado = Helper::cadena($_POST['estado'] ?? "");
 	      //
 	      $pagina = $_POST['pagina'] ?? "1";
 	      //
@@ -67,11 +66,11 @@ class Mecanicos extends Controlador {
 	      if(empty($correo)){
 	        array_push($errores,"El correo del usuario es requerido.");
 	      }
-	      if($genero=="void"){
-	        array_push($errores,"El género es obligatorio.");
+	      if($estado=="void"){
+	        array_push($errores,"El estado es obligatorio.");
 	      }
-	      if($tipoUsuario=="void"){
-	        array_push($errores,"El tipo de usuario es obligatorio.");
+	      if($tipoMecanico=="void"){
+	        array_push($errores,"El tipo de mecánico es obligatorio.");
 	      }
 	      if (Helper::correo($correo)==false) {
 	      	array_push($errores,"El correo no tiene un formato válido.");
@@ -84,21 +83,19 @@ class Mecanicos extends Controlador {
 			//
 			$data = [
 				"id" => $id,
-				"tipoUsuario"=>$tipoUsuario,
 				"nombres"=>$nombres,
 				"apellidos"=>$apellidos,
-				"direccion"=>$direccion,
 				"telefono"=>$telefono,
 				"correo"=>$correo,
 				"clave"=>Helper::generarClave(10),
-				"genero"=>$genero,
-				"estadoUsuario"=>USUARIO_INACTIVO
+				"estado"=>$estado,
+                "tipoMecanico"=>$tipoMecanico,
 			];     
 	        //Enviamos al modelo
 	        if(trim($id)===""){
 	          //Alta
+              Helper::mostrar($data);
 			  $id = $this->modelo->alta($data);
-
 			  if($id>0) {
 				$data["id"] = $id;
 				if($this->enviarCorreo($data)) {
