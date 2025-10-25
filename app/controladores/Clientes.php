@@ -50,7 +50,9 @@ class Clientes extends Controlador {
 	      $apellidos = Helper::cadena($_POST['apellidos'] ?? "");
 	      $telefono = Helper::cadena($_POST['telefono'] ?? "");
 	      $correo = Helper::cadena($_POST['correo'] ?? "");
-	      $tipoMecanico = Helper::cadena($_POST['tipoMecanico'] ?? "");
+	      $direccion = Helper::cadena($_POST['direccion'] ?? "");
+		  $rfc = Helper::cadena($_POST['rfc'] ?? "");
+		  $razonSocial = Helper::cadena($_POST['razonSocial'] ?? "");
 	      $estado = Helper::cadena($_POST['estado'] ?? "");
 	      //
 	      $pagina = $_POST['pagina'] ?? "1";
@@ -69,12 +71,9 @@ class Clientes extends Controlador {
 	      if($estado=="void"){
 	        array_push($errores,"El estado es obligatorio.");
 	      }
-	      if($tipoMecanico=="void"){
-	        array_push($errores,"El tipo de mecánico es obligatorio.");
-	      }
 	      if (Helper::correo($correo)==false) {
 	      	array_push($errores,"El correo no tiene un formato válido.");
-	      } else if(trim($id)==="" && $this->modelo->getCorreo($correo)!=false){
+	      } else if(trim($id)==="" && $this->modelo->getCorreo($correo)){
 	        array_push($errores,"El correo ya existe en la base de datos.");
 	      }
 	      //
@@ -87,27 +86,29 @@ class Clientes extends Controlador {
 				"apellidos"=>$apellidos,
 				"telefono"=>$telefono,
 				"correo"=>$correo,
+				"direccion"=>$direccion,
+				"rfc"=>$rfc,
+				"razonSocial"=>$razonSocial,
 				"clave"=>Helper::generarClave(10),
-				"estado"=>$estado,
-				"idTipoMecanico"=>$tipoMecanico
+				"estado"=>$estado
 			];     
 	        //Enviamos al modelo
 	        if(trim($id)===""){
 	          //Alta
 				if ($this->modelo->alta($data)) {
 					$this->mensaje(
-							"Alta de un mecánico", 
-							"Alta de un mecánico", 
-							"Se añadió correctamente el mecánico: ".$nombres." ".$apellidos, 
-							"mecanicos/".$pagina, 
+							"Alta de un cliente", 
+							"Alta de un cliente", 
+							"Se añadió correctamente al cliente: ".$nombres." ".$apellidos, 
+							"clientes/".$pagina, 
 							"success"
 					);
 		          } else {
 		          	$this->mensaje(
-		          		"Error al añadir el mecánico.", 
-		          		"Error al añadir el mecánico.", 
-		          		"Error al modificar el mecánico: ".$nombres." ".$apellidos, 
-		          		"mecanicos/".$pagina,
+		          		"Error al añadir el cliente.", 
+		          		"Error al añadir el cliente.", 
+		          		"Error al modificar el cliente: ".$nombres." ".$apellidos, 
+		          		"clientes/".$pagina,
 		          		"danger"
 		          	);
 		          }
@@ -135,21 +136,19 @@ class Clientes extends Controlador {
 	    }
 	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
 	    	//Vista Alta
-	    	$tipoMecanico = $this->modelo->getTipoMecanico();
-	    	$estadoMecanico = $this->modelo->getEstadoMecanico();
+	    	$estadoCliente = $this->modelo->getEstadoCliente();
 		    $datos = [
-		      "titulo" => "Alta de un mecánico",
-		      "subtitulo" => "Alta de un mecánico",
-		      "activo" => "mecanicos",
+		      "titulo" => "Alta de un cliente",
+		      "subtitulo" => "Alta de un cliente",
+		      "activo" => "clientes",
 		      "menu" => true,
 		      "admon" => true,
 		      "usuario" => $this->usuario,
 		      "errores" => $errores,
-		      "tipoMecanico" => $tipoMecanico,
-		      "estadoMecanico" => $estadoMecanico,
+		      "estadoCliente" => $estadoCliente,
 		      "data" => $data
 		    ];
-		    $this->vista("mecanicosAltaVista",$datos);
+		    $this->vista("clientesAltaVista",$datos);
 	    }
   	}
 
