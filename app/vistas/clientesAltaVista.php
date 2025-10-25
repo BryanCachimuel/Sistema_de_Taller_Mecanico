@@ -12,8 +12,23 @@
     </div>
 
     <div class="form-group text-left">
+      <label for="razonSocial">Razon social:</label>
+      <input type="text" name="razonSocial" id="razonSocial" class="form-control" value="<?php print isset($datos['data']['razonSocial'])?$datos['data']['razonSocial']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
+    </div>
+
+    <div class="form-group text-left">
+      <label for="direccion">Dirección:</label>
+      <input type="text" name="direccion" id="direccion" class="form-control" value="<?php print isset($datos['data']['direccion'])?$datos['data']['direccion']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
+    </div>
+
+    <div class="form-group text-left">
       <label for="telefono">Teléfono:</label>
       <input type="text" name="telefono" id="telefono" class="form-control" value="<?php print isset($datos['data']['telefono'])?$datos['data']['telefono']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
+    </div>
+
+    <div class="form-group text-left">
+      <label for="rfc">Registro federal de contribuyente:</label>
+      <input type="text" name="rfc" id="rfc" class="form-control" value="<?php print isset($datos['data']['rfc'])?$datos['data']['rfc']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
     <div class="form-group text-left">
@@ -22,42 +37,24 @@
     </div>
 
     <div class="form-group text-left">
-      <label for="tipoMecanico">* Tipo de mecánico:</label>
-      <select class="form-control" name="tipoMecanico" id="tipoMecanico" 
-      <?php if (isset($datos["baja"])) { print " disabled "; } ?>
-      >
-      <option value="void">---Selecciona un tipo de mecánico---</option>
-        <?php
-          for ($i=0; $i < count($datos["tipoMecanico"]); $i++) { 
-            print "<option value='".$datos["tipoMecanico"][$i]["id"]."'";
-              if(isset($datos["data"]["idTipoMecanico"]) && $datos["data"]["idTipoMecanico"]==$datos["tipoMecanico"][$i]["id"]){
-                print " selected ";
-              }
-            print ">".$datos["tipoMecanico"][$i]["tipo"]."</option>";
-          } 
-        ?>
-      </select>
-    </div>
-
-    <div class="form-group text-left">
-      <label for="estado">* Estado del mecánico:</label>
+      <label for="estado">* Estado del cliente:</label>
       <select class="form-control" name="estado" id="estado" 
       <?php if (isset($datos["baja"])) { print " disabled "; } ?>
       >
       <option value="void">---Selecciona un estado---</option>
         <?php
-          for ($i=0; $i < count($datos["estadoMecanico"]); $i++) { 
-            print "<option value='".$datos["estadoMecanico"][$i]["id"]."'";
-              if(isset($datos["data"]["estado"]) && $datos["data"]["estado"]==$datos["estadoMecanico"][$i]["id"]){
+          for ($i=0; $i < count($datos["estadoCliente"]); $i++) { 
+            print "<option value='".$datos["estadoCliente"][$i]["id"]."'";
+              if(isset($datos["data"]["estado"]) && $datos["data"]["estado"]==$datos["estadoCliente"][$i]["id"]){
                 print " selected ";
               }
-            print ">".$datos["estadoMecanico"][$i]["estado"]."</option>";
+            print ">".$datos["estadoCliente"][$i]["estado"]."</option>";
           } 
         ?>
       </select>
     </div>
 
-    <div class="form-group text-start">
+    <div class="form-group text-start mt-3">
       <input type="hidden" name="id" id="id" value="<?php if (isset($datos['data']['id'])) { print $datos['data']['id']; } else { print ""; } ?>">
       <input type="hidden" name="pagina" id="pagina" value="<?php if (isset($datos['pagina'])) { print $datos['pagina']; } else { print "1"; } ?>">
       
