@@ -10,14 +10,16 @@
         }
 
         public function alta(array $data=[]):bool {
-            $sql = "INSERT INTO clientes VALUES(0,"; //1. id 
-		    $sql.= "'".$data['nombres']."', "; 		//2. nombre
+            $sql = "INSERT INTO clientes VALUES(0,";//1. id 
+            $sql.= "'".$data['nombres']."', "; 		//2. nombre
             $sql.= "'".$data['apellidos']."', "; 	//3. apellidos
-            $sql.= "'".$data['correo']."', "; 		//4. correo
-            $sql.= "'".$data['clave']."', "; 		//5. clave
-            $sql.= "'".$data['telefono']."', "; 	//6. telefono
-            $sql.= "'".$data['idTipoMecanico']."', "; //7. genero
-            $sql.= "'".$data['estado']."', ";//8. estadoUsuario
+            $sql.= "'".$data['razonSocial']."', "; 	//4. razonSocial
+            $sql.= "'".$data['direccion']."', "; 	//5. direccion
+            $sql.= "'".$data['telefono']."', "; 	//6. rfc
+            $sql.= "'".$data['rfc']."', "; 			//7. telefono
+            $sql.= "'".$data['correo']."', "; 		//8. correo
+            $sql.= "'".$data['clave']."', "; 		//9. clave
+            $sql.= "'".$data['estado']."', ";		//10. estadoUsuario
             //
             $sql.= "0, ";                   //9. baja
             $sql.= "'', ";                  //10. fecha login
@@ -54,7 +56,7 @@
             $sql.= "c.razonSocial, ec.estado ";
             $sql.= "FROM clientes as c, estadoCliente as ec ";
             $sql.= "WHERE c.baja=0 AND ";
-            $sql.= "ec.estado=c.id";
+            $sql.= "c.estado=c.id";
             if ($tamano>0) {
                 $sql.= " LIMIT ".$inicio.", ".$tamano;
             }
