@@ -21,11 +21,11 @@
             $sql.= "'".$data['clave']."', "; 		//9. clave
             $sql.= "'".$data['estado']."', ";		//10. estadoUsuario
             //
-            $sql.= "0, ";                   //9. baja
-            $sql.= "'', ";                  //10. fecha login
-            $sql.= "NOW(), ";               //11. fecha alta
-            $sql.= "'', ";                  //12. fecha baja 
-            $sql.= "'')";                   //13. fecha cambio
+            $sql.= "0, ";                   //11. baja
+            $sql.= "'', ";                  //12. fecha login
+            $sql.= "NOW(), ";               //13. fecha alta
+            $sql.= "'', ";                  //14. fecha baja 
+            $sql.= "'')";                   //15. fecha cambio
             return $this->db->queryNoSelect($sql);
         }
 
@@ -37,10 +37,10 @@
         }
 
         public function getId(string $id=''):array {
-            if(empty($id)) return [];
+           if(empty($id)) return [];
             $sql = "SELECT id, nombres, apellidos, telefono, ";
-            $sql.= "correo, clave, idTipoMecanico, estado ";
-            $sql.= "FROM clientes";
+            $sql.= "correo, clave, razonSocial, rfc, direccion, estado ";
+            $sql.= "FROM clientes ";
             $sql.= "WHERE id='".$id."' AND baja=0";
             return $this->db->query($sql);
         }
@@ -56,12 +56,13 @@
             $sql.= "c.razonSocial, ec.estado ";
             $sql.= "FROM clientes as c, estadoCliente as ec ";
             $sql.= "WHERE c.baja=0 AND ";
-            $sql.= "c.estado=c.id";
+            $sql.= "c.estado=ec.id ";
             if ($tamano>0) {
                 $sql.= " LIMIT ".$inicio.", ".$tamano;
             }
             return $this->db->querySelect($sql);
-        }
+	    }
+
 
         public function getEstadoCliente() {
             $sql = "SELECT id, estado FROM estadoCliente ";
@@ -82,7 +83,9 @@
                 $sql.= "telefono='".$data['telefono']."', ";
                 $sql.= "correo='".$data['correo']."', ";
                 $sql.= "estado='".$data['estado']."', ";
-                $sql.= "idTipoMecanico='".$data['idTipoMecanico']."', ";
+                $sql.= "direccion='".$data['direccion']."', ";
+                $sql.= "razonSocial='".$data['razonSocial']."', ";
+                $sql.= "rfc='".$data['rfc']."', ";
                 $sql.= "cambio_dt=(NOW()) ";
                 $sql.= "WHERE id=".$data['id'];
                 //Enviamos a la base de datos
