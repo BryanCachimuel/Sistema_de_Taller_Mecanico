@@ -26,6 +26,14 @@
             return $llave;
         }
 
+        public static function numero(string $cadena):string {
+            $buscar = array('','$',',');
+            $reemplazar = array('','','');
+            $numero = str_replace($buscar,$reemplazar,$cadena);
+            $numero = filter_var($numero, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+            return $numero;
+        }
+
         public static function mostrar($data, $detener=true):void {
             print "<pre>";
             var_dump($data);
