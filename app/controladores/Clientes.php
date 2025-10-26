@@ -156,23 +156,21 @@ class Clientes extends Controlador {
 	public function borrar(string $id="", string $pagina="1"):void {
 		// leer datos del registro del id
 		$data = $this->modelo->getId($id);
-		$tipoMecanico = $this->modelo->getTipoMecanico();
-	    $estadoMecanico = $this->modelo->getEstadoMecanico();
+		$estadoCliente = $this->modelo->getEstadoCliente();
 		$datos = [
-			"titulo" => "Baja de un mecánico",
-			"subtitulo" => "Baja de un mecánico",
+			"titulo" => "Baja de un cliente",
+			"subtitulo" => "Baja de un cliente",
 			"menu" => true,
 			"admon" => true,
 			"usuario"=>$this->usuario,
 			"errores"=>[],
 			"data"=>$data,
-			"activo" => "mecanicos",
+			"activo" => "clientes",
 			"pagina"=>$pagina,
-			"tipoMecanico" => $tipoMecanico,
-		    "estadoMecanico" => $estadoMecanico,
+		    "estadoCliente" => $estadoCliente,
 			"baja"=>true,
 		];
-		$this->vista("mecanicosAltaVista",$datos);
+		$this->vista("clientesAltaVista",$datos);
 	}
 
 	public function bajaLogica(string $id='', string $pagina="1"):void {
