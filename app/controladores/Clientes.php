@@ -177,18 +177,18 @@ class Clientes extends Controlador {
 		if(isset($id) && $id!="") {
 			if($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
-					"Baja de un mecánico",
-					"Baja de un mecánico",
-					"Se borró correctamente al mecánico: ".$id,
-					"mecanicos/".$pagina,
+					"Baja de un cliente",
+					"Baja de un cliente",
+					"Se borró correctamente al cliente: ".$id,
+					"clientes/".$pagina,
 					"success"
 				);
 			} else {
 				$this->mensaje(
-					"Baja de un mecánico",
-					"Baja de un mecánico",
-					"Error al borrar al mecánico: ".$id,
-					"mecanicos/".$pagina,
+					"Baja de un cliente",
+					"Baja de un cliente",
+					"Error al borrar al cliente: ".$id,
+					"clientes/".$pagina,
 					"danger"
 				);
 			}
