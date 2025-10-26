@@ -46,35 +46,34 @@ class Vehiculos extends Controlador {
 	    if ($_SERVER['REQUEST_METHOD']=="POST") {
 	      //
 	      $id = $_POST['id'] ?? "";
-	      $nombres = Helper::cadena($_POST['nombres'] ?? "");
-	      $apellidos = Helper::cadena($_POST['apellidos'] ?? "");
-	      $telefono = Helper::cadena($_POST['telefono'] ?? "");
-	      $correo = Helper::cadena($_POST['correo'] ?? "");
-	      $direccion = Helper::cadena($_POST['direccion'] ?? "");
-		  $rfc = Helper::cadena($_POST['rfc'] ?? "");
-		  $razonSocial = Helper::cadena($_POST['razonSocial'] ?? "");
-	      $estado = Helper::cadena($_POST['estado'] ?? "");
+	      $marca = Helper::cadena($_POST['marca'] ?? "");
+	      $modelo = Helper::cadena($_POST['modelo'] ?? "");
+	      $color = Helper::cadena($_POST['color'] ?? "");
+	      $anio = Helper::numero(Helper::cadena($_POST['anio'] ?? ""));
+	      $placas = Helper::cadena($_POST['placas'] ?? "");
+	      $idCliente = Helper::cadena($_POST['idCliente'] ?? "");
 	      //
 	      $pagina = $_POST['pagina'] ?? "1";
 	      //
 	      // Validamos la información
 	      // 
-	      if(empty($nombres)){
-	        array_push($errores,"El nombre del usuario es requerido.");
+	      if(empty($marca)){
+	        array_push($errores,"La marca del vehículo es requerida.");
 	      }
-	      if(empty($apellidos)){
-	        array_push($errores,"Los apellidos del usuario son requeridos.");
+	      if(empty($modelo)){
+	        array_push($errores,"El modelo del vehículo es requeridos.");
 	      }
-	      if(empty($correo)){
-	        array_push($errores,"El correo del usuario es requerido.");
+		  if($idCliente=="void"){
+	        array_push($errores,"El color del vehículo es obligatorio.");
 	      }
-	      if($estado=="void"){
-	        array_push($errores,"El estado es obligatorio.");
+	      if(empty($anio)){
+	        array_push($errores,"El año del vehículo es requerido.");
 	      }
-	      if (Helper::correo($correo)==false) {
-	      	array_push($errores,"El correo no tiene un formato válido.");
-	      } else if(trim($id)==="" && $this->modelo->getCorreo($correo)){
-	        array_push($errores,"El correo ya existe en la base de datos.");
+		  if(empty($placas)){
+	        array_push($errores,"La placa del vehículo es requerida.");
+	      }
+	      if($idCliente=="void"){
+	        array_push($errores,"El cliente es obligatorio.");
 	      }
 	      //
 	      if (empty($errores)) { 
@@ -82,33 +81,30 @@ class Vehiculos extends Controlador {
 			//
 			$data = [
 				"id" => $id,
-				"nombres"=>$nombres,
-				"apellidos"=>$apellidos,
-				"telefono"=>$telefono,
-				"correo"=>$correo,
-				"direccion"=>$direccion,
-				"rfc"=>$rfc,
-				"razonSocial"=>$razonSocial,
-				"clave"=>Helper::generarClave(10),
-				"estado"=>$estado
+				"marca"=>$marca,
+				"modelo"=>$modelo,
+				"anio"=>$anio,
+				"color"=>$color,
+				"placas"=>$placas,
+				"idCliente"=>$idCliente
 			];     
 	        //Enviamos al modelo
 	        if(trim($id)===""){
 	          //Alta
 				if ($this->modelo->alta($data)) {
 					$this->mensaje(
-							"Alta de un cliente", 
-							"Alta de un cliente", 
-							"Se añadió correctamente al cliente: ".$nombres." ".$apellidos, 
-							"clientes/".$pagina, 
+							"Alta de un vehículo", 
+							"Alta de un vehículo", 
+							"Se añadió correctamente el vehículo: ".$marca." ".$modelo, 
+							"vehiculos/".$pagina, 
 							"success"
 					);
 		          } else {
 		          	$this->mensaje(
-		          		"Error al añadir el cliente.", 
-		          		"Error al añadir el cliente.", 
-		          		"Error al modificar el cliente: ".$nombres." ".$apellidos, 
-		          		"clientes/".$pagina,
+		          		"Error al añadir el vehículo.", 
+		          		"Error al añadir el vehículo.", 
+		          		"Error al modificar el vehículo: ".$marca." ".$modelo, 
+		          		"vehiculos/".$pagina,
 		          		"danger"
 		          	);
 		          }
@@ -136,19 +132,19 @@ class Vehiculos extends Controlador {
 	    }
 	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
 	    	//Vista Alta
-	    	$estadoCliente = $this->modelo->getEstadoCliente();
+	    	$clientes = $this->modelo->getClientes();
 		    $datos = [
-		      "titulo" => "Alta de un cliente",
-		      "subtitulo" => "Alta de un cliente",
-		      "activo" => "clientes",
+		      "titulo" => "Alta de un vehículo",
+		      "subtitulo" => "Alta de un vehículo",
+		      "activo" => "vehiculos",
 		      "menu" => true,
 		      "admon" => true,
 		      "usuario" => $this->usuario,
 		      "errores" => $errores,
-		      "estadoCliente" => $estadoCliente,
+		      "clientes" => $clientes,
 		      "data" => $data
 		    ];
-		    $this->vista("clientesAltaVista",$datos);
+		    $this->vista("vehiculosAltaVista",$datos);
 	    }
   	}
 
