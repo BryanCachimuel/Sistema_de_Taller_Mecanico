@@ -116,18 +116,18 @@ class Clientes extends Controlador {
 			  //Modificar
 			  if ($this->modelo->modificar($data)) {
 					$this->mensaje(
-							"Modificar el mecanicos", 
-							"Modificar el mecanicos", 
-							"Se modificó correctamente el mecanicos: ".$nombres." ".$apellidos,
-							"mecanicos/".$pagina, 
+							"Modificar el cliente", 
+							"Modificar el cliente", 
+							"Se modificó correctamente el cliente: ".$nombres." ".$apellidos,
+							"clientes/".$pagina, 
 							"success"
 						);
 				} else {
 					$this->mensaje(
-						"Error al modificar el mecanicos.", 
-						"Error al modificar el mecanicos.", 
-						"Error al modificar el mecanicos: ".$nombres." ".$apellidos, 
-						"mecanicos/".$pagina, 
+						"Error al modificar el cliente.", 
+						"Error al modificar el cliente.", 
+						"Error al modificar el cliente: ".$nombres." ".$apellidos, 
+						"clientes/".$pagina, 
 						"danger"
 					);
 				}
@@ -201,20 +201,18 @@ class Clientes extends Controlador {
 	public function modificar(string $id, string $pagina="1"):void {
 		// leer los datos de tabla
 		$data = $this->modelo->getId($id);
-		$tipoMecanico = $this->modelo->getTipoMecanico();
-	    $estadoMecanico = $this->modelo->getEstadoMecanico();
+		$estadoCliente = $this->modelo->getEstadoCliente();
 		$datos = [
-			"titulo" => "Modificar un mecánico",
-			"subtitulo" => "Modificar un mecánico",
+			"titulo" => "Modificar un cliente",
+			"subtitulo" => "Modificar un cliente",
 			"menu" => true,
 			"admon" => true,
 			"usuario"=>$this->usuario,
-			"activo" => "mecanicos",
-			"tipoMecanico" => $tipoMecanico,
-		    "estadoMecanico" => $estadoMecanico,
+			"activo" => "clientes",
+		    "estadoCliente" => $estadoCliente,
 			"data" => $data
 		];
-		$this->vista("mecanicosAltaVista",$datos);
+		$this->vista("clientesAltaVista",$datos);
 	}
 	
 }
