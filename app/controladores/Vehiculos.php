@@ -112,18 +112,18 @@ class Vehiculos extends Controlador {
 			  //Modificar
 			  if ($this->modelo->modificar($data)) {
 					$this->mensaje(
-							"Modificar el cliente", 
-							"Modificar el cliente", 
-							"Se modificó correctamente el cliente: ".$nombres." ".$apellidos,
-							"clientes/".$pagina, 
+							"Modificar el vehículo", 
+							"Modificar el vehículo", 
+							"Se modificó correctamente el vehículo: ".$marca." ".$modelo,
+							"vehiculos/".$pagina, 
 							"success"
 						);
 				} else {
 					$this->mensaje(
-						"Error al modificar el cliente.", 
-						"Error al modificar el cliente.", 
-						"Error al modificar el cliente: ".$nombres." ".$apellidos, 
-						"clientes/".$pagina, 
+						"Error al modificar el vehículo.", 
+						"Error al modificar el vehículo.", 
+						"Error al modificar el vehículo: ".$marca." ".$modelo, 
+						"vehiculos/".$pagina, 
 						"danger"
 					);
 				}
@@ -195,18 +195,18 @@ class Vehiculos extends Controlador {
 	public function modificar(string $id, string $pagina="1"):void {
 		// leer los datos de tabla
 		$data = $this->modelo->getId($id);
-		$estadoCliente = $this->modelo->getEstadoCliente();
+		$clientes = $this->modelo->getClientes();
 		$datos = [
-			"titulo" => "Modificar un cliente",
-			"subtitulo" => "Modificar un cliente",
+			"titulo" => "Modificar un vehículo",
+			"subtitulo" => "Modificar un vehículo",
 			"menu" => true,
 			"admon" => true,
 			"usuario"=>$this->usuario,
-			"activo" => "clientes",
-		    "estadoCliente" => $estadoCliente,
+			"activo" => "vehiculos",
+		    "clientes" => $clientes,
 			"data" => $data
 		];
-		$this->vista("clientesAltaVista",$datos);
+		$this->vista("vehiculosAltaVista",$datos);
 	}
 	
 }
