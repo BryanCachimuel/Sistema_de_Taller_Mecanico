@@ -34,8 +34,8 @@
 
         public function getId(string $id=''):array {
            if(empty($id)) return [];
-            $sql = "SELECT id, nombres, apellidos, telefono, ";
-            $sql.= "correo, clave, razonSocial, rfc, direccion, estado ";
+            $sql = "SELECT id, marca, modelo, color, ";
+            $sql.= "anio, placas, idCliente ";
             $sql.= "FROM vehiculos ";
             $sql.= "WHERE id='".$id."' AND baja=0";
             return $this->db->query($sql);
@@ -55,7 +55,7 @@
         }
 
         public function getTabla(int $inicio=1, int $tamano=0):array {
-            $sql = "SELECT v.id, CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
+            $sql = "SELECT v.id, CONCAT(v.marca,' ',v.modelo) as vehiculo, v.anio ";
             $sql.= "FROM vehiculos as v ";
             $sql.= "WHERE v.baja=0 ";
             if ($tamano>0) {
@@ -68,14 +68,12 @@
             $salida = false;
             if (!empty($data["id"])) {
                 $sql = "UPDATE vehiculos SET "; 
-                $sql.= "nombres='".$data['nombres']."', ";
-                $sql.= "apellidos='".$data['apellidos']."', ";
-                $sql.= "telefono='".$data['telefono']."', ";
-                $sql.= "correo='".$data['correo']."', ";
-                $sql.= "estado='".$data['estado']."', ";
-                $sql.= "direccion='".$data['direccion']."', ";
-                $sql.= "razonSocial='".$data['razonSocial']."', ";
-                $sql.= "rfc='".$data['rfc']."', ";
+                $sql.= "marca='".$data['marca']."', ";
+                $sql.= "modelo='".$data['modelo']."', ";
+                $sql.= "color='".$data['color']."', ";
+                $sql.= "anio='".$data['anio']."', ";
+                $sql.= "placas='".$data['placas']."', ";
+                $sql.= "idCliente='".$data['idCliente']."', ";;
                 $sql.= "cambio_dt=(NOW()) ";
                 $sql.= "WHERE id=".$data['id'];
                 //Enviamos a la base de datos
