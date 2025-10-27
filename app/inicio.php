@@ -36,6 +36,10 @@ define('MECANICO_VACACIONES',3);
 define('CLIENTE_ACTIVO',1);
 define('CLIENTE_INACTIVO',2);
 //
+// Orden de Reparación
+define('ORDEN_ABIERTA',1);
+define('ORDEN_FACTURADA',2);
+
 require_once("libs/Helper.php");
 require_once("libs/Sesion.php");
 require_once("libs/Controlador.php");
