@@ -152,39 +152,39 @@ class Vehiculos extends Controlador {
 	public function borrar(string $id="", string $pagina="1"):void {
 		// leer datos del registro del id
 		$data = $this->modelo->getId($id);
-		$estadoCliente = $this->modelo->getEstadoCliente();
+		$clientes = $this->modelo->getClientes();
 		$datos = [
-			"titulo" => "Baja de un cliente",
-			"subtitulo" => "Baja de un cliente",
+			"titulo" => "Baja de un vehículo",
+			"subtitulo" => "Baja de un vehículo",
 			"menu" => true,
 			"admon" => true,
 			"usuario"=>$this->usuario,
 			"errores"=>[],
 			"data"=>$data,
-			"activo" => "clientes",
+			"activo" => "vehiculos",
 			"pagina"=>$pagina,
-		    "estadoCliente" => $estadoCliente,
+		    "clientes" => $clientes,
 			"baja"=>true,
 		];
-		$this->vista("clientesAltaVista",$datos);
+		$this->vista("vehiculosAltaVista",$datos);
 	}
 
 	public function bajaLogica(string $id='', string $pagina="1"):void {
 		if(isset($id) && $id!="") {
 			if($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
-					"Baja de un cliente",
-					"Baja de un cliente",
-					"Se borró correctamente al cliente: ".$id,
-					"clientes/".$pagina,
+					"Baja de un vehículo",
+					"Baja de un vehículo",
+					"Se borró correctamente al vehículo: ".$id,
+					"vehiculos/".$pagina,
 					"success"
 				);
 			} else {
 				$this->mensaje(
-					"Baja de un cliente",
-					"Baja de un cliente",
-					"Error al borrar al cliente: ".$id,
-					"clientes/".$pagina,
+					"Baja de un vehículo",
+					"Baja de un vehículo",
+					"Error al borrar al vehículo: ".$id,
+					"vehiculos/".$pagina,
 					"danger"
 				);
 			}
