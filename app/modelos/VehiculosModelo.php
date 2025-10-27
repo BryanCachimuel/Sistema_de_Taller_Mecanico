@@ -11,21 +11,17 @@
 
         public function alta(array $data=[]):bool {
             $sql = "INSERT INTO vehiculos VALUES(0,";//1. id 
-            $sql.= "'".$data['nombres']."', "; 		//2. nombre
-            $sql.= "'".$data['apellidos']."', "; 	//3. apellidos
-            $sql.= "'".$data['razonSocial']."', "; 	//4. razonSocial
-            $sql.= "'".$data['direccion']."', "; 	//5. direccion
-            $sql.= "'".$data['telefono']."', "; 	//6. rfc
-            $sql.= "'".$data['rfc']."', "; 			//7. telefono
-            $sql.= "'".$data['correo']."', "; 		//8. correo
-            $sql.= "'".$data['clave']."', "; 		//9. clave
-            $sql.= "'".$data['estado']."', ";		//10. estadoUsuario
+            $sql.= "'".$data['marca']."', "; 		//2. marca
+            $sql.= "'".$data['modelo']."', "; 		//3. modelo
+            $sql.= "'".$data['color']."', "; 		//4. color
+            $sql.= "'".$data['anio']."', "; 		//5. año
+            $sql.= "'".$data['placas']."', "; 		//6. placas
+            $sql.= "'".$data['idCliente']."', "; 	//7. idCliente
             //
-            $sql.= "0, ";                   //11. baja
-            $sql.= "'', ";                  //12. fecha login
-            $sql.= "NOW(), ";               //13. fecha alta
-            $sql.= "'', ";                  //14. fecha baja 
-            $sql.= "'')";                   //15. fecha cambio
+            $sql.= "0, ";                   //8. baja
+            $sql.= "NOW(), ";               //9. fecha alta
+            $sql.= "'', ";                  //10. fecha baja 
+            $sql.= "'')";                   //11. fecha cambio
             return $this->db->queryNoSelect($sql);
         }
 
@@ -59,11 +55,9 @@
         }
 
         public function getTabla(int $inicio=1, int $tamano=0):array {
-            $sql = "SELECT v.id, CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, ";
-            $sql.= "CONCAT(c.apellidos,' ',c.nombres) as nombre ";
-            $sql.= "FROM vehiculos as v, clientes as c ";
-            $sql.= "WHERE v.baja=0 AND ";
-            $sql.= "v.idCliente=c.id ";
+            $sql = "SELECT v.id, CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
+            $sql.= "FROM vehiculos as v ";
+            $sql.= "WHERE v.baja=0 ";
             if ($tamano>0) {
                 $sql.= " LIMIT ".$inicio.", ".$tamano;
             }
