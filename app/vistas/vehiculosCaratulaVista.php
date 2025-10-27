@@ -5,6 +5,7 @@
             <tr>
                 <th>id</th>
                 <th>Vehículo</th>
+                <th>Año</th>
                 <th>Modificar</th>
                 <th>Borrar</th>
             </tr>
@@ -15,6 +16,7 @@
                 print "<tr>";
                 print "<td class='text-start'>" . $datos["data"][$i]['id'] . "</td>";
                 print "<td class='text-start'>" . $datos["data"][$i]['vehiculo'] . "</td>";
+                print "<td class='text-start'>" . $datos["data"][$i]['anio'] . "</td>";
                 print "<td><a href='" . RUTA . "vehiculos/modificar/" . $datos["data"][$i]["id"] . "/" . $datos["pag"]["pagina"] . "' class='btn btn-info'>Modificar</a></td>";
                 print "<td><a href='" . RUTA . "vehiculos/borrar/" . $datos["data"][$i]["id"] . "/" . $datos["pag"]["pagina"] . "' class='btn btn-danger'>Borrar</a></td>";
                 print "</tr>";
