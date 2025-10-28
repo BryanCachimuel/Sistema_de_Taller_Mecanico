@@ -41,6 +41,11 @@
             return $this->db->query($sql);
         }
 
+        public function getVehiculos() {
+            $sql = "SELECT id, CONCAT(marca,' ', modelo,' ', anio) AS vehiculo FROM vehiculos WHERE baja=0";
+            return $this->db->querySelect($sql);
+        }
+
         public function getNumRegistros():int {
             $sql = "SELECT COUNT(*) FROM ordenreparacion WHERE baja=0";
             $salida = $this->db->query($sql);
