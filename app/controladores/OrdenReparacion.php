@@ -46,65 +46,102 @@ class OrdenReparacion extends Controlador {
 	    if ($_SERVER['REQUEST_METHOD']=="POST") {
 	      //
 	      $id = $_POST['id'] ?? "";
-	      $marca = Helper::cadena($_POST['marca'] ?? "");
-	      $modelo = Helper::cadena($_POST['modelo'] ?? "");
-	      $color = Helper::cadena($_POST['color'] ?? "");
-	      $anio = Helper::numero(Helper::cadena($_POST['anio'] ?? ""));
-	      $placas = Helper::cadena($_POST['placas'] ?? "");
-	      $idCliente = Helper::cadena($_POST['idCliente'] ?? "");
+	      $idVehiculo = Helper::cadena($_POST['idVehiculo'] ?? "");
+	      $idMecanico = Helper::cadena($_POST['idMecanico'] ?? "");
+	      $fechaIngreso = Helper::cadena($_POST['fechaIngreso'] ?? "");
+	      $fechaSalida = Helper::cadena($_POST['fechaSalida'] ?? "");
+	      $kilometraje = Helper::numero($_POST['kilometraje'] ?? "");
+	      //
+	      $gato = empty($_POST['gato'])? "0": "1";
+	      $herramientas = empty($_POST['herramientas'])? "0": "1";
+	      $triangulos = empty($_POST['triangulos'])? "0": "1";
+	      $refaccion = empty($_POST['refaccion'])? "0": "1";
+	      $extintor = empty($_POST['extintor'])? "0": "1";
+	      $antena = empty($_POST['antena'])? "0": "1";
+	      $emblemas = empty($_POST['emblemas'])? "0": "1";
+	      $tapones = empty($_POST['tapones'])? "0": "1";
+	      $cables = empty($_POST['cables'])? "0": "1";
+	      $estereo = empty($_POST['estereo'])? "0": "1";
+	      $encendedor = empty($_POST['encendedor'])? "0": "1";
+	      $tapones = empty($_POST['tapones'])? "0": "1";
 	      //
 	      $pagina = $_POST['pagina'] ?? "1";
-	      //
-	      // Validamos la información
-	      // 
-	      if(empty($marca)){
-	        array_push($errores,"La marca del vehículo es requerida.");
+
+	    // Validamos la información
+	     $hoy = date("Y-m-d");
+	      $hoy = new DateTime($hoy);
+	      if(empty($idVehiculo) || $idVehiculo=="void"){
+	        array_push($errores,"Debe de seleccionar un vehículo.");
 	      }
-	      if(empty($modelo)){
-	        array_push($errores,"El modelo del vehículo es requeridos.");
+	      if(empty($idMecanico) || $idMecanico=="void"){
+	        array_push($errores,"Debe de seleccioar un mecánico disponible.");
 	      }
-		  if($idCliente=="void"){
-	        array_push($errores,"El color del vehículo es obligatorio.");
+	      if(empty($fechaIngreso)){
+	        array_push($errores,"La fecha de ingreso es requerida.");
+	      } else if(Helper::fecha($fechaIngreso)==false){
+	      	array_push($errores,"El formato de la fecha de ingreso no es correcto.");
+	      } else {
+	      	//Verifica únicamente si es alta
+	      	$fechaIngreso_dt = new DateTime($fechaIngreso);
+	      	if($id==""){
+		      	$diff = $hoy->diff($fechaIngreso_dt);
+		      	if ($diff->invert) {
+		      		array_push($errores,"La fecha de ingreso no puede ser menor al día de hoy.");
+		      	}
+	      	}
 	      }
-	      if(empty($anio)){
+
+	      if(empty($fechaSalida)){
 	        array_push($errores,"El año del vehículo es requerido.");
+	      } else if(Helper::fecha($fechaSalida)==false){
+	      	array_push($errores,"El formato de la fecha de salida no es correcto.");
+	      } else {
+	      	$fechaSalida_dt = new DateTime($fechaSalida);
+	      	$diff = $fechaIngreso_dt->diff($fechaSalida_dt);
+	      	if($diff->invert){
+	      		array_push($errores,"La fecha de salida no puede ser inferior a la fecha de ingreso.");
+	      	}
 	      }
-		  if(empty($placas)){
-	        array_push($errores,"La placa del vehículo es requerida.");
-	      }
-	      if($idCliente=="void"){
-	        array_push($errores,"El cliente es obligatorio.");
+	      if(empty($kilometraje)){
+	        array_push($errores,"El kilometraje es obligatorio.");
+	      } else if(intval($kilometraje)<0){
+	      	array_push($errores,"El kilometraje no puede ser negativo.");
 	      }
 	      //
 	      if (empty($errores)) { 
-			// Crear arreglo de datos
-			//
 			$data = [
 				"id" => $id,
-				"marca"=>$marca,
-				"modelo"=>$modelo,
-				"anio"=>$anio,
-				"color"=>$color,
-				"placas"=>$placas,
-				"idCliente"=>$idCliente
-			];     
+				"idVehiculo"=>$idVehiculo,
+				"idMecanico"=>$idMecanico,
+				"fechaIngreso"=>$fechaIngreso,
+				"fechaSalida"=>$fechaSalida,
+				"kilometraje"=>$kilometraje,
+				"gato"=>$gato,
+				"herramientas" => $herramientas,
+				"triangulos"=>$triangulos,
+				"refaccion"=>$refaccion,
+				"extintor"=>$extintor,
+				"antena"=>$antena,
+				"emblemas"=>$emblemas,
+				"tapones"=>$tapones,
+			];    
 	        //Enviamos al modelo
 	        if(trim($id)===""){
 	          //Alta
 				if ($this->modelo->alta($data)) {
 					$this->mensaje(
-							"Alta de un vehículo", 
-							"Alta de un vehículo", 
-							"Se añadió correctamente el vehículo: ".$marca." ".$modelo, 
-							"vehiculos/".$pagina, 
-							"success"
+							"Alta de una orden de reparación", 
+							"Alta de una orden de reparación", 
+							"Se añadió correctamente la orden de reparación.", 
+			          		"ordenReparacion/".$pagina, 
+			          		"success"
 					);
 		          } else {
 		          	$this->mensaje(
-		          		"Error al añadir el vehículo.", 
-		          		"Error al añadir el vehículo.", 
-		          		"Error al modificar el vehículo: ".$marca." ".$modelo, 
-		          		"vehiculos/".$pagina,
+		          		"Error al añadir la orden de reparación.", 
+		          		"Error al añadir la orden de reparación.", 
+		          		"Error al modificar la orden de reparación.", 
+		          		"ordenreparacion/".$pagina,
 		          		"danger"
 		          	);
 		          }
@@ -133,23 +170,24 @@ class OrdenReparacion extends Controlador {
 	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
 	    	//Vista Alta
 	    	$vehiculos = $this->modelo->getVehiculos();
-			$mecanicos = $this->modelo->getMecanicos();
+	    	$mecanicos = $this->modelo->getMecanicos();
 		    $datos = [
 		      "titulo" => "Alta de una Orden de Reparación",
 		      "subtitulo" => "Alta de una Orden de Reparación",
-		      "activo" => "ordenrepacion",
+		      "activo" => "ordenreparacion",
 		      "menu" => true,
 		      "admon" => true,
 		      "usuario" => $this->usuario,
 		      "errores" => $errores,
 		      "vehiculos" => $vehiculos,
-			  "mecanicos" => $mecanicos,
-			  "pagina" => 1,
+		      "mecanicos" => $mecanicos,
+		      "pagina" => 1,
 		      "data" => $data
 		    ];
 		    $this->vista("ordenReparacionAltaVista",$datos);
 	    }
   	}
+
 
 
 	public function borrar(string $id="", string $pagina="1"):void {
