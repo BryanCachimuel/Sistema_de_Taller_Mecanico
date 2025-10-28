@@ -132,19 +132,22 @@ class OrdenReparacion extends Controlador {
 	    }
 	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
 	    	//Vista Alta
-	    	$clientes = $this->modelo->getClientes();
+	    	$vehiculos = $this->modelo->getVehiculos();
+			$mecanicos = $this->modelo->getMecanicos();
 		    $datos = [
-		      "titulo" => "Alta de un vehículo",
-		      "subtitulo" => "Alta de un vehículo",
-		      "activo" => "vehiculos",
+		      "titulo" => "Alta de una Orden de Reparación",
+		      "subtitulo" => "Alta de una Orden de Reparación",
+		      "activo" => "ordenrepacion",
 		      "menu" => true,
 		      "admon" => true,
 		      "usuario" => $this->usuario,
 		      "errores" => $errores,
-		      "clientes" => $clientes,
+		      "vehiculos" => $vehiculos,
+			  "mecanicos" => $mecanicos,
+			  "pagina" => 1,
 		      "data" => $data
 		    ];
-		    $this->vista("vehiculosAltaVista",$datos);
+		    $this->vista("ordenReparacionAltaVista",$datos);
 	    }
   	}
 
