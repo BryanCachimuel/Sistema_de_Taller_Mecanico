@@ -41,8 +41,15 @@
             return $this->db->query($sql);
         }
 
-        public function getVehiculos() {
+        public function getVehiculos():array {
             $sql = "SELECT id, CONCAT(marca,' ', modelo,' ', anio) AS vehiculo FROM vehiculos WHERE baja=0";
+            return $this->db->querySelect($sql);
+        }
+
+        public function getMecanicos():array {
+            $sql = "SELECT id, CONCAT(nombres, ' ', apellidos) AS mecanicos ";
+            $sql.= "FROM mecanicos ";
+            $sql.= "WHERE baja=0 AND estado=".MECANICO_DISPONIBLE;
             return $this->db->querySelect($sql);
         }
 
