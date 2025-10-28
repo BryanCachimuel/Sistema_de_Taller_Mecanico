@@ -16,6 +16,16 @@
             return filter_var($correo, FILTER_VALIDATE_EMAIL);
         }
 
+        public static function fecha(string $cadena):bool {
+           //ISO AAAA-MM-DD
+            $salida = false;
+            if ($cadena!="") {
+                $fecha_array = explode("-", $cadena);
+                $salida = checkdate($fecha_array[1], $fecha_array[2], $fecha_array[0]);
+            }
+            return $salida;
+        }
+
         public static function generarClave(int $lon):string {
             $llave = "";
             $cadena = "1234567890ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz+*-_";
