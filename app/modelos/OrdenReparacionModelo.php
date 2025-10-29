@@ -46,8 +46,7 @@
 
         public function getId(string $id=''):array {
            if(empty($id)) return [];
-            $sql = "SELECT id, marca, modelo, color, ";
-            $sql.= "anio, placas, idCliente ";
+            $sql = "SELECT id, idVehiculo, idMecanico, fechaIngreso, fechaSalida, kilometraje, gato, herramientas, triangulos, refaccion, extintor, antena, emblemas, tapones, cables, estereo, encendedor, tapetes, estado ";
             $sql.= "FROM ordenreparacion ";
             $sql.= "WHERE id='".$id."' AND baja=0";
             return $this->db->query($sql);
@@ -87,12 +86,23 @@
             $salida = false;
             if (!empty($data["id"])) {
                 $sql = "UPDATE ordenreparacion SET "; 
-                $sql.= "marca='".$data['marca']."', ";
-                $sql.= "modelo='".$data['modelo']."', ";
-                $sql.= "color='".$data['color']."', ";
-                $sql.= "anio='".$data['anio']."', ";
-                $sql.= "placas='".$data['placas']."', ";
-                $sql.= "idCliente='".$data['idCliente']."', ";;
+                $sql.= "idVehiculo='".$data['idVehiculo']."', ";
+                $sql.= "idMecanico='".$data['idMecanico']."', ";
+                $sql.= "fechaIngreso='".$data['fechaIngreso']."', ";
+                $sql.= "fechaSalida='".$data['fechaSalida']."', ";
+                $sql.= "kilometraje='".$data['kilometraje']."', ";;
+                $sql.= "gato='".$data['gato']."', ";
+                $sql.= "herramientas='".$data['herramientas']."', ";
+                $sql.= "triangulos='".$data['triangulos']."', ";
+                $sql.= "refaccion='".$data['refaccion']."', ";
+                $sql.= "extintor='".$data['extintor']."', ";
+                $sql.= "antena='".$data['antena']."', ";
+                $sql.= "emblemas='".$data['emblemas']."', ";
+                $sql.= "tapones='".$data['tapones']."', ";
+                $sql.= "cables='".$data['cables']."', ";
+                $sql.= "estereo='".$data['estereo']."', ";
+                $sql.= "encendedor='".$data['encendedor']."', ";
+                $sql.= "tapetes='".$data['tapetes']."', ";
                 $sql.= "cambio_dt=(NOW()) ";
                 $sql.= "WHERE id=".$data['id'];
                 //Enviamos a la base de datos
