@@ -260,6 +260,25 @@ class OrdenReparacion extends Controlador {
 		];
 		$this->vista("ordenReparacionAltaVista",$datos);
 	}
+
+	public function mostrar(string $id, string $pagina="1"):void {
+		// leer los datos de tabla
+		$data = $this->modelo->getId($id);
+		$vehiculos = $this->modelo->getVehiculos();
+	    $mecanicos = $this->modelo->getMecanicos();
+		$datos = [
+			"titulo" => "Mostrar una Orden de Reparación",
+			"subtitulo" => "Mostrar una Orden de Reparación",
+			"menu" => true,
+			"admon" => true,
+			"usuario"=>$this->usuario,
+			"activo" => "ordenrepacion",
+		    "vehiculos" => $vehiculos,
+			"mecanicos" => $mecanicos, 
+			"data" => $data
+		];
+		$this->vista("ordenReparacionMostrarVista",$datos);
+	}
 	
 }
 ?>
