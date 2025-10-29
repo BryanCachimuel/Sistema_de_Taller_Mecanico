@@ -157,18 +157,18 @@ class OrdenReparacion extends Controlador {
 			  //Modificar
 			  if ($this->modelo->modificar($data)) {
 					$this->mensaje(
-							"Modificar el vehículo", 
-							"Modificar el vehículo", 
-							"Se modificó correctamente el vehículo: ".$marca." ".$modelo,
-							"vehiculos/".$pagina, 
+							"Modificar la Orden de Reparación", 
+							"Modificar la Orden de Reparación", 
+							"Se modificó correctamente la orden de repación: ".$id,
+							"ordenreparacion/".$pagina, 
 							"success"
 						);
 				} else {
 					$this->mensaje(
-						"Error al modificar el vehículo.", 
-						"Error al modificar el vehículo.", 
-						"Error al modificar el vehículo: ".$marca." ".$modelo, 
-						"vehiculos/".$pagina, 
+						"Error al modificar la Orden de Reparación", 
+						"Error al modificar la Orden de Reparación", 
+						"Error al modificar la Orden de Reparación: ".$id, 
+						"ordenreparacion/".$pagina, 
 						"danger"
 					);
 				}
@@ -243,18 +243,20 @@ class OrdenReparacion extends Controlador {
 	public function modificar(string $id, string $pagina="1"):void {
 		// leer los datos de tabla
 		$data = $this->modelo->getId($id);
-		$clientes = $this->modelo->getClientes();
+		$vehiculos = $this->modelo->getVehiculos();
+	    $mecanicos = $this->modelo->getMecanicos();
 		$datos = [
-			"titulo" => "Modificar un vehículo",
-			"subtitulo" => "Modificar un vehículo",
+			"titulo" => "Modificar una Orden de Reparación",
+			"subtitulo" => "Modificar una Orden de Reparación",
 			"menu" => true,
 			"admon" => true,
 			"usuario"=>$this->usuario,
-			"activo" => "vehiculos",
-		    "clientes" => $clientes,
+			"activo" => "ordenrepacion",
+		    "vehiculos" => $vehiculos,
+			"mecanicos" => $mecanicos, 
 			"data" => $data
 		];
-		$this->vista("vehiculosAltaVista",$datos);
+		$this->vista("ordenReparacionAltaVista",$datos);
 	}
 	
 }
