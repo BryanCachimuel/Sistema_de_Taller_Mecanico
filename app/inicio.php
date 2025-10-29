@@ -40,6 +40,8 @@ define('CLIENTE_INACTIVO',2);
 define('ORDEN_ABIERTA',1);
 define('ORDEN_FACTURADA',2);
 
+date_default_timezone_set('America/Guayaquil');
+
 require_once("libs/Helper.php");
 require_once("libs/Sesion.php");
 require_once("libs/Controlador.php");
