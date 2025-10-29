@@ -63,12 +63,14 @@ class OrdenReparacion extends Controlador {
 	      $cables = empty($_POST['cables'])? "0": "1";
 	      $estereo = empty($_POST['estereo'])? "0": "1";
 	      $encendedor = empty($_POST['encendedor'])? "0": "1";
-	      $tapones = empty($_POST['tapones'])? "0": "1";
+	      $tapetes = empty($_POST['tapetes'])? "0": "1";
 	      //
 	      $pagina = $_POST['pagina'] ?? "1";
 
-	    // Validamos la información
-	     $hoy = date("Y-m-d");
+	      //
+	      // Validamos la información
+	      // 
+	      $hoy = date("Y-m-d");
 	      $hoy = new DateTime($hoy);
 	      if(empty($idVehiculo) || $idVehiculo=="void"){
 	        array_push($errores,"Debe de seleccionar un vehículo.");
@@ -109,6 +111,8 @@ class OrdenReparacion extends Controlador {
 	      }
 	      //
 	      if (empty($errores)) { 
+			// Crear arreglo de datos
+			//
 			$data = [
 				"id" => $id,
 				"idVehiculo"=>$idVehiculo,
@@ -124,6 +128,10 @@ class OrdenReparacion extends Controlador {
 				"antena"=>$antena,
 				"emblemas"=>$emblemas,
 				"tapones"=>$tapones,
+				"cables"=>$cables,
+				"estereo"=>$estereo,
+				"encendedor"=>$encendedor,
+				"tapetes"=>$tapetes
 			];    
 	        //Enviamos al modelo
 	        if(trim($id)===""){
@@ -172,8 +180,8 @@ class OrdenReparacion extends Controlador {
 	    	$vehiculos = $this->modelo->getVehiculos();
 	    	$mecanicos = $this->modelo->getMecanicos();
 		    $datos = [
-		      "titulo" => "Alta de una Orden de Reparación",
-		      "subtitulo" => "Alta de una Orden de Reparación",
+		      "titulo" => "Alta de una orden de reparación",
+		      "subtitulo" => "Alta de una orden de reparación",
 		      "activo" => "ordenreparacion",
 		      "menu" => true,
 		      "admon" => true,
@@ -187,7 +195,6 @@ class OrdenReparacion extends Controlador {
 		    $this->vista("ordenReparacionAltaVista",$datos);
 	    }
   	}
-
 
 
 	public function borrar(string $id="", string $pagina="1"):void {
