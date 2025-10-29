@@ -11,17 +11,29 @@
 
         public function alta(array $data=[]):bool {
             $sql = "INSERT INTO ordenreparacion VALUES(0,";//1. id 
-            $sql.= "'".$data['marca']."', "; 		//2. marca
-            $sql.= "'".$data['modelo']."', "; 		//3. modelo
-            $sql.= "'".$data['color']."', "; 		//4. color
-            $sql.= "'".$data['anio']."', "; 		//5. año
-            $sql.= "'".$data['placas']."', "; 		//6. placas
-            $sql.= "'".$data['idCliente']."', "; 	//7. idCliente
+            $sql.= "'".$data['idVehiculo']."', "; 		//2. idVehiculo
+            $sql.= "'".$data['idMecanico']."', "; 		//3. idMecanico
+            $sql.= "'".$data['fechaIngreso']."', "; 	//4. fechaIngreso
+            $sql.= "'".$data['fechaSalida']."', "; 		//5. fechaSalida
+            $sql.= "'".$data['kilometraje']."', "; 		//6. kilometraje
+            $sql.= "'".$data['gato']."', "; 			//7. gato
+            $sql.= "'".$data['herramientas']."', "; 	//8. herramientas
+            $sql.= "'".$data['triangulos']."', "; 		//9. triangulos
+            $sql.= "'".$data['refaccion']."', "; 		//10. refaccion
+            $sql.= "'".$data['extintor']."', "; 		//11. extintor
+            $sql.= "'".$data['antena']."', "; 			//12. antena
+            $sql.= "'".$data['emblemas']."', "; 		//13. emblemas
+            $sql.= "'".$data['tapones']."', "; 			//14. tapones
+            $sql.= "'".$data['cables']."', "; 			//15. cables
+            $sql.= "'".$data['estereo']."', "; 			//16. estereo
+            $sql.= "'".$data['encendedor']."', "; 		//17. encendedor
+            $sql.= "'".$data['tapetes']."', "; 			//18. tapetes
+            $sql.= "'".ORDEN_ABIERTA."', "; 			//19. tapones
             //
-            $sql.= "0, ";                   //8. baja
-            $sql.= "NOW(), ";               //9. fecha alta
-            $sql.= "'', ";                  //10. fecha baja 
-            $sql.= "'')";                   //11. fecha cambio
+            $sql.= "0, ";                   //20. baja
+            $sql.= "NOW(), ";               //21. fecha alta
+            $sql.= "'', ";                  //22. fecha baja 
+            $sql.= "'')";                   //23. fecha cambio
             return $this->db->queryNoSelect($sql);
         }
 
