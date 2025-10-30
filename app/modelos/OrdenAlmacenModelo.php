@@ -37,6 +37,24 @@
             return $this->db->queryNoSelect($sql);
         }
 
+        public function altaOrdenAlmacen(string $idOrdenReparacion='',string $observacion=''):int {
+            $salida = 0;
+            $sql = "INSERT INTO ordenAlmacen VALUES(0,"; //1. id
+            $sql.= "'".$idOrdenReparacion."', ";//2. tipo movimiento
+            $sql.= "0, ";	 					//3. costo
+            $sql.= "'".$observacion."', ";		//4. cantidad
+            //
+            $sql.= "0, ";                   	 //5. baja
+            $sql.= "NOW(), ";               	 //6. fecha alta
+            $sql.= "'', ";                  	 //7. fecha baja 
+            $sql.= "'')";                   	 //8. fecha cambio
+            if($this->db->queryNoSelect($sql)){
+                $salida = $this->db->query("SELECT LAST_INSERT_ID()");
+                $salida = $salida["LAST_INSERT_ID()"];
+            }
+            return $salida;
+	    }
+
         public function bajaLogica(string $id):bool {
             $salida = false;
             $sql = "UPDATE ordenalmacen SET baja=1, baja_dt=(NOW()) WHERE id=".$id;
