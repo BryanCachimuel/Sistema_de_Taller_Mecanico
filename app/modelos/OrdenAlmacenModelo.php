@@ -9,34 +9,6 @@
             $this->db = new MySQLdb();
         }
 
-        public function alta(array $data=[]):bool {
-            $sql = "INSERT INTO ordenalmacen VALUES(0,";//1. id 
-            $sql.= "'".$data['idVehiculo']."', "; 		//2. idVehiculo
-            $sql.= "'".$data['idMecanico']."', "; 		//3. idMecanico
-            $sql.= "'".$data['fechaIngreso']."', "; 	//4. fechaIngreso
-            $sql.= "'".$data['fechaSalida']."', "; 		//5. fechaSalida
-            $sql.= "'".$data['kilometraje']."', "; 		//6. kilometraje
-            $sql.= "'".$data['gato']."', "; 			//7. gato
-            $sql.= "'".$data['herramientas']."', "; 	//8. herramientas
-            $sql.= "'".$data['triangulos']."', "; 		//9. triangulos
-            $sql.= "'".$data['refaccion']."', "; 		//10. refaccion
-            $sql.= "'".$data['extintor']."', "; 		//11. extintor
-            $sql.= "'".$data['antena']."', "; 			//12. antena
-            $sql.= "'".$data['emblemas']."', "; 		//13. emblemas
-            $sql.= "'".$data['tapones']."', "; 			//14. tapones
-            $sql.= "'".$data['cables']."', "; 			//15. cables
-            $sql.= "'".$data['estereo']."', "; 			//16. estereo
-            $sql.= "'".$data['encendedor']."', "; 		//17. encendedor
-            $sql.= "'".$data['tapetes']."', "; 			//18. tapetes
-            $sql.= "'".ORDEN_ABIERTA."', "; 			//19. tapones
-            //
-            $sql.= "0, ";                   //20. baja
-            $sql.= "NOW(), ";               //21. fecha alta
-            $sql.= "'', ";                  //22. fecha baja 
-            $sql.= "'')";                   //23. fecha cambio
-            return $this->db->queryNoSelect($sql);
-        }
-
         public function altaOrdenAlmacen(string $idOrdenReparacion='',string $observacion=''):int {
             $salida = 0;
             $sql = "INSERT INTO ordenAlmacen VALUES(0,"; //1. id
@@ -78,6 +50,13 @@
             $sql.= " AND o.idVehiculo=v.id";
             return $this->db->querySelect($sql);
         }
+
+        public function getPiezas():array {
+            $sql = "SELECT id, nombrePieza, stock ";
+            $sql.= "FROM piezas ";
+            $sql.= "WHERE baja=0 AND stock > 0";
+            return $this->db->querySelect($sql);
+	    }
 
         public function getNumRegistros():int {
             $sql = "SELECT COUNT(*) FROM ordenalmacen WHERE baja=0";
