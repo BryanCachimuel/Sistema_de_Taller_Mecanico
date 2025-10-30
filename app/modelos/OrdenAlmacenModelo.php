@@ -52,6 +52,15 @@
             return $this->db->query($sql);
         }
 
+        public function getOrdenesReparacion() {
+            $sql = "SELECT o.id, v.id, ";
+            $sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.color,' ',v.anio) as auto ";
+            $sql.= "FROM ordenreparacion as o, vehiculos as v ";
+            $sql.= "WHERE o.baja=0 AND o.estado=".ORDEN_ABIERTA;
+            $sql.= " AND o.idVehiculo=v.id";
+            return $this->db->querySelect($sql);
+        }
+
         public function getNumRegistros():int {
             $sql = "SELECT COUNT(*) FROM ordenalmacen WHERE baja=0";
             $salida = $this->db->query($sql);
