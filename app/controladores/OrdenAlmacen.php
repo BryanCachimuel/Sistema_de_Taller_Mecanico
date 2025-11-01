@@ -63,6 +63,44 @@ class OrdenAlmacen extends Controlador {
 	    }
   	}
 
+    public function altaOrdenAlmacenDetalle():void {
+        //Llamada desde: ordenAlmacenAltaVista
+		//Definir los arreglos
+	    $data = array();
+	    $errores = array();
+	    if ($_SERVER['REQUEST_METHOD']=="POST") {
+	    	$idOrdenReparacion = $_POST['idOrdenReparacion'] ?? "";
+			$observacion = Helper::cadena($_POST['observacion'] ?? "");
+			$pag = Helper::cadena($_POST['pag'] ?? "1");
+			//
+			$idOrdenAlmacen = $this->modelo->altaOrdenAlmacen($idOrdenReparacion,$observacion);
+			if ($idOrdenAlmacen) {
+				$piezas = $this->modelo->getPiezas();
+				if (empty($piezas)) {
+					$this->mensaje(
+						"No hay piezas en el almacén.", 
+						"No hay piezas en el almacén.", 
+						"No hay piezas en el almacén para la órden de reparación: ".$idOrdenReparacion, 
+						"ordenAlmacen", 
+						"danger"
+					);
+				} else {
+                    Helper::mostrar($idOrdenAlmacen);
+					//$this->anadirPieza($idOrdenAlmacen,$idOrdenReparacion,$data,$piezas,$errores);
+					//exit;
+				}
+			} else {
+				$this->mensaje(
+					"Error al crear la orden de almacén.", 
+					"Error al crear la orden de almacén.", 
+					"Error al crear la orden de almacén: ".$idOrdenAlmacen, 
+					"ordenAlmacen/".$pagina, 
+					"danger"
+				);
+			}
+	    }
+    }
+
 
 	public function borrar(string $id="", string $pagina="1"):void {
 		// leer datos del registro del id
