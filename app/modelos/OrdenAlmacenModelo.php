@@ -58,6 +58,14 @@
             return $this->db->querySelect($sql);
 	    }
 
+        public function getPieza():array {
+            if(empty($id)) return [];
+            $sql = "SELECT id, nombrePieza, stock, costo ";
+            $sql.= "FROM piezas ";
+            $sql.= "WHERE id='".$id."' AND baja=0";
+            return $this->db->querySelect($sql);
+	    }
+
         public function getNumRegistros():int {
             $sql = "SELECT COUNT(*) FROM ordenalmacen WHERE baja=0";
             $salida = $this->db->query($sql);
