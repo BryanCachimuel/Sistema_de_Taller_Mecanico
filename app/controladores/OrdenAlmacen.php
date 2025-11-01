@@ -118,6 +118,52 @@ class OrdenAlmacen extends Controlador {
 		$this->vista("ordenAlmacenAltaPiezaVista",$datos);
 	}
 
+	public function altaOrdenAlmacenPieza():void {
+		//Llamada desde: ordenAlmacenAltaVista
+		//Definir los arreglos
+	    $data = array();
+	    $errores = array();
+		if ($_SERVER['REQUEST_METHOD']=="POST") {
+	    	//
+	    	$idOrdenAlmacen = $_POST['idOrdenAlmacen'] ?? "";
+			$idPieza = Helper::cadena($_POST['idPieza'] ?? "");
+			$cantidad = Helper::cadena($_POST['cantidad'] ?? "");
+			$pag = Helper::cadena($_POST['pag'] ?? "1");
+			//
+			$pieza = $this->modelo->getPieza($idPieza);
+			$data = $this->modelo->getId($idOrdenAlmacen);
+			$data["idPieza"] = $idPieza;
+			$data["cantidad"] = $cantidad;
+			//
+			if ($cantidad>$pieza["stock"]) {
+				array_push($errores,"No hay suficiente stock de esa pieza.");
+			}
+			if (empty($errores)) {
+				$data["costo"] = $cantidad * $pieza["costo"];
+				if ($this->modelo->altaOrdenAlmacenDetalle($data,$pieza)) {
+					Helper::mostrar($data);
+				    //$this->mostrarOrdenAlmacen($idOrdenAlmacen,$data,$errores);
+				} else {
+					$this->mensaje(
+						"Error al crear el detalle de la orden de almacén.", 
+						"Error al crear el detalle de la orden de almacén.", 
+						"Error al crear el detalle de la orden de almacén: ".$pieza["nombrePieza"], 
+						"ordenAlmacen/".$pag, 
+						"danger"
+					);
+				}
+			} else {
+				$this->mensaje(
+					"Error al crear la orden de almacén.", 
+					"Error al crear la orden de almacén.", 
+					"Error al crear la orden de almacén: ".$idOrdenAlmacen, 
+					"ordenAlmacen/".$pag, 
+					"danger"
+				);
+			}
+	    }
+	}
+
 
 	public function borrar(string $id="", string $pagina="1"):void {
 		// leer datos del registro del id
