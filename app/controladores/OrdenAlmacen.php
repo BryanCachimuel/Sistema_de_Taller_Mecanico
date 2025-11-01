@@ -85,8 +85,7 @@ class OrdenAlmacen extends Controlador {
 						"danger"
 					);
 				} else {
-                    Helper::mostrar($idOrdenAlmacen);
-					//$this->anadirPieza($idOrdenAlmacen,$idOrdenReparacion,$data,$piezas,$errores);
+					$this->anadirPieza($idOrdenAlmacen,$idOrdenReparacion,$data,$piezas,$errores);
 					//exit;
 				}
 			} else {
@@ -100,6 +99,24 @@ class OrdenAlmacen extends Controlador {
 			}
 	    }
     }
+
+	public function anadirPieza(string $idOrdenAlmacen, string $idOrdenReparacion, array $data, array $piezas, array $errores):void {
+		$datos = [
+			"titulo" => "Detalle de una Orden de Almacén",
+			"subtitulo" => "Detalle de una Orden de Almacén",
+			"activo" => "ordenalmacen",
+			"menu" => true,
+			"admon" => true,
+			"usuario"=>$this->usuario,
+			"errores"=>$errores,	
+		    "idOrdenReparacion" => $idOrdenReparacion,
+			"idOrdenAlmacen" => $idOrdenAlmacen, 
+			"piezas" => $piezas,
+			"pag"=>1,
+			"data"=>$data,
+		];
+		$this->vista("ordenAlmacenAltaPiezaVista",$datos);
+	}
 
 
 	public function borrar(string $id="", string $pagina="1"):void {
