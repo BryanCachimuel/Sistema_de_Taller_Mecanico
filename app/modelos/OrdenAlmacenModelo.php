@@ -27,6 +27,16 @@
             return $salida;
 	    }
 
+        public function altaOrdenAlmacenDetalle(array $data,array $pieza):bool {
+            $sql = "INSERT INTO ordenAlmacenDetalle VALUES(0,"; //1. id
+            $sql.= "'".$data["id"]."', ";		//2. idOrdenAlmacen
+            $sql.= "'".$pieza["id"]."', ";		//3. idPieza
+            $sql.= "'".$data["cantidad"]."', ";	//4. cantidad
+            $sql.= "'".$data["costo"]."')";		//5. costo
+            return $this->db->queryNoSelect($sql);
+	    }
+
+
         public function bajaLogica(string $id):bool {
             $salida = false;
             $sql = "UPDATE ordenalmacen SET baja=1, baja_dt=(NOW()) WHERE id=".$id;
