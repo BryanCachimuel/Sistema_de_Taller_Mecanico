@@ -17,4 +17,4 @@
 		</div>
 		<a href="<?php print RUTA; ?>login/olvidoVerificar">¿Olvidaste tu clave de acceso?</a><br>
 	</form>
-<?php include_once("piepagina.php"); ?>				
+<?php include_once("piepagina.php"); ?>					
