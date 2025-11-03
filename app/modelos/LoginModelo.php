@@ -1,39 +1,43 @@
-<?php
+<?php  
+/**
+ * 
+ */
+class LoginModelo
+{
+	private $db="";
+	
+	function __construct()
+	{
+		$this->db = new MySQLdb();
+	}
 
-    class LoginModelo {
+	public function actualizarClaveAcceso(array $data=[]):bool
+	{
+		if (!empty($data)) {
+			$sql = "UPDATE usuarios SET clave=:clave, estadoUsuario=:estadoUsuario WHERE id=:id";
+			return $this->db->queryNoSelect($sql,$data);
+		}
+		return false;
+	}
 
-        // llamando a la conexión hacia la bdd
-        private $db = "";
+	public function actualizarLogin(string $id=''):bool
+	{
+		if (!empty($data)) {
+			$sql = "UPDATE usuarios SET login_dt=(NOW()) WHERE id=".$id;
+			return $this->db->queryNoSelect($sql);
+		}
+		return false;
+	}
 
-        function __construct() {
-            $this->db = new MySQLdb();
-        }
-
-        public function actualizarClaveAcceso(array $data=[]):bool {
-            if(!empty($data)) {
-                $sql = "UPDATE usuarios SET clave=:clave, estadoUsuario=:estadoUsuario WHERE id=:id";
-                return $this->db->queryNoSelect($sql,$data);
-            }  
-            return false; 
-        }
-
-        public function actualizarLogin(string $id=''):bool {
-            if(!empty($data)) {
-                $sql = "UPDATE usuarios SET login_dt=(NOW()) WHERE id=:id";
-                return $this->db->queryNoSelect($sql);
-            }  
-            return false; 
-        }
-
-        public function buscarCorreo(string $correo=''): array {
-            if($correo == "") return [];
-            $sql = "SELECT id, tipoUsuario, nombres, apellidos, direccion, ";
-            $sql.= "telefono, correo, clave, genero, estadoUsuario ";
-            $sql.= "FROM usuarios ";
-            $sql.= "WHERE correo = '".$correo."' AND baja=0";
-            return $this->db->query($sql);
-        }
-
-    }
+	public function buscarCorreo(string $correo=''):array
+	{
+		if($correo=="") return [];
+	 	$sql = "SELECT id, tipoUsuario, nombres, apellidos, direccion, ";
+	 	$sql.= "telefono, correo, clave, genero, estadoUsuario ";
+	 	$sql.= "FROM usuarios ";
+	 	$sql.= "WHERE correo = '".$correo."' AND baja=0";
+	 	return $this->db->query($sql);
+	}
+}
 
 ?>
