@@ -54,14 +54,14 @@
       </select>
     </div>
 
-    <div class="form-group text-start mt-3">
+    <div class="form-group text-start">
       <input type="hidden" name="id" id="id" value="<?php if (isset($datos['data']['id'])) { print $datos['data']['id']; } else { print ""; } ?>">
       <input type="hidden" name="pagina" id="pagina" value="<?php if (isset($datos['pagina'])) { print $datos['pagina']; } else { print "1"; } ?>">
       
       <?php if (isset($datos["baja"])) { ?>
         <a href="<?php print RUTA; ?>clientes/bajaLogica/<?php print $datos['data']['id']."/".$datos["pagina"]; ?>" class="btn btn-danger">Borrar</a>
         <a href="<?php print RUTA.'clientes/'.$datos['pagina']; ?>" class="btn btn-danger">Regresar</a>
-        <p><b>Advertencia: una vez borrado el registro, no podrá recuperar la información</b></p>
+        <p><b>Advertencia: una vez borrado el registro, no podrá recuperar la información.</b></p>
       <?php } else { ?>
       <input type="submit" value="Enviar" class="btn btn-success">
       <a href="<?php print RUTA; ?>clientes" class="btn btn-info">Regresar</a>

@@ -27,8 +27,8 @@
     </div>
 
     <div class="form-group text-left">
-      <label for="cliente">* Cliente:</label>
-      <select class="form-control" name="cliente" id="cliente" 
+      <label for="idCliente">* Cliente:</label>
+      <select class="form-control" name="idCliente" id="idCliente" 
       <?php if (isset($datos["baja"])) { print " disabled "; } ?>
       >
       <option value="void">---Selecciona un cliente---</option>
@@ -44,7 +44,7 @@
       </select>
     </div>
 
-    <div class="form-group text-start mt-3">
+    <div class="form-group text-start">
       <input type="hidden" name="id" id="id" value="<?php if (isset($datos['data']['id'])) { print $datos['data']['id']; } else { print ""; } ?>">
       <input type="hidden" name="pagina" id="pagina" value="<?php if (isset($datos['pagina'])) { print $datos['pagina']; } else { print "1"; } ?>">
       
