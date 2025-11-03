@@ -175,7 +175,9 @@
 
 </div>
 
-    <div class="form-group text-start mt-3">
+
+
+    <div class="form-group text-start">
       <input type="hidden" name="id" id="id" value="<?php if (isset($datos['data']['id'])) { print $datos['data']['id']; } else { print ""; } ?>">
       <input type="hidden" name="pagina" id="pagina" value="<?php if (isset($datos['pagina'])) { print $datos['pagina']; } else { print "1"; } ?>">
       <input type="submit" value="Enviar" class="btn btn-success">

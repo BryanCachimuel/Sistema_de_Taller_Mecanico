@@ -31,7 +31,7 @@
             if(isset($datos["data"]["idMecanico"]) && $datos["data"]["idMecanico"]==$datos["mecanicos"][$i]["id"]){
               print " selected ";
             }
-          print ">".$datos["mecanicos"][$i]["mecanicos"]."</option>";
+          print ">".$datos["mecanicos"][$i]["mecanico"]."</option>";
         } 
       ?>
     </select>
