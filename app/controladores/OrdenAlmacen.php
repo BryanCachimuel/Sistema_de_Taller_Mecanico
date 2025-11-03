@@ -1,12 +1,15 @@
 <?php  
-
-class OrdenAlmacen extends Controlador {
-
-	private $usuario = "";
-    private $modelo = "";
+/**
+ * 
+ */
+class OrdenAlmacen extends Controlador
+{
+	private $modelo = "";
+	private $usuario;
 	private $sesion;
 	
-	function __construct() {
+	function __construct()
+	{
 		//Creamos sesion
 		$this->sesion = new Sesion();
 		if ($this->sesion->getLogin()) {
@@ -17,45 +20,22 @@ class OrdenAlmacen extends Controlador {
 		}
 	}
 
-	
-	public function caratula(string $pagina="1"):void {
-		$num = $this->modelo->getNumRegistros();
-		$inicio = ($pagina-1)*TAMANO_PAGINA;
-		$totalPaginas = ceil($num/TAMANO_PAGINA);
-        $data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
- 		$datos = [
-			"titulo" => "Orden de Almacén",
-			"subtitulo" => "Orden de Almacén",
-			"usuario"=>$this->usuario,
-			"data"=> $data,
-			"activo" => "ordenalmacen",
-			"pag" => [
-				"totalPaginas" => $totalPaginas,
-				"regresa" => "ordenalmacen",
-				"pagina" => $pagina
-			],
-			"menu" => true
-		];
-		$this->vista("OrdenAlmacenCaratulaVista",$datos);
-	}
-
 	public function alta(){
 	   //Definir los arreglos
 	    $data = array();
 	    $errores = array();
-	    
 	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
 	    	//Vista Alta
 	    	$ordenesReparacion = $this->modelo->getOrdenesReparacion();
 		    $datos = [
-		      "titulo" => "Alta de una Orden de Almacén",
-		      "subtitulo" => "Alta de una Orden de Almacén",
+		      "titulo" => "Alta de una orden de almacén",
+		      "subtitulo" => "Alta de una orden de almacén",
 		      "activo" => "ordenalmacen",
 		      "menu" => true,
 		      "admon" => true,
 		      "usuario" => $this->usuario,
 		      "errores" => $errores,
-		      "ordenesReparacion" => $ordenesReparacion,
+			  "ordenesReparacion" => $ordenesReparacion,
 		      "pagina" => 1,
 		      "data" => $data
 		    ];
@@ -63,8 +43,9 @@ class OrdenAlmacen extends Controlador {
 	    }
   	}
 
-    public function altaOrdenAlmacenDetalle():void {
-        //Llamada desde: ordenAlmacenAltaVista
+  	public function altaOrdenAlmacenDetalle():void
+  	{
+  		//Llamada desde: ordenAlmacenAltaVista
 		//Definir los arreglos
 	    $data = array();
 	    $errores = array();
@@ -86,7 +67,7 @@ class OrdenAlmacen extends Controlador {
 					);
 				} else {
 					$this->anadirPieza($idOrdenAlmacen,$idOrdenReparacion,$data,$piezas,$errores);
-					//exit;
+					exit;
 				}
 			} else {
 				$this->mensaje(
@@ -98,32 +79,37 @@ class OrdenAlmacen extends Controlador {
 				);
 			}
 	    }
-    }
+  	}
 
-	public function anadirPieza(string $idOrdenAlmacen, string $idOrdenReparacion, array $data, array $piezas, array $errores):void {
-		$datos = [
-			"titulo" => "Detalle de una Orden de Almacén",
-			"subtitulo" => "Detalle de una Orden de Almacén",
+  	public function anadirPieza(
+  		string $idOrdenAlmacen,
+  		string $idOrdenReparacion,
+  		array $data,
+  		array $piezas,
+  		array $errores):void
+  	{
+  		$datos = [
+			"titulo" => "Detalle de una orden de almacén",
+			"subtitulo" => "Detalle de una orden de almacén",
 			"activo" => "ordenalmacen",
 			"menu" => true,
 			"admon" => true,
-			"usuario"=>$this->usuario,
-			"errores"=>$errores,	
-		    "idOrdenReparacion" => $idOrdenReparacion,
-			"idOrdenAlmacen" => $idOrdenAlmacen, 
+			"errores" => $errores,
 			"piezas" => $piezas,
+			"idOrdenReparacion" => $idOrdenReparacion,
+			"idOrdenAlmacen" => $idOrdenAlmacen,
 			"pag"=>1,
-			"data"=>$data,
-		];
-		$this->vista("ordenAlmacenAltaPiezaVista",$datos);
-	}
+			"data" => $data
+	    ];
+	    $this->vista("ordenAlmacenAltaPiezaVista",$datos);
+  	}
 
-	public function altaOrdenAlmacenPieza():void {
-		//Llamada desde: ordenAlmacenAltaVista
+  	public function altaOrdenAlmacenPieza():void
+  	{
 		//Definir los arreglos
 	    $data = array();
 	    $errores = array();
-		if ($_SERVER['REQUEST_METHOD']=="POST") {
+	    if ($_SERVER['REQUEST_METHOD']=="POST") {
 	    	//
 	    	$idOrdenAlmacen = $_POST['idOrdenAlmacen'] ?? "";
 			$idPieza = Helper::cadena($_POST['idPieza'] ?? "");
@@ -135,23 +121,23 @@ class OrdenAlmacen extends Controlador {
 			$data["idPieza"] = $idPieza;
 			$data["cantidad"] = $cantidad;
 			//
-			if ($cantidad>$pieza["stock"]) {
-				array_push($errores,"No hay suficiente stock de esa pieza.");
-			}
 			if (empty($errores)) {
-				$data["costo"] = $cantidad * $pieza["costo"];
-				if ($this->modelo->altaOrdenAlmacenDetalle($data,$pieza)) {
-					Helper::mostrar($data);
-				    //$this->mostrarOrdenAlmacen($idOrdenAlmacen,$data,$errores);
+				if ($cantidad<=$pieza["stock"]) {
+					$data["costo"] = $cantidad * $pieza["costo"];
+					if (!$this->modelo->altaOrdenAlmacenDetalle($data,$pieza)) {
+						$this->mensaje(
+							"Error al crear el detalle de la orden de almacén.", 
+							"Error al crear el detalle de la orden de almacén.", 
+							"Error al crear el detalle de la orden de almacén: ".$pieza["nombrePieza"], 
+							"ordenAlmacen/".$pag, 
+							"danger"
+						);
+					}
 				} else {
-					$this->mensaje(
-						"Error al crear el detalle de la orden de almacén.", 
-						"Error al crear el detalle de la orden de almacén.", 
-						"Error al crear el detalle de la orden de almacén: ".$pieza["nombrePieza"], 
-						"ordenAlmacen/".$pag, 
-						"danger"
-					);
+					array_push($errores,"No hay suficiente stock de esa pieza.");
 				}
+				$this->mostrarOrdenAlmacen($idOrdenAlmacen,$data,$errores);
+				exit;
 			} else {
 				$this->mensaje(
 					"Error al crear la orden de almacén.", 
@@ -162,91 +148,151 @@ class OrdenAlmacen extends Controlador {
 				);
 			}
 	    }
-	}
+  	}
 
+  	public function anadeOrdenAlmacenPieza(string $idOrdenAlmacen,string $pag):void
+  	{
+		//Definir los arreglos
+	    $data = array();
+	    $errores = array();
+		//
+		$data = $this->modelo->getId($idOrdenAlmacen);
+		$idOrdenReparacion = $data["idOrdenReparacion"];
+		$piezas = $this->modelo->getPiezas();
+		$this->anadirPieza($idOrdenAlmacen,$idOrdenReparacion,$data,$piezas,$errores);
+  	}
 
-	public function borrar(string $id="", string $pagina="1"):void {
-		// leer datos del registro del id
+	public function borrar(string $id="",string $pagina="1"):void 
+	{
+		//Leemos los datos del registro del id
 		$data = $this->modelo->getId($id);
 		$vehiculos = $this->modelo->getVehiculos();
-	    $mecanicos = $this->modelo->getMecanicos();
+	   	$mecanicos = $this->modelo->getMecanicos();
 		$datos = [
-			"titulo" => "Baja de una Orden de Reparación",
-			"subtitulo" => "Baja de una Ordeb de Reparación",
-			"menu" => true,
-			"admon" => true,
-			"usuario"=>$this->usuario,
-			"errores"=>[],
-			"data"=>$data,
-			"activo" => "ordenreparacion",
-			"pagina"=>$pagina,
-		    "vehiculos" => $vehiculos,
-			"mecanicos" => $mecanicos, 
-			"baja"=>true,
+		  "titulo" => "Baja de una orden de reparación",
+		  "subtitulo" => "Baja de una orden de reparación",
+		  "menu" => true,
+		  "admon" => true,
+		  "usuario" => $this->usuario,
+		  "errores" => [],
+		  "activo" => 'ordenreparacion',
+		  "data" => $data,
+		  "pagina" => $pagina,
+		  "vehiculos" => $vehiculos,
+		  "mecanicos" => $mecanicos,
+		  "baja" => true
 		];
 		$this->vista("ordenReparacionAltaVista",$datos);
 	}
 
-	public function bajaLogica(string $id='', string $pagina="1"):void {
-		if(isset($id) && $id!="") {
-			if($this->modelo->bajaLogica($id)) {
+	public function bajaLogica(string $id='',string $pagina="1"):void
+	{
+		if (isset($id) && $id!="") {
+			if ($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
-					"Baja de una Orden de Reparación",
-					"Baja de una Orden de Reparación",
-					"Se borró correctamente una Orden de Reparación: ".$id,
-					"ordenreparacion/".$pagina,
+					"Baja de una orden de reparación", 
+					"Baja de una orden de reparación", 
+					"Se borró correctamente la orden de reparación: ".$id, 
+					"ordenreparacion/".$pagina, 
 					"success"
 				);
-			} else {
-				$this->mensaje(
-					"Baja de una Orden de Reparación",
-					"Baja de una Orden de Reparación",
-					"Error al borrar una Orden de Reparación: ".$id,
-					"ordenreparacion/".$pagina,
-					"danger"
-				);
-			}
-			
-		}
+	        } else {
+	        	$this->mensaje(
+	        		"Baja de una orden de reparación", 
+	        		"Baja de una orden de reparación", 
+	        		"Error al borrar la orden de reparación: ".$id, 
+	        		"ordenreparacion/".$pagina,
+	        		"danger"
+	        	);
+	        }
+	   }
 	}
 
-	public function modificar(string $id, string $pagina="1"):void {
-		// leer los datos de tabla
+	public function caratula(string $pagina="1"):void
+	{
+		$num = $this->modelo->getNumRegistros();
+		$inicio = ($pagina-1)*TAMANO_PAGINA;
+		$totalPaginas = ceil($num/TAMANO_PAGINA);
+		$data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
+		$datos = [
+			"titulo" => "Orden de almacén",
+			"subtitulo" => "Orden de almacén",
+			"usuario"=>$this->usuario,
+			"data"=>$data,
+			"activo" => "ordenalmacen",
+			"pag" => [
+				"totalPaginas" => $totalPaginas,
+				"regresa" => "ordenalmacen",
+				"pagina" => $pagina
+			],
+			"menu" => true
+		];
+		$this->vista("ordenAlmacenCaratulaVista",$datos);
+	}
+
+	public function modificar(string $id,string $pagina="1"):void
+	{
+		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 		$vehiculos = $this->modelo->getVehiculos();
 	    $mecanicos = $this->modelo->getMecanicos();
 		$datos = [
-			"titulo" => "Modificar una Orden de Reparación",
-			"subtitulo" => "Modificar una Orden de Reparación",
+			"titulo" => "Modificar una orden de reparación",
+			"subtitulo" =>"Modificar una orden de reparación",
 			"menu" => true,
 			"admon" => true,
-			"usuario"=>$this->usuario,
-			"activo" => "ordenrepacion",
-		    "vehiculos" => $vehiculos,
-			"mecanicos" => $mecanicos, 
+			"usuario" => $this->usuario,
+			"activo" => "ordenreparacion",
+			"vehiculos" => $vehiculos,
+		     "mecanicos" => $mecanicos,
+			"pagina" => $pagina,
 			"data" => $data
 		];
 		$this->vista("ordenReparacionAltaVista",$datos);
 	}
 
-	public function mostrar(string $id, string $pagina="1"):void {
-		// leer los datos de tabla
+	public function mostrar(string $id,string $pagina="1"):void
+	{
+		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 		$vehiculos = $this->modelo->getVehiculos();
 	    $mecanicos = $this->modelo->getMecanicos();
 		$datos = [
-			"titulo" => "Mostrar una Orden de Reparación",
-			"subtitulo" => "Mostrar una Orden de Reparación",
+			"titulo" => "Mostrar una orden de reparación",
+			"subtitulo" =>"Mostrar una orden de reparación",
 			"menu" => true,
 			"admon" => true,
-			"usuario"=>$this->usuario,
-			"activo" => "ordenrepacion",
-		    "vehiculos" => $vehiculos,
-			"mecanicos" => $mecanicos, 
+			"usuario" => $this->usuario,
+			"activo" => "ordenreparacion",
+			"vehiculos" => $vehiculos,
+		    "mecanicos" => $mecanicos,
+			"pagina" => $pagina,
 			"data" => $data
 		];
 		$this->vista("ordenReparacionMostrarVista",$datos);
 	}
-	
+
+	public function mostrarOrdenAlmacen(
+		string $idOrdenAlmacen='', 
+		array $data=[], 
+		array $errores=[]):void
+	{
+		if (empty($data)) {
+			$data = $this->modelo->getId($idOrdenAlmacen);
+		}
+		$detalle = $this->modelo->getOrdenAlmacenDetalle($idOrdenAlmacen);
+		$datos = [
+			"titulo" => "Detalle de una orden de almacén",
+			"subtitulo" => "Detalle de una orden de almacén",
+			"activo" => "ordenalmacen",
+			"menu" => true,
+			"admon" => true,
+			"errores" => $errores,
+			"pag"=>1,
+			"detalle" => $detalle,
+			"data" => $data
+	    ];
+	    $this->vista("ordenAlmacenMostrarVista",$datos);
+	}
 }
 ?>

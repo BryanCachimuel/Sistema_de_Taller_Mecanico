@@ -1,12 +1,15 @@
 <?php  
-
-class Mecanicos extends Controlador {
-
-	private $usuario = "";
-    private $modelo = "";
+/**
+ * 
+ */
+class Mecanicos extends Controlador
+{
+	private $modelo = "";
+	private $usuario;
 	private $sesion;
 	
-	function __construct() {
+	function __construct()
+	{
 		//Creamos sesion
 		$this->sesion = new Sesion();
 		if ($this->sesion->getLogin()) {
@@ -15,28 +18,6 @@ class Mecanicos extends Controlador {
 		} else {
 			header("location:".RUTA);
 		}
-	}
-
-	
-	public function caratula(string $pagina="1"):void {
-		$num = $this->modelo->getNumRegistros();
-		$inicio = ($pagina-1)*TAMANO_PAGINA;
-		$totalPaginas = ceil($num/TAMANO_PAGINA);
-        $data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
- 		$datos = [
-			"titulo" => "Mecánicos del taller",
-			"subtitulo" => "Mecánicos del taller",
-			"usuario"=>$this->usuario,
-			"data"=> $data,
-			"activo" => "mecanicos",
-			"pag" => [
-				"totalPaginas" => $totalPaginas,
-				"regresa" => "mecanicos",
-				"pagina" => $pagina
-			],
-			"menu" => true
-		];
-		$this->vista("mecanicosCaratulaVista",$datos);
 	}
 
 	public function alta(){
@@ -115,17 +96,17 @@ class Mecanicos extends Controlador {
 			  //Modificar
 			  if ($this->modelo->modificar($data)) {
 					$this->mensaje(
-							"Modificar el mecanicos", 
-							"Modificar el mecanicos", 
-							"Se modificó correctamente el mecanicos: ".$nombres." ".$apellidos,
+							"Modificar el mecánico", 
+							"Modificar el mecánico", 
+							"Se modificó correctamente el mecánico: ".$nombres." ".$apellidos,
 							"mecanicos/".$pagina, 
 							"success"
 						);
 				} else {
 					$this->mensaje(
-						"Error al modificar el mecanicos.", 
-						"Error al modificar el mecanicos.", 
-						"Error al modificar el mecanicos: ".$nombres." ".$apellidos, 
+						"Error al modificar el mecánico.", 
+						"Error al modificar el mecánico.", 
+						"Error al modificar el mecánico: ".$nombres." ".$apellidos, 
 						"mecanicos/".$pagina, 
 						"danger"
 					);
@@ -153,70 +134,93 @@ class Mecanicos extends Controlador {
 	    }
   	}
 
-
-	public function borrar(string $id="", string $pagina="1"):void {
-		// leer datos del registro del id
+	public function borrar(string $id="",string $pagina="1"):void 
+	{
+		//Leemos los datos del registro del id
 		$data = $this->modelo->getId($id);
 		$tipoMecanico = $this->modelo->getTipoMecanico();
-	    $estadoMecanico = $this->modelo->getEstadoMecanico();
+    	$estadoMecanico = $this->modelo->getEstadoMecanico();
 		$datos = [
-			"titulo" => "Baja de un mecánico",
-			"subtitulo" => "Baja de un mecánico",
-			"menu" => true,
-			"admon" => true,
-			"usuario"=>$this->usuario,
-			"errores"=>[],
-			"data"=>$data,
-			"activo" => "mecanicos",
-			"pagina"=>$pagina,
-			"tipoMecanico" => $tipoMecanico,
-		    "estadoMecanico" => $estadoMecanico,
-			"baja"=>true,
+		  "titulo" => "Baja de un macánico",
+		  "subtitulo" => "Baja de un macánico",
+		  "menu" => true,
+		  "admon" => true,
+		  "usuario" => $this->usuario,
+		  "errores" => [],
+		  "activo" => 'mecanicos',
+		  "data" => $data,
+		  "pagina" => $pagina,
+		  "tipoMecanico" => $tipoMecanico,
+		  "estadoMecanico" => $estadoMecanico,
+		  "baja" => true
 		];
 		$this->vista("mecanicosAltaVista",$datos);
 	}
 
-	public function bajaLogica(string $id='', string $pagina="1"):void {
-		if(isset($id) && $id!="") {
-			if($this->modelo->bajaLogica($id)) {
+	public function bajaLogica(string $id='',string $pagina="1"):void
+	{
+		if (isset($id) && $id!="") {
+			if ($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
-					"Baja de un mecánico",
-					"Baja de un mecánico",
-					"Se borró correctamente al mecánico: ".$id,
-					"mecanicos/".$pagina,
+					"Baja de un mecánico", 
+					"Baja de un mecánico", 
+					"Se borró correctamente al mecánico: ".$id, 
+					"mecanicos/".$pagina, 
 					"success"
 				);
-			} else {
-				$this->mensaje(
-					"Baja de un mecánico",
-					"Baja de un mecánico",
-					"Error al borrar al mecánico: ".$id,
-					"mecanicos/".$pagina,
-					"danger"
-				);
-			}
-			
-		}
+	        } else {
+	        	$this->mensaje(
+	        		"Baja de un mecánico", 
+	        		"Baja de un mecánico", 
+	        		"Error al borrar al mecánico: ".$id, 
+	        		"mecanicos/".$pagina,
+	        		"danger"
+	        	);
+	        }
+	   }
 	}
 
-	public function modificar(string $id, string $pagina="1"):void {
-		// leer los datos de tabla
+	public function caratula(string $pagina="1"):void
+	{
+		$num = $this->modelo->getNumRegistros();
+		$inicio = ($pagina-1)*TAMANO_PAGINA;
+		$totalPaginas = ceil($num/TAMANO_PAGINA);
+		$data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
+		$datos = [
+			"titulo" => "Mecánicos taller mecánico",
+			"subtitulo" => "Mecánicos taller mecánico",
+			"usuario"=>$this->usuario,
+			"data"=>$data,
+			"activo" => "mecanicos",
+			"pag" => [
+				"totalPaginas" => $totalPaginas,
+				"regresa" => "mecanicos",
+				"pagina" => $pagina
+			],
+			"menu" => true
+		];
+		$this->vista("mecanicosCaratulaVista",$datos);
+	}
+
+	public function modificar(string $id,string $pagina="1"):void
+	{
+		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
-		$tipoMecanico = $this->modelo->getTipoMecanico();
-	    $estadoMecanico = $this->modelo->getEstadoMecanico();
+    	$tipoMecanico = $this->modelo->getTipoMecanico();
+    	$estadoMecanico = $this->modelo->getEstadoMecanico();
 		$datos = [
 			"titulo" => "Modificar un mecánico",
-			"subtitulo" => "Modificar un mecánico",
+			"subtitulo" =>"Modificar un mecánico",
 			"menu" => true,
 			"admon" => true,
-			"usuario"=>$this->usuario,
+			"usuario" => $this->usuario,
 			"activo" => "mecanicos",
 			"tipoMecanico" => $tipoMecanico,
-		    "estadoMecanico" => $estadoMecanico,
+			"estadoMecanico" => $estadoMecanico,
+			"pagina" => $pagina,
 			"data" => $data
 		];
 		$this->vista("mecanicosAltaVista",$datos);
 	}
-	
 }
 ?>

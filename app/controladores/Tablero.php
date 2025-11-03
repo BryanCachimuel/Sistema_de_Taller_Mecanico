@@ -4,8 +4,7 @@
  */
 class Tablero extends Controlador
 {
-	private $usuario = "";
-    private $modelo = "";
+	private $modelo = "";
 	private $sesion;
 	
 	function __construct()

@@ -1,12 +1,15 @@
 <?php  
-
-class Clientes extends Controlador {
-
-	private $usuario = "";
-    private $modelo = "";
+/**
+ * 
+ */
+class Clientes extends Controlador
+{
+	private $modelo = "";
+	private $usuario;
 	private $sesion;
 	
-	function __construct() {
+	function __construct()
+	{
 		//Creamos sesion
 		$this->sesion = new Sesion();
 		if ($this->sesion->getLogin()) {
@@ -15,28 +18,6 @@ class Clientes extends Controlador {
 		} else {
 			header("location:".RUTA);
 		}
-	}
-
-	
-	public function caratula(string $pagina="1"):void {
-		$num = $this->modelo->getNumRegistros();
-		$inicio = ($pagina-1)*TAMANO_PAGINA;
-		$totalPaginas = ceil($num/TAMANO_PAGINA);
-        $data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
- 		$datos = [
-			"titulo" => "Clientes del taller",
-			"subtitulo" => "Clientes del taller",
-			"usuario"=>$this->usuario,
-			"data"=> $data,
-			"activo" => "clientes",
-			"pag" => [
-				"totalPaginas" => $totalPaginas,
-				"regresa" => "clientes",
-				"pagina" => $pagina
-			],
-			"menu" => true
-		];
-		$this->vista("clientesCaratulaVista",$datos);
 	}
 
 	public function alta(){
@@ -51,8 +32,8 @@ class Clientes extends Controlador {
 	      $telefono = Helper::cadena($_POST['telefono'] ?? "");
 	      $correo = Helper::cadena($_POST['correo'] ?? "");
 	      $direccion = Helper::cadena($_POST['direccion'] ?? "");
-		  $rfc = Helper::cadena($_POST['rfc'] ?? "");
-		  $razonSocial = Helper::cadena($_POST['razonSocial'] ?? "");
+	      $rfc = Helper::cadena($_POST['rfc'] ?? "");
+	      $razonSocial = Helper::cadena($_POST['razonSocial'] ?? "");
 	      $estado = Helper::cadena($_POST['estado'] ?? "");
 	      //
 	      $pagina = $_POST['pagina'] ?? "1";
@@ -85,10 +66,10 @@ class Clientes extends Controlador {
 				"nombres"=>$nombres,
 				"apellidos"=>$apellidos,
 				"telefono"=>$telefono,
-				"correo"=>$correo,
 				"direccion"=>$direccion,
 				"rfc"=>$rfc,
 				"razonSocial"=>$razonSocial,
+				"correo"=>$correo,
 				"clave"=>Helper::generarClave(10),
 				"estado"=>$estado
 			];     
@@ -99,7 +80,7 @@ class Clientes extends Controlador {
 					$this->mensaje(
 							"Alta de un cliente", 
 							"Alta de un cliente", 
-							"Se añadió correctamente al cliente: ".$nombres." ".$apellidos, 
+							"Se añadió correctamente el cliente: ".$nombres." ".$apellidos, 
 							"clientes/".$pagina, 
 							"success"
 					);
@@ -152,66 +133,89 @@ class Clientes extends Controlador {
 	    }
   	}
 
-
-	public function borrar(string $id="", string $pagina="1"):void {
-		// leer datos del registro del id
+	public function borrar(string $id="",string $pagina="1"):void 
+	{
+		//Leemos los datos del registro del id
 		$data = $this->modelo->getId($id);
 		$estadoCliente = $this->modelo->getEstadoCliente();
 		$datos = [
-			"titulo" => "Baja de un cliente",
-			"subtitulo" => "Baja de un cliente",
-			"menu" => true,
-			"admon" => true,
-			"usuario"=>$this->usuario,
-			"errores"=>[],
-			"data"=>$data,
-			"activo" => "clientes",
-			"pagina"=>$pagina,
-		    "estadoCliente" => $estadoCliente,
-			"baja"=>true,
+		  "titulo" => "Baja de un cliente",
+		  "subtitulo" => "Baja de un cliente",
+		  "menu" => true,
+		  "admon" => true,
+		  "usuario" => $this->usuario,
+		  "errores" => [],
+		  "activo" => 'clientes',
+		  "data" => $data,
+		  "pagina" => $pagina,
+		  "estadoCliente" => $estadoCliente,
+		  "baja" => true
 		];
 		$this->vista("clientesAltaVista",$datos);
 	}
 
-	public function bajaLogica(string $id='', string $pagina="1"):void {
-		if(isset($id) && $id!="") {
-			if($this->modelo->bajaLogica($id)) {
+	public function bajaLogica(string $id='',string $pagina="1"):void
+	{
+		if (isset($id) && $id!="") {
+			if ($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
-					"Baja de un cliente",
-					"Baja de un cliente",
-					"Se borró correctamente al cliente: ".$id,
-					"clientes/".$pagina,
+					"Baja de un cliente", 
+					"Baja de un cliente", 
+					"Se borró correctamente al cliente: ".$id, 
+					"clientes/".$pagina, 
 					"success"
 				);
-			} else {
-				$this->mensaje(
-					"Baja de un cliente",
-					"Baja de un cliente",
-					"Error al borrar al cliente: ".$id,
-					"clientes/".$pagina,
-					"danger"
-				);
-			}
-			
-		}
+	        } else {
+	        	$this->mensaje(
+	        		"Baja de un cliente", 
+	        		"Baja de un cliente", 
+	        		"Error al borrar al cliente: ".$id, 
+	        		"clientes/".$pagina,
+	        		"danger"
+	        	);
+	        }
+	   }
 	}
 
-	public function modificar(string $id, string $pagina="1"):void {
-		// leer los datos de tabla
+	public function caratula(string $pagina="1"):void
+	{
+		$num = $this->modelo->getNumRegistros();
+		$inicio = ($pagina-1)*TAMANO_PAGINA;
+		$totalPaginas = ceil($num/TAMANO_PAGINA);
+		$data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
+		$datos = [
+			"titulo" => "Clientes",
+			"subtitulo" => "Clientes",
+			"usuario"=>$this->usuario,
+			"data"=>$data,
+			"activo" => "clientes",
+			"pag" => [
+				"totalPaginas" => $totalPaginas,
+				"regresa" => "clientes",
+				"pagina" => $pagina
+			],
+			"menu" => true
+		];
+		$this->vista("clientesCaratulaVista",$datos);
+	}
+
+	public function modificar(string $id,string $pagina="1"):void
+	{
+		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
-		$estadoCliente = $this->modelo->getEstadoCliente();
+	    $estadoCliente = $this->modelo->getEstadoCliente();
 		$datos = [
 			"titulo" => "Modificar un cliente",
-			"subtitulo" => "Modificar un cliente",
+			"subtitulo" =>"Modificar un cliente",
 			"menu" => true,
 			"admon" => true,
-			"usuario"=>$this->usuario,
+			"usuario" => $this->usuario,
 			"activo" => "clientes",
-		    "estadoCliente" => $estadoCliente,
+			"estadoCliente" => $estadoCliente,
+			"pagina" => $pagina,
 			"data" => $data
 		];
 		$this->vista("clientesAltaVista",$datos);
 	}
-	
 }
 ?>
