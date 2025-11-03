@@ -1,77 +1,90 @@
-<?php
+<?php  
+/**
+ * 
+ */
+class Helper
+{
+	
+	function __construct(){}
 
-    class Helper {
+	public static function cadena($cadena){
+		//
+		$buscar  = array('^', 'delete', 'drop','truncate','exec','system');
+		$reemplazar = array('-', 'dele*te', 'dr*op','truneca*te','ex*ec','syst*em');
+		$cadena = trim(str_replace($buscar, $reemplazar, $cadena));
+		$cadena = addslashes(htmlentities($cadena));
+		return $cadena;
+	}
 
-        function __construct(){}
+	public static function correo($correo='')
+	{
+		return filter_var($correo, FILTER_VALIDATE_EMAIL);
+	}
 
-        public static function cadena($cadena) {
-            $buscar = array('^','delete','drop','truncate','exec','system');
-            $reemplazar = array('-','dele*te','dr*op','trun*cate','ex*ec','syst*em');
-            $cadena = trim(str_replace($buscar,$reemplazar,$cadena));
-            $cadena = addslashes(htmlentities($cadena));
-            return $cadena;
-        }
+	public static function encriptar(string $data):string
+	{
+		return base64_encode(LLAVE1.$data.LLAVE2);
+	}
 
-        public static function correo($correo='') {
-            return filter_var($correo, FILTER_VALIDATE_EMAIL);
-        }
+	public static function desencriptar(string $data):string
+	{
+		$cadena = base64_decode($data);
+		if (str_contains($cadena, LLAVE1)) {
+			$cadena = str_replace(LLAVE1,"",$cadena);
+			if (str_contains($cadena, LLAVE2)) {
+				$cadena = str_replace(LLAVE2,"",$cadena);
+			} else{
+				$cadena = "error";
+			}
+		} else{
+			$cadena = "error";
+		}
+		return $cadena;
+	}
 
-        public static function fecha(string $cadena):bool {
-           //ISO AAAA-MM-DD
-            $salida = false;
-            if ($cadena!="") {
-                $fecha_array = explode("-", $cadena);
-                $salida = checkdate($fecha_array[1], $fecha_array[2], $fecha_array[0]);
-            }
-            return $salida;
-        }
+	public static function fecha(string $cadena=""):bool{
+		//ISO AAAA-MM-DD
+		$salida = false;
+		if ($cadena!="") {
+		$fecha_array = explode("-", $cadena);
+		$salida = checkdate($fecha_array[1], $fecha_array[2], $fecha_array[0]);
+		}
+		return $salida;
+	}
 
-        public static function generarClave(int $lon):string {
-            $llave = "";
-            $cadena = "1234567890ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz+*-_";
-            $max = strlen($cadena)-1;
-            for($i = 0; $i < $lon; $i++) {
-                $llave .= substr($cadena, mt_rand(0,$max),1);
-            }
-            return $llave;
-        }
+	public static function generarClave(int $lon):string
+	{
+		$llave = "";
+		$cadena = "1234567890ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz+*-_";
+		$max = strlen($cadena)-1;
+		for($i = 0; $i < $lon; $i++){
+		  $llave .= substr($cadena, mt_rand(0,$max), 1);
+		}
+		return $llave;
+	}
 
-        public static function numero(string $cadena):string {
-            $buscar = array('','$',',');
-            $reemplazar = array('','','');
-            $numero = str_replace($buscar,$reemplazar,$cadena);
-            $numero = filter_var($numero, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-            return $numero;
-        }
+	public static function numero(string $cadena):string
+	{
+		$buscar  = array(' ', '$', ',');
+		$reemplazar = array('', '', '');
+		$numero = str_replace($buscar, $reemplazar, $cadena);
+		$numero = filter_var($numero, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+		return $numero;
+	}
 
-        public static function mostrar($data, $detener=true):void {
-            print "<pre>";
-            var_dump($data);
-            print "</pre>";
-            if($detener) {
-                exit();
-            }
-        }
+	public static function mostrar($data,$detener=true):void
+	{
+		print "<pre>";
+		var_dump($data);
+		print "</pre>";
+		if ($detener) {
+			exit();
+		}
+	}
 
-        public static function encriptar(string $data): string {
-            return base64_encode(LLAVE1.$data.LLAVE2);
-        }
+	
+}
 
-        public static function desencriptar(string $data):string {
-            $cadena = base64_decode($data);
-            if(str_contains($cadena, LLAVE1)){
-                $cadena = str_replace(LLAVE1,"",$cadena);
-                if(str_contains($cadena, LLAVE2)){
-                    $cadena = str_replace(LLAVE2,"",$cadena);
-                }else {
-                    $cadena = "error";
-                }
-            }else {
-                $cadena = "error";
-            }
-            return $cadena;
-        }
 
-    }
 
 ?>
