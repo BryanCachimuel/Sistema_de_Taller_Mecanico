@@ -233,6 +233,27 @@ class OrdenAlmacen extends Controlador
 		
 	}
 
+	public function borrarPieza(string $idPieza='', string $pag="1"):void {
+		if ($idPieza=="") {
+			Helper::mostrar("Error fatal :0");
+		} else {
+			$piezaDetalle = $this->modelo->getPiezaDetalle($idPieza);
+			$datos = [
+				"titulo" => "Baja de una pieza",
+				"subtitulo" => "Baja de una pieza",
+				"menu" => true,
+				"admon" => true,
+				"errores" => [],
+				"activo" => 'ordenalmacen',
+				"data" => $piezaDetalle,
+				"pag" => $pag,
+				"baja" => true
+			];
+			$this->vista("ordenAlmacenBajaPiezaVista", $datos);
+		}
+		
+	}
+
 	public function caratula(string $pagina="1"):void
 	{
 		$num = $this->modelo->getNumRegistros();
