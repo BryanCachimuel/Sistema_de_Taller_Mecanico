@@ -1,5 +1,5 @@
 <?php include_once("encabezado.php"); ?>
-  <form action="<?php print RUTA; ?>ordenAlmacen/altaOrdenAlmacenPieza/" method="POST" enctype="multipart/form-data">
+  <form action="<?php print RUTA; ?>ordenAlmacen/altaOrdenAlmacenPieza/" method="POST">
   <div class="form-group text-left">
     <label for="idPieza">* Pieza:</label>
     <select class="form-control" name="idPieza" id="idPieza" 
