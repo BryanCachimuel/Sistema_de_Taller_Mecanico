@@ -208,6 +208,31 @@ class OrdenAlmacen extends Controlador
 	   }
 	}
 
+	public function borrarOrdenAlmacen(string $idOrdenAlmacen=''):void {
+		if ($this->modelo->borrarPiezasOrdenAlmacen($idOrdenAlmacen)) {
+			if($this->modelo->bajaLogica($idOrdenAlmacen)) {
+				$this->caratula();
+			}else {
+				$this->mensaje(
+					"Error al borrar orden de almacén",
+					"Error al borrar orden de almacén",
+					"Error al borrar orden de almacén: ".$idOrdenAlmacen,
+					"ordenalmacen/".$pag,
+					"danger"
+				);
+			}
+		} else {
+			$this->mensaje(
+					"Error al borrar orden de almacén",
+					"Error al borrar orden de almacén",
+					"Error al borrar las piezas de orden de almacén: ".$idOrdenAlmacen,
+					"ordenalmacen/".$pag,
+					"danger"
+				);
+		}
+		
+	}
+
 	public function caratula(string $pagina="1"):void
 	{
 		$num = $this->modelo->getNumRegistros();
