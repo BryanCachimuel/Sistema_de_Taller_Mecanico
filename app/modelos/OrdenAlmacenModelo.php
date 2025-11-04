@@ -63,6 +63,11 @@ class OrdenAlmacenModelo
 		return $salida;
 	}
 
+	public function borrarPiezasOrdenAlmacen(string $idOrdenAlmacen):bool {
+		$sql = "DELETE FROM ordenAlmacenDetalle WHERE idOrdenAlmacen=".$idOrdenAlmacen;
+		return $this->db->queryNoSelect($sql);
+	}
+
 	public function calcularTotal(string $idOrdenAlmacen):float {
 		$sql = "SELECT SUM(o.costo) as total ";
 		$sql.= "FROM OrdenAlmacenDetalle as o ";
