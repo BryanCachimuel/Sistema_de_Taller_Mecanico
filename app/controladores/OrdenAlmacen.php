@@ -294,5 +294,34 @@ class OrdenAlmacen extends Controlador
 	    ];
 	    $this->vista("ordenAlmacenMostrarVista",$datos);
 	}
+
+	public function terminarOrdenAlmacen(string $idOrdenAlmacen='',string $pag="1"): void {
+		$total = $this->modelo->calcularTotal($idOrdenAlmacen);
+		if ($this->modelo->actualizarTotal($idOrdenAlmacen,$total)) {
+			$detalle = $this->modelo->getOrdenAlmacenDetalle($idOrdenAlmacen);
+			for($i=0; $i < count($detalle); $i++) {
+				if(!$this->modelo->actualizarInventario($detalle[$i]["idPieza"],$detalle[$i]["cantidad"])) {
+					$this->mensaje(
+						"Error al actualizar el total en la órden de almacén",
+						"Error al actualizar el total en la órden de almacén",
+						"Error al actualizar el total en la órden de almacén",
+						"ordenAlmacen/".$pag,
+						"danger"
+					);
+				}
+			}
+			$this->caratula();
+			exit;
+		} else {
+			$this->mensaje(
+				"Error al actualizar el total en la órden de almacén",
+				"Error al actualizar el total en la órden de almacén",
+				"Error al actualizar el total en la órden de almacén",
+				"ordenAlmacen/".$pag,
+				"danger"
+			);
+		}
+		
+	}
 }
 ?>
