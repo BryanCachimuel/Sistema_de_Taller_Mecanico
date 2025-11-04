@@ -48,6 +48,13 @@ class OrdenAlmacenModelo
 		return $this->db->queryNoSelect($sql);
 	}
 
+	public function actualizarInventario(string $idPieza, float $cantidad):bool {
+		$sql = "UPDATE piezas ";
+		$sql.= "SET stock=stock-".$cantidad;
+		$sql.= " WHERE id=".$idPieza;
+		return $this->db->queryNoSelect($sql);
+	}
+
 	public function bajaLogica(string $id):bool
 	{
 		$salida = false;
@@ -56,8 +63,7 @@ class OrdenAlmacenModelo
 		return $salida;
 	}
 
-	public function calcularTotal($idOrdenAlmacen)
-	{
+	public function calcularTotal(string $idOrdenAlmacen):float {
 		$sql = "SELECT SUM(o.costo) as total ";
 		$sql.= "FROM OrdenAlmacenDetalle as o ";
 		$sql.= "WHERE o.idOrdenAlmacen=".$idOrdenAlmacen;
