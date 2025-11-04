@@ -122,6 +122,17 @@ class OrdenAlmacenModelo
 		return $this->db->query($sql);
 	}
 
+	public function getPiezaDetalle(string $id=''):array {
+		if(empty($id)) return [];
+		$sql = "SELECT o.id, o.idOrdenAlmacen, o.idPieza, o.cantidad, o.costo, ";
+		$sql.= "p.nombrePieza, a.idOrdenReparacion ";
+		$sql.= "FROM ordenalmacendetalle as o, ordenalmacen as a, piezas as p ";
+		$sql.= "WHERE o.id='".$id."' AND ";
+		$sql.= "o.idOrdenAlmacen = a.id AND ";
+		$sql.= "o.idPieza = p.id";
+		return $this->db->query($sql);
+	}
+
 	public function getNumRegistros():int
 	{
 		$sql = "SELECT COUNT(*) FROM ordenalmacen WHERE baja=0";
