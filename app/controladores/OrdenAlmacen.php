@@ -230,6 +230,19 @@ class OrdenAlmacen extends Controlador
 		$this->vista("ordenAlmacenCaratulaVista",$datos);
 	}
 
+	public function cancelarOrdenAlmacen(string $idOrdenAlmacen=''): void {
+		$this->mensaje(
+			"Cancelar la órden de almacén",
+			"Cancelar la órden de almacén",
+			"¿Desea cancelar la órden de almacén? Se borrará definitivamente del sistema",
+			"ordenalmacen/mostrarOrdenAlmacen/".$idOrdenAlmacen,
+			"success",
+			"ordenalmacen/borrarOrdenAlmacen/".$idOrdenAlmacen,
+			"danger",
+			"Cancelar la órden de almacén"
+		);
+	}	
+
 	public function modificar(string $id,string $pagina="1"):void
 	{
 		//Leemos los datos de la tabla
