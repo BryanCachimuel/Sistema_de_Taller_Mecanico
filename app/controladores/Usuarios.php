@@ -1,12 +1,14 @@
 <?php  
-
-class Usuarios extends Controlador {
-
-	private $usuario = "";
-    private $modelo = "";
+/**
+ * 
+ */
+class Usuarios extends Controlador
+{
+	private $modelo = "";
 	private $sesion;
 	
-	function __construct() {
+	function __construct()
+	{
 		//Creamos sesion
 		$this->sesion = new Sesion();
 		if ($this->sesion->getLogin()) {
@@ -15,28 +17,6 @@ class Usuarios extends Controlador {
 		} else {
 			header("location:".RUTA);
 		}
-	}
-
-	
-	public function caratula(string $pagina="1"):void {
-		$num = $this->modelo->getNumRegistros();
-		$inicio = ($pagina-1)*TAMANO_PAGINA;
-		$totalPaginas = ceil($num/TAMANO_PAGINA);
-        $data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
- 		$datos = [
-			"titulo" => "Usuarios taller mecánico",
-			"subtitulo" => "Usuarios taller mecánico",
-			"usuario"=>$this->usuario,
-			"data"=> $data,
-			"activo" => "usuarios",
-			"pag" => [
-				"totalPaginas" => $totalPaginas,
-				"regresa" => "usuarios",
-				"pagina" => $pagina
-			],
-			"menu" => true
-		];
-		$this->vista("usuariosCaratulaVista",$datos);
 	}
 
 	public function alta(){
@@ -97,62 +77,60 @@ class Usuarios extends Controlador {
 	        //Enviamos al modelo
 	        if(trim($id)===""){
 	          //Alta
-			  $id = $this->modelo->alta($data);
-
-			  if($id>0) {
-				$data["id"] = $id;
-				if($this->enviarCorreo($data)) {
-					$this->mensaje(
-						"Alta de un usuario", 
+	          $id = $this->modelo->alta($data);
+	          if ($id>0) {
+	            $data["id"] = $id;
+	          	if ($this->enviarCorreo($data)) {
+		            $this->mensaje(
+		          		"Alta de un usuario", 
 		          		"Alta de un usuario", 
 		          		"Se añadió correctamente el usuario: ".$nombres." ".$apellidos, 
 		          		"usuarios/".$pagina, 
 		          		"success"
-					);
-				} else {
-					$this->mensaje(
-						"Error al enviar el correo al usuario.", 
-						"Error al enviar el correo al usuario.", 
-						"Error al enviar el correo al usuario: ".$nombres." ".$apellidos, 
-						"usuarios/".$pagina,
-						"danger"
+		          	);
+		        } else {
+		        	$this->mensaje(
+	          		"Error al enviar el correo al usuario.", 
+	          		"Error al enviar el correo al usuario.", 
+	          		"Error al enviar el correo al usuario: ".$nombres." ".$apellidos, 
+	          		"usuarios/".$pagina,
+	          		"danger"
 	          		);
-				}
-			  } else {
-				$this->mensaje(
+		        }
+	          } else {
+	          	$this->mensaje(
 	          		"Error al añadir el usuario.", 
 	          		"Error al añadir el usuario.", 
 	          		"Error al modificar el usuario: ".$nombres." ".$apellidos, 
 	          		"usuarios/".$pagina,
 	          		"danger"
 	          	);
-			  }
-	          Helper::mostrar($data);
+	          }
 	        } else {
 			  //Modificar
-			  if($this->modelo->modificar($data)){
-				$this->mensaje(
-					"Modificar el usuario", 
-		          	"Modificar el usuario", 
-		          	"Se modifico correctamente el usuario: ".$nombres." ".$apellidos, 
-		          	"usuarios/".$pagina, 
-		          	"success"
-				);
-			  }else {
-				$this->mensaje(
-					"Error al modificar el usuario.", 
-	          		"Error al modificar el usuario.", 
-	          		"Error al modificar el usuario: ".$nombres." ".$apellidos, 
-	          		"usuarios/".$pagina,
-	          		"danger"
-				);
-			  }
+			  if ($this->modelo->modificar($data)) {
+					$this->mensaje(
+							"Modificar el usuario", 
+							"Modificar el usuario", 
+							"Se modificó correctamente el usuario: ".$nombres." ".$apellidos,
+							"usuarios/".$pagina, 
+							"success"
+						);
+				} else {
+					$this->mensaje(
+						"Error al modificar el usuario.", 
+						"Error al modificar el usuario.", 
+						"Error al modificar el usuario: ".$nombres." ".$apellidos, 
+						"usuarios/".$pagina, 
+						"danger"
+					);
+				}
 	        }
 	      }
 	    }
 	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
 	    	//Vista Alta
-	    	$tiposUsuarios = $this->modelo->getTipoUsuarios();
+	    	$tiposUsuarios = $this->modelo->getTiposUsuarios();
 	    	$generos = $this->modelo->getGeneros();
 	    	$estadosUsuarios = $this->modelo->getEstadosUsuarios();
 		    $datos = [
@@ -170,75 +148,101 @@ class Usuarios extends Controlador {
 		    ];
 		    $this->vista("usuariosAltaVista",$datos);
 	    }
-	}
+  	}
 
-	public function borrar(string $id="", string $pagina="1"):void {
-		// leer datos del registro del id
+
+	public function borrar(string $id="",string $pagina="1"):void 
+	{
+		//Leemos los datos del registro del id
 		$data = $this->modelo->getId($id);
-		$tiposUsuarios = $this->modelo->getTipoUsuarios();
-	    $generos = $this->modelo->getGeneros();
-	    $estadosUsuarios = $this->modelo->getEstadosUsuarios();
+		$tiposUsuarios = $this->modelo->getTiposUsuarios();
+    	$generos = $this->modelo->getGeneros();
+    	$estadosUsuarios = $this->modelo->getEstadosUsuarios();
 		$datos = [
-			"titulo" => "Baja de un usuario",
-			"subtitulo" => "Baja de un usuario",
-			"menu" => true,
-			"admon" => true,
-			"usuario"=>$this->usuario,
-			"errores"=>[],
-			"data"=>$data,
-			"activo" => "usuarios",
-			"pagina"=>$pagina,
-			"tiposUsuarios" => $tiposUsuarios,
-		    "estadosUsuarios" => $estadosUsuarios,
-		    "generos" => $generos,
-			"baja"=>true,
+		  "titulo" => "Baja de un usuario",
+		  "subtitulo" => "Baja de un usuario",
+		  "menu" => true,
+		  "admon" => true,
+		  "usuario" => $this->usuario,
+		  "errores" => [],
+		  "activo" => 'usuarios',
+		  "data" => $data,
+		  "pagina" => $pagina,
+		  "tiposUsuarios" => $tiposUsuarios,
+		  "estadosUsuarios" => $estadosUsuarios,
+		  "generos" => $generos,
+		  "baja" => true
 		];
 		$this->vista("usuariosAltaVista",$datos);
 	}
 
-	public function bajaLogica(string $id='', string $pagina="1"):void {
-		if(isset($id) && $id!="") {
-			if($this->modelo->bajaLogica($id)) {
+	public function bajaLogica(string $id='',string $pagina="1"):void
+	{
+		if (isset($id) && $id!="") {
+			if ($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
-					"Baja de un usuario",
-					"Baja de un usuario",
-					"Se borró correctamente al usuario: ".$id,
-					"usuarios/".$pagina,
+					"Baja de un usuario", 
+					"Baja de un usuario", 
+					"Se borró correctamente al usuario: ".$id, 
+					"usuarios/".$pagina, 
 					"success"
 				);
-			} else {
-				$this->mensaje(
-					"Baja de un usuario",
-					"Baja de un usuario",
-					"Error al borrar al usuario: ".$id,
-					"usuarios/".$pagina,
-					"danger"
-				);
-			}
-			
-		}
+	        } else {
+	        	$this->mensaje(
+	        		"Baja de un usuario", 
+	        		"Baja de un usuario", 
+	        		"Error al borrar al usuario: ".$id, 
+	        		"usuarios/".$pagina,
+	        		"danger"
+	        	);
+	        }
+	   }
 	}
 
-	public function modificar(string $id, string $pagina="1"):void {
-		// leer los datos de tabla
+
+	public function caratula(string $pagina="1"):void
+	{
+		$num = $this->modelo->getNumRegistros();
+		$inicio = ($pagina-1)*TAMANO_PAGINA;
+		$totalPaginas = ceil($num/TAMANO_PAGINA);
+		$data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
+		$datos = [
+			"titulo" => "Usuarios taller mecánico",
+			"subtitulo" => "Usuarios taller mecánico",
+			"usuario"=>$this->usuario,
+			"data"=>$data,
+			"activo" => "usuarios",
+			"pag" => [
+				"totalPaginas" => $totalPaginas,
+				"regresa" => "usuarios",
+				"pagina" => $pagina
+			],
+			"menu" => true
+		];
+		$this->vista("usuariosCaratulaVista",$datos);
+	}
+
+	public function modificar(string $id,string $pagina="1"):void
+	{
+		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
-		$tiposUsuarios = $this->modelo->getTipoUsuarios();
-	    $generos = $this->modelo->getGeneros();
-	    $estadosUsuarios = $this->modelo->getEstadosUsuarios();
+		$tiposUsuarios = $this->modelo->getTiposUsuarios();
+    	$generos = $this->modelo->getGeneros();
+    	$estadosUsuarios = $this->modelo->getEstadosUsuarios();
 		$datos = [
 			"titulo" => "Modificar un usuario",
-			"subtitulo" => "Modificar un usuario",
+			"subtitulo" =>"Modificar un usuario",
 			"menu" => true,
 			"admon" => true,
-			"usuario"=>$this->usuario,
+			"usuario" => $this->usuario,
 			"activo" => "usuarios",
 			"tiposUsuarios" => $tiposUsuarios,
-		    "estadosUsuarios" => $estadosUsuarios,
-		    "generos" => $generos,
+			"estadosUsuarios" => $estadosUsuarios,
+			"generos" => $generos,
+			"pagina" => $pagina,
 			"data" => $data
 		];
 		$this->vista("usuariosAltaVista",$datos);
 	}
-	
 }
 ?>

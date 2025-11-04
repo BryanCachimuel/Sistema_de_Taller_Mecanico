@@ -1,12 +1,15 @@
 <?php  
-
-class Vehiculos extends Controlador {
-
-	private $usuario = "";
-    private $modelo = "";
+/**
+ * 
+ */
+class Vehiculos extends Controlador
+{
+	private $modelo = "";
+	private $usuario;
 	private $sesion;
 	
-	function __construct() {
+	function __construct()
+	{
 		//Creamos sesion
 		$this->sesion = new Sesion();
 		if ($this->sesion->getLogin()) {
@@ -15,28 +18,6 @@ class Vehiculos extends Controlador {
 		} else {
 			header("location:".RUTA);
 		}
-	}
-
-	
-	public function caratula(string $pagina="1"):void {
-		$num = $this->modelo->getNumRegistros();
-		$inicio = ($pagina-1)*TAMANO_PAGINA;
-		$totalPaginas = ceil($num/TAMANO_PAGINA);
-        $data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
- 		$datos = [
-			"titulo" => "Vehículos",
-			"subtitulo" => "Vehículos",
-			"usuario"=>$this->usuario,
-			"data"=> $data,
-			"activo" => "vehiculos",
-			"pag" => [
-				"totalPaginas" => $totalPaginas,
-				"regresa" => "vehiculos",
-				"pagina" => $pagina
-			],
-			"menu" => true
-		];
-		$this->vista("vehiculosCaratulaVista",$datos);
 	}
 
 	public function alta(){
@@ -61,16 +42,13 @@ class Vehiculos extends Controlador {
 	        array_push($errores,"La marca del vehículo es requerida.");
 	      }
 	      if(empty($modelo)){
-	        array_push($errores,"El modelo del vehículo es requeridos.");
-	      }
-		  if($idCliente=="void"){
-	        array_push($errores,"El color del vehículo es obligatorio.");
+	        array_push($errores,"El modelo del vehículo es requerido.");
 	      }
 	      if(empty($anio)){
 	        array_push($errores,"El año del vehículo es requerido.");
 	      }
-		  if(empty($placas)){
-	        array_push($errores,"La placa del vehículo es requerida.");
+	      if($color=="void"){
+	        array_push($errores,"El color del vehículo es obligatorio.");
 	      }
 	      if($idCliente=="void"){
 	        array_push($errores,"El cliente es obligatorio.");
@@ -148,66 +126,89 @@ class Vehiculos extends Controlador {
 	    }
   	}
 
-
-	public function borrar(string $id="", string $pagina="1"):void {
-		// leer datos del registro del id
+	public function borrar(string $id="",string $pagina="1"):void 
+	{
+		//Leemos los datos del registro del id
 		$data = $this->modelo->getId($id);
 		$clientes = $this->modelo->getClientes();
 		$datos = [
-			"titulo" => "Baja de un vehículo",
-			"subtitulo" => "Baja de un vehículo",
-			"menu" => true,
-			"admon" => true,
-			"usuario"=>$this->usuario,
-			"errores"=>[],
-			"data"=>$data,
-			"activo" => "vehiculos",
-			"pagina"=>$pagina,
-		    "clientes" => $clientes,
-			"baja"=>true,
+		  "titulo" => "Baja de un vehículo",
+		  "subtitulo" => "Baja de un vehículo",
+		  "menu" => true,
+		  "admon" => true,
+		  "usuario" => $this->usuario,
+		  "errores" => [],
+		  "activo" => 'vehiculos',
+		  "data" => $data,
+		  "pagina" => $pagina,
+		  "clientes" => $clientes,
+		  "baja" => true
 		];
 		$this->vista("vehiculosAltaVista",$datos);
 	}
 
-	public function bajaLogica(string $id='', string $pagina="1"):void {
-		if(isset($id) && $id!="") {
-			if($this->modelo->bajaLogica($id)) {
+	public function bajaLogica(string $id='',string $pagina="1"):void
+	{
+		if (isset($id) && $id!="") {
+			if ($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
-					"Baja de un vehículo",
-					"Baja de un vehículo",
-					"Se borró correctamente al vehículo: ".$id,
-					"vehiculos/".$pagina,
+					"Baja de un vehículo", 
+					"Baja de un vehículo", 
+					"Se borró correctamente al vehículo: ".$id, 
+					"vehiculos/".$pagina, 
 					"success"
 				);
-			} else {
-				$this->mensaje(
-					"Baja de un vehículo",
-					"Baja de un vehículo",
-					"Error al borrar al vehículo: ".$id,
-					"vehiculos/".$pagina,
-					"danger"
-				);
-			}
-			
-		}
+	        } else {
+	        	$this->mensaje(
+	        		"Baja de un vehículo", 
+	        		"Baja de un vehículo", 
+	        		"Error al borrar al vehículo: ".$id, 
+	        		"vehiculos/".$pagina,
+	        		"danger"
+	        	);
+	        }
+	   }
 	}
 
-	public function modificar(string $id, string $pagina="1"):void {
-		// leer los datos de tabla
+	public function caratula(string $pagina="1"):void
+	{
+		$num = $this->modelo->getNumRegistros();
+		$inicio = ($pagina-1)*TAMANO_PAGINA;
+		$totalPaginas = ceil($num/TAMANO_PAGINA);
+		$data = $this->modelo->getTabla($inicio,TAMANO_PAGINA);
+		$datos = [
+			"titulo" => "Vehículos",
+			"subtitulo" => "Vehículos",
+			"usuario"=>$this->usuario,
+			"data"=>$data,
+			"activo" => "vehiculos",
+			"pag" => [
+				"totalPaginas" => $totalPaginas,
+				"regresa" => "vehiculos",
+				"pagina" => $pagina
+			],
+			"menu" => true
+		];
+		$this->vista("vehiculosCaratulaVista",$datos);
+	}
+
+	public function modificar(string $id,string $pagina="1"):void
+	{
+		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
-		$clientes = $this->modelo->getClientes();
+	    $clientes = $this->modelo->getClientes();
 		$datos = [
 			"titulo" => "Modificar un vehículo",
-			"subtitulo" => "Modificar un vehículo",
+			"subtitulo" =>"Modificar un vehículo",
 			"menu" => true,
 			"admon" => true,
-			"usuario"=>$this->usuario,
+			"usuario" => $this->usuario,
 			"activo" => "vehiculos",
-		    "clientes" => $clientes,
+			"clientes" => $clientes,
+			"pagina" => $pagina,
 			"data" => $data
 		];
 		$this->vista("vehiculosAltaVista",$datos);
 	}
-	
 }
 ?>
