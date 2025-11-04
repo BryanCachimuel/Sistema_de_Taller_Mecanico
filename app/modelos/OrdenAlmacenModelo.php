@@ -41,6 +41,13 @@ class OrdenAlmacenModelo
 		return $this->db->queryNoSelect($sql);
 	}
 
+	public function actualizarTotal(string $idOrdenAlmacen, float $total): bool {
+		$sql = "UPDATE ordenAlmacen ";
+		$sql.= "SET costo=".$total." ";
+		$sql.= "WHERE id=".$idOrdenAlmacen;
+		return $this->db->queryNoSelect($sql);
+	}
+
 	public function bajaLogica(string $id):bool
 	{
 		$salida = false;
