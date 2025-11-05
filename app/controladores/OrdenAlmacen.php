@@ -320,6 +320,23 @@ class OrdenAlmacen extends Controlador
 		);
 	}	
 
+	public function desplegarOrdenAlmacen(string $idOrdenAlmacen='', string $pag="1"):void {
+		$data = $this->modelo->getId($idOrdenAlmacen);
+		$detalle = $this->modelo->getOrdenAlmacenDetalle($idOrdenAlmacen);
+		$datos = [
+			"titulo" => "Detalle de una órden de almacén",
+			"subtitulo" => "Detalle de una órden de almacén",
+			"activo" => "ordenalmacen",
+			"menu" => true,
+			"admon" => true,
+			"pag" => 1,
+			"detalle" => $detalle,
+			"data" => $data
+		];
+		$this->vista("ordenAlmacenDesplegarVista", $datos);
+	}
+
+
 	public function modificar(string $id,string $pagina="1"):void
 	{
 		//Leemos los datos de la tabla
