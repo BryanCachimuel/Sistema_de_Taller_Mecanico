@@ -250,12 +250,43 @@ class OrdenAlmacen extends Controlador
 				"baja" => true
 			];
 			$this->vista("ordenAlmacenBajaPiezaVista", $datos);
-		}
-		
+		}	
 	}
 
-	public function caratula(string $pagina="1"):void
-	{
+	public function borrarOrdenAlmacenPieza():void {
+		/* llamada desde: ordenAlmacenBajaPiezaVista */
+		/* definir los arreglos */
+		$data = array();
+	    $errores = array();
+		if($_SERVER['REQUEST_METHOD'] == "POST") {
+			$idOrdenAlmacen = $_POST['idOrdenAlmacen'] ?? "";
+			$idOrdenAlmacenDetalle = $_POST['idOrdenAlmacenDetalle'] ?? "";
+			$idPieza = Helper::cadena($_POST['idPieza'] ?? "");
+			$pieza = Helper::cadena($_POST['pieza'] ?? "");
+			$cantidad = Helper::cadena($_POST['cantidad'] ?? "");
+			$pag = Helper::cadena($_POST['pag'] ?? "");
+
+			if($this->modelo->bajaPiezaLogica($idOrdenAlmacenDetalle)) {
+				$this->mensaje(
+					"Baja de la pieza del órden de almacen",
+					"Baja de la pieza del órden de almacen",
+					"Se borró correctamente la pieza del órden de almacén: ".$pieza,
+					"ordenalmacen/mostrarOrdenAlmacen/".$idOrdenAlmacen,
+					"success"
+				);
+			}else {
+				$this->mensaje(
+					"Baja de una orden de almacén",
+					"Baja de una orden de almacén",
+					"Error al borrar la pieza de órden de almacén: ".$idOrdenAlmacen,
+					"ordenalmacen/".$pag,
+					"danger"
+				);
+			}
+		}
+	}
+
+	public function caratula(string $pagina="1"):void {
 		$num = $this->modelo->getNumRegistros();
 		$inicio = ($pagina-1)*TAMANO_PAGINA;
 		$totalPaginas = ceil($num/TAMANO_PAGINA);
