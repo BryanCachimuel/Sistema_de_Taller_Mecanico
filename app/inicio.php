@@ -36,12 +36,13 @@ define('MECANICO_VACACIONES',3);
 define('CLIENTE_ACTIVO',1);
 define('CLIENTE_INACTIVO',2);
 //
-// Orden de Reparación
+//Estado Orden Reparacion
+//
 define('ORDEN_ABIERTA',1);
 define('ORDEN_FACTURADA',2);
-
-date_default_timezone_set('America/Guayaquil');
-
+//
+date_default_timezone_set('America/Mexico_City');
+//
 require_once("libs/Helper.php");
 require_once("libs/Sesion.php");
 require_once("libs/Controlador.php");
