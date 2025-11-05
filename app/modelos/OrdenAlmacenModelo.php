@@ -85,6 +85,11 @@ class OrdenAlmacenModelo
 		return $this->db->query($sql);
 	}
 
+	public function bajaPiezaLogica(string $id):bool {
+		$sql = "DELETE FROM ordenAlmacenDetalle WHERE id=".$id;
+		return $this->db->queryNoSelect($sql);
+	}
+
 	public function getOrdenAlmacenDetalle(string $idOrdenAlmacen=''):array
 	{
 		$sql = "SELECT o.id, o.idOrdenAlmacen, o.idPieza, o.cantidad, ";
