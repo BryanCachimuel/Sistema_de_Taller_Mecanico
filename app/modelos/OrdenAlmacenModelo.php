@@ -67,6 +67,11 @@ class OrdenAlmacenModelo
 		$sql = "DELETE FROM ordenAlmacenDetalle WHERE idOrdenAlmacen=".$idOrdenAlmacen;
 		return $this->db->queryNoSelect($sql);
 	}
+	
+	public function bajaPiezaLogica(string $id):bool {
+		$sql = "DELETE FROM ordenAlmacenDetalle WHERE id=".$id;
+		return $this->db->queryNoSelect($sql);
+	}
 
 	public function calcularTotal(string $idOrdenAlmacen):float {
 		$sql = "SELECT SUM(o.costo) as total ";
@@ -83,11 +88,6 @@ class OrdenAlmacenModelo
 		$sql.= "FROM ordenalmacen ";
 		$sql.= "WHERE id='".$id."' AND baja=0";
 		return $this->db->query($sql);
-	}
-
-	public function bajaPiezaLogica(string $id):bool {
-		$sql = "DELETE FROM ordenAlmacenDetalle WHERE id=".$id;
-		return $this->db->queryNoSelect($sql);
 	}
 
 	public function getOrdenAlmacenDetalle(string $idOrdenAlmacen=''):array
@@ -156,8 +156,7 @@ class OrdenAlmacenModelo
 		return $this->db->querySelect($sql);
 	}
 
-	public function modificar(array $data):bool
-	{
+	public function modificar(array $data):bool {
 		$salida = false;
 	    if (!empty($data["id"])) {
 		    $sql = "UPDATE ordenalmacen SET "; 
