@@ -156,6 +156,13 @@ class OrdenAlmacenModelo
 		return $this->db->querySelect($sql);
 	}
 
+	public function regresarPiezasOrdenAlmacen(string $idPieza, string $cantidad): bool {
+		$sql = "UPDATE piezas ";
+		$sql.= "SET stock=stock+".intval($cantidad);
+		$sql.= " WHERE id=".$idPieza;
+		return $this->db->queryNoSelect($sql);
+	}
+
 	public function modificar(array $data):bool {
 		$salida = false;
 	    if (!empty($data["id"])) {
