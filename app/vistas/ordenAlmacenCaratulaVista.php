@@ -4,7 +4,7 @@
   <thead>
     <tr>
     <th>id</th>
-    <th>Orden Reparación</th>
+    <th>Vehículo</th>
     <th>Costo</th>
     <th>Fecha</th>
     <th>Mostrar</th>
@@ -16,8 +16,8 @@
     for($i=0; $i<count($datos['data']); $i++){
       print "<tr>";
       print "<td class='text-start'>".$datos["data"][$i]['id']."</td>";
-      print "<td class='text-start'>".$datos["data"][$i]['idOrdenReparacion']."</td>";
-      print "<td class='text-start'>".$datos["data"][$i]['costo']."</td>";
+      print "<td class='text-start'>".$datos["data"][$i]['vehiculo']."</td>";
+      print "<td class='text-start'>$".number_format($datos["data"][$i]['costo'],2)."</td>";
       print "<td class='text-start'>".$datos["data"][$i]['alta_dt']."</td>";
       print "<td><a href='".RUTA."ordenAlmacen/desplegarOrdenAlmacen/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-warning'>Mostrar</a></td>";
       print "<td><a href='".RUTA."ordenAlmacen/borrar/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-danger'>Borrar</a></td>";
