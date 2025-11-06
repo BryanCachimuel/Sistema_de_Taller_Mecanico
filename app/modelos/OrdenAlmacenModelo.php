@@ -138,18 +138,19 @@ class OrdenAlmacenModelo
 		return $this->db->query($sql);
 	}
 
-	public function getNumRegistros():int
-	{
+	public function getNumRegistros():int {
 		$sql = "SELECT COUNT(*) FROM ordenalmacen WHERE baja=0";
 		$salida = $this->db->query($sql);
 		return $salida["COUNT(*)"];
 	}
 
-	public function getTabla(int $inicio=1, int $tamano=0):array
-	{
-		$sql = "SELECT o.id, o.idOrdenReparacion, o.costo, o.alta_dt ";
-		$sql.= "FROM ordenalmacen as o ";
-		$sql.= "WHERE o.baja=0 ";
+	public function getTabla(int $inicio=1, int $tamano=0):array {
+		$sql = "SELECT o.id, o.idOrdenReparacion, o.costo, o.alta_dt, ";
+		$sql.= "CONCAT(o.idOrdenReparacion,') ',v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
+		$sql.= "FROM ordenalmacen as o, ordenReparacion as r, vehiculos as v ";
+		$sql.= "WHERE o.baja=0 AND ";
+		$sql.= "o.idOrdenReparacion=r.id AND ";
+		$sql.= "r.idVehiculo=v.id";
 		if ($tamano>0) {
 			$sql.= " LIMIT ".$inicio.", ".$tamano;
 		}
@@ -161,35 +162,6 @@ class OrdenAlmacenModelo
 		$sql.= "SET stock=stock+".intval($cantidad);
 		$sql.= " WHERE id=".$idPieza;
 		return $this->db->queryNoSelect($sql);
-	}
-
-	public function modificar(array $data):bool {
-		$salida = false;
-	    if (!empty($data["id"])) {
-		    $sql = "UPDATE ordenalmacen SET "; 
-			$sql.= "idVehiculo='".$data['idVehiculo']."', ";
-			$sql.= "idMecanico='".$data['idMecanico']."', ";
-			$sql.= "fechaIngreso='".$data['fechaIngreso']."', ";
-			$sql.= "fechaSalida='".$data['fechaSalida']."', ";
-			$sql.= "kilometraje='".$data['kilometraje']."', ";;
-			$sql.= "gato='".$data['gato']."', ";
-			$sql.= "herramientas='".$data['herramientas']."', ";
-			$sql.= "triangulos='".$data['triangulos']."', ";
-			$sql.= "refaccion='".$data['refaccion']."', ";
-			$sql.= "extintor='".$data['extintor']."', ";
-			$sql.= "antena='".$data['antena']."', ";
-			$sql.= "emblemas='".$data['emblemas']."', ";
-			$sql.= "tapones='".$data['tapones']."', ";
-			$sql.= "cables='".$data['cables']."', ";
-			$sql.= "estereo='".$data['estereo']."', ";
-			$sql.= "encendedor='".$data['encendedor']."', ";
-			$sql.= "tapetes='".$data['tapetes']."', ";
-			$sql.= "cambio_dt=(NOW()) ";
-			$sql.= "WHERE id=".$data['id'];
-		    //Enviamos a la base de datos
-		    $salida = $this->db->queryNoSelect($sql);
-	    }
-	    return $salida;
 	}
 }
 ?>
