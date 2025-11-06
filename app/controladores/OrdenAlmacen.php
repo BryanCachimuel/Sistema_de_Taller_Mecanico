@@ -162,51 +162,62 @@ class OrdenAlmacen extends Controlador
 		$this->anadirPieza($idOrdenAlmacen,$idOrdenReparacion,$data,$piezas,$errores);
   	}
 
-	public function borrar(string $id="",string $pagina="1"):void 
+	public function borrar(string $idOrdenAlmacen="",string $pagina="1"):void 
 	{
 		//Leemos los datos del registro del id
-		$data = $this->modelo->getId($id);
-		$vehiculos = $this->modelo->getVehiculos();
-	   	$mecanicos = $this->modelo->getMecanicos();
+		$data = $this->modelo->getId($idOrdenAlmacen);
+		$detalle = $this->modelo->getOrdenAlmacenDetalle($idOrdenAlmacen);
 		$datos = [
-		  "titulo" => "Baja de una orden de reparación",
-		  "subtitulo" => "Baja de una orden de reparación",
+		  "titulo" => "Baja de una orden de almacén",
+		  "subtitulo" => "Baja de una orden de almacén",
 		  "menu" => true,
 		  "admon" => true,
 		  "usuario" => $this->usuario,
 		  "errores" => [],
-		  "activo" => 'ordenreparacion',
+		  "activo" => 'ordenalmacen',
 		  "data" => $data,
-		  "pagina" => $pagina,
-		  "vehiculos" => $vehiculos,
-		  "mecanicos" => $mecanicos,
+		  "detalle" => $detalle,
+		  "pag" => $pagina, 
 		  "baja" => true
 		];
-		$this->vista("ordenReparacionAltaVista",$datos);
+		$this->vista("ordenAlmacenDesplegarVista",$datos);
 	}
 
-	public function bajaLogica(string $id='',string $pagina="1"):void
-	{
+	public function bajaLogica(string $id='',string $pagina="1"):void {
 		if (isset($id) && $id!="") {
 			if ($this->modelo->bajaLogica($id)) {
-				$this->mensaje(
-					"Baja de una orden de reparación", 
-					"Baja de una orden de reparación", 
-					"Se borró correctamente la orden de reparación: ".$id, 
-					"ordenreparacion/".$pagina, 
-					"success"
-				);
-	        } else {
-	        	$this->mensaje(
-	        		"Baja de una orden de reparación", 
-	        		"Baja de una orden de reparación", 
-	        		"Error al borrar la orden de reparación: ".$id, 
-	        		"ordenreparacion/".$pagina,
-	        		"danger"
-	        	);
-	        }
+				$detalle = $this->modelo->getOrdenAlmacenDetalle($id);
+				if ($this->modelo->borrarPiezasOrdenAlmacen($id)){
+					for ($i=0; $i < count($detalle); $i++) { 
+						if (!$this->modelo->regresarPiezasOrdenAlmacen($detalle[$i]["idPieza"],$detalle[$i]["cantidad"])){
+							$this->mensaje(
+							"Baja de una orden de almacén", 
+							"Baja de una orden de almacén", 
+							"Error al borrar la orden de almacén: ".$id, 
+							"ordenalmacen/".$pagina, 
+							"success");
+						}
+					}
+					$this->mensaje(
+						"Baja de una orden de almacén", 
+						"Baja de una orden de almacén", 
+						"Se borró correctamente la orden de almacén: ".$id, 
+						"ordenalmacen/".$pagina,
+						"success"
+					);
+				} else {
+					$this->mensaje(
+						"Baja de una orden de reparación", 
+						"Baja de una orden de reparación", 
+						"Error al borrar la orden de almacén: ".$id, 
+						"ordenreparacion/".$pagina,
+						"danger"
+					);
+				}
+	        } 
 	   }
 	}
+
 
 	public function borrarOrdenAlmacen(string $idOrdenAlmacen=''):void {
 		if ($this->modelo->borrarPiezasOrdenAlmacen($idOrdenAlmacen)) {
