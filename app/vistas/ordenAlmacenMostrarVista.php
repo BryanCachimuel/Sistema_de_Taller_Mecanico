@@ -20,8 +20,8 @@
       print "<td class='text-center'>".$datos["detalle"][$i]['id']."</td>";
       print "<td class='text-start'>".$datos["detalle"][$i]['nombrePieza']."</td>";
       print "<td class='text-center'>".$datos["detalle"][$i]['cantidad']."</td>";
-      print "<td class='text-end'>".$datos["detalle"][$i]['costo']."</td>";
-      print "<td class='text-end'>".number_format($total)."</td>";
+      print "<td class='text-end'>$".number_format($datos["detalle"][$i]['costo'])."</td>";
+      print "<td class='text-end'>$".number_format($total)."</td>";
       print "<td class='text-center'><a href='".RUTA."ordenAlmacen/borrarPieza/".$datos["detalle"][$i]["id"]."/".$datos["pag"]."' class='btn btn-danger'>Borrar</a></td>";
       print "</tr>";
       $total_suma+= $total;
