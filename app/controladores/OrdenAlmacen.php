@@ -347,54 +347,7 @@ class OrdenAlmacen extends Controlador
 		$this->vista("ordenAlmacenDesplegarVista", $datos);
 	}
 
-
-	public function modificar(string $id,string $pagina="1"):void
-	{
-		//Leemos los datos de la tabla
-		$data = $this->modelo->getId($id);
-		$vehiculos = $this->modelo->getVehiculos();
-	    $mecanicos = $this->modelo->getMecanicos();
-		$datos = [
-			"titulo" => "Modificar una orden de reparación",
-			"subtitulo" =>"Modificar una orden de reparación",
-			"menu" => true,
-			"admon" => true,
-			"usuario" => $this->usuario,
-			"activo" => "ordenreparacion",
-			"vehiculos" => $vehiculos,
-		     "mecanicos" => $mecanicos,
-			"pagina" => $pagina,
-			"data" => $data
-		];
-		$this->vista("ordenReparacionAltaVista",$datos);
-	}
-
-	public function mostrar(string $id,string $pagina="1"):void
-	{
-		//Leemos los datos de la tabla
-		$data = $this->modelo->getId($id);
-		$vehiculos = $this->modelo->getVehiculos();
-	    $mecanicos = $this->modelo->getMecanicos();
-		$datos = [
-			"titulo" => "Mostrar una orden de reparación",
-			"subtitulo" =>"Mostrar una orden de reparación",
-			"menu" => true,
-			"admon" => true,
-			"usuario" => $this->usuario,
-			"activo" => "ordenreparacion",
-			"vehiculos" => $vehiculos,
-		    "mecanicos" => $mecanicos,
-			"pagina" => $pagina,
-			"data" => $data
-		];
-		$this->vista("ordenReparacionMostrarVista",$datos);
-	}
-
-	public function mostrarOrdenAlmacen(
-		string $idOrdenAlmacen='', 
-		array $data=[], 
-		array $errores=[]):void
-	{
+	public function mostrarOrdenAlmacen(string $idOrdenAlmacen='',array $data=[],array $errores=[]):void {
 		if (empty($data)) {
 			$data = $this->modelo->getId($idOrdenAlmacen);
 		}
