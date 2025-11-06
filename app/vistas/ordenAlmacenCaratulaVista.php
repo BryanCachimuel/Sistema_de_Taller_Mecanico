@@ -8,7 +8,6 @@
     <th>Costo</th>
     <th>Fecha</th>
     <th>Mostrar</th>
-    <th>Modificar</th>
     <th>Borrar</th>
   </tr>
   </thead>
@@ -21,7 +20,6 @@
       print "<td class='text-start'>".$datos["data"][$i]['costo']."</td>";
       print "<td class='text-start'>".$datos["data"][$i]['alta_dt']."</td>";
       print "<td><a href='".RUTA."ordenAlmacen/desplegarOrdenAlmacen/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-warning'>Mostrar</a></td>";
-      print "<td><a href='".RUTA."ordenAlmacen/modificar/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-info'>Modificar</a></td>";
       print "<td><a href='".RUTA."ordenAlmacen/borrar/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-danger'>Borrar</a></td>";
       print "</tr>";
     }
