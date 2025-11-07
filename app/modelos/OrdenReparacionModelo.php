@@ -48,7 +48,6 @@ class OrdenReparacionModelo
 		return $salida;
 	}
 
-
 	public function getId(string $id=''):array
 	{
 		if(empty($id)) return [];
@@ -56,6 +55,15 @@ class OrdenReparacionModelo
 		$sql.= "FROM ordenreparacion ";
 		$sql.= "WHERE id='".$id."' AND baja=0";
 		return $this->db->query($sql);
+	}
+
+	public function getPiezas(string $id=''):array {
+		$sql = "SELECT o.id, p.nombrePieza, d.cantidad, d.costo ";
+		$sql.= "FROM ordenalmacen as o, ordenalmacendetalle as d, piezas as p ";
+		$sql.= "WHERE o.idOrdenReparacion=".$id." AND o.baja=0 AND ";
+		$sql.= "o.id=d.idOrdenAlmacen AND ";
+		$sql.= "d.idPieza=p.id";
+		return $this->db->querySelect($sql);
 	}
 
 	public function getVehiculos():array
