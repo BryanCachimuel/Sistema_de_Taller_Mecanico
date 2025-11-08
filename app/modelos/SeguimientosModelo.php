@@ -10,33 +10,18 @@ class SeguimientosModelo {
 		$this->db = new MySQLdb();
 	}
 
-	public function alta(array $data=[]):bool
-	{
+	public function alta(array $data=[]):bool {
+		$salida = 0;
 		$sql = "INSERT INTO seguimientos VALUES(0,";//1. id 
-		$sql.= "'".$data['idVehiculo']."', "; 		//2. idVehiculo
-		$sql.= "'".$data['idMecanico']."', "; 		//3. idMecanico
-		$sql.= "'".$data['fechaIngreso']."', "; 	//4. fechaIngreso
-		$sql.= "'".$data['fechaSalida']."', "; 		//5. fechaSalida
-		$sql.= "'".$data['kilometraje']."', "; 		//6. kilometraje
-		$sql.= "'".$data['gato']."', "; 			//7. gato
-		$sql.= "'".$data['herramientas']."', "; 	//8. herramientas
-		$sql.= "'".$data['triangulos']."', "; 		//9. triangulos
-		$sql.= "'".$data['refaccion']."', "; 		//10. refaccion
-		$sql.= "'".$data['extintor']."', "; 		//11. extintor
-		$sql.= "'".$data['antena']."', "; 			//12. antena
-		$sql.= "'".$data['emblemas']."', "; 		//13. emblemas
-		$sql.= "'".$data['tapones']."', "; 			//14. tapones
-		$sql.= "'".$data['cables']."', "; 			//15. cables
-		$sql.= "'".$data['estereo']."', "; 			//16. estereo
-		$sql.= "'".$data['encendedor']."', "; 		//17. encendedor
-		$sql.= "'".$data['tapetes']."', "; 			//18. tapetes
-		$sql.= "'".ORDEN_ABIERTA."', "; 			//19. tapones
-		//
-		$sql.= "0, ";                   //20. baja
-		$sql.= "NOW(), ";               //21. fecha alta
-		$sql.= "'', ";                  //22. fecha baja 
-		$sql.= "'')";                   //23. fecha cambio
-		return $this->db->queryNoSelect($sql);
+		$sql.= "'".$data['idOrdenReparacion']."', ";//2. idOrdenReparacion
+		$sql.= "'".$data['fecha']."', "; 			//3. fecha
+		$sql.= "'".$data['observacion']."', "; 		//4. observacion
+		$sql.= "0) ";                   			//5. baja
+		if ($this->db->queryNoSelect($sql)) {
+			$salida = $this->db->query("SELECT LAST_INSERT_ID()");
+			$salida = $salida["LAST_INSERT_ID()"];
+		}
+		return $salida;
 	}
 
 	public function bajaLogica(string $id):bool {
