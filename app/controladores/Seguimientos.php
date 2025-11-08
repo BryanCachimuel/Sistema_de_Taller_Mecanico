@@ -20,7 +20,7 @@ class Seguimientos extends Controlador {
 		}
 	}
 
-	public function alta(){
+	public function alta(string $idOrdenReparacion=""):void {
 	   //Definir los arreglos
 	    $data = array();
 	    $errores = array();
@@ -156,24 +156,21 @@ class Seguimientos extends Controlador {
 	        }
 	      }
 	    }
-	    if(!empty($errores) || $_SERVER['REQUEST_METHOD']!="POST" ){
+	    if(!empty($idOrdenReparacion)){
 	    	//Vista Alta
-	    	$vehiculos = $this->modelo->getVehiculos();
-	    	$mecanicos = $this->modelo->getMecanicos();
 		    $datos = [
-		      "titulo" => "Alta de una orden de reparación",
-		      "subtitulo" => "Alta de una orden de reparación",
-		      "activo" => "ordenreparacion",
+		      "titulo" => "Seguimiento de una orden de reparación",
+		      "subtitulo" => "Seguimiento de una orden de reparación",
+		      "activo" => "seguimientos",
 		      "menu" => true,
 		      "admon" => true,
 		      "usuario" => $this->usuario,
 		      "errores" => $errores,
-		      "vehiculos" => $vehiculos,
-		      "mecanicos" => $mecanicos,
+			  "idOrdenReparacion" => $idOrdenReparacion,
 		      "pagina" => 1,
 		      "data" => $data
 		    ];
-		    $this->vista("ordenReparacionAltaVista",$datos);
+		    $this->vista("seguimientosAltaVista",$datos);
 	    }
   	}
 
