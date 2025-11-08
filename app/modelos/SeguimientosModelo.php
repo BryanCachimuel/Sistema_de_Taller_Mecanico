@@ -54,8 +54,8 @@ class SeguimientosModelo {
 		return $this->db->query($sql);
 	}
 
-	public function getNumRegistros():int {
-		$sql = "SELECT COUNT(*) FROM seguimientos WHERE baja=0";
+	public function getNumRegistros(string $tabla):int {
+		$sql = "SELECT COUNT(*) FROM ".$tabla." WHERE baja=0";
 		$salida = $this->db->query($sql);
 		return $salida["COUNT(*)"];
 	}
@@ -71,6 +71,19 @@ class SeguimientosModelo {
 		}
 		return $this->db->querySelect($sql);
 	}
+
+    public function getTablaSeguimiento(int $inicio=1, int $tamano=0, string $idOrdenReparacion):array {
+		$sql = "SELECT s.id, s.fecha, SUBSTRING(s.observacion, 1, 50) as observacion, ";
+		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
+		$sql.= "FROM Seguimientos as s, OrdenReparacion as o, Vehiculos as v ";
+		$sql.= "WHERE s.idOrdenReparacion=o.id AND ";
+		$sql.= "o.idVehiculo=v.id AND s.baja=0 AND s.idOrdenReparacion=".$idOrdenReparacion;
+		if ($tamano>0) {
+			$sql.= " LIMIT ".$inicio.", ".$tamano;
+		}
+		return $this->db->querySelect($sql);
+	}
+
 
 	public function modificar(array $data):bool {
 		$salida = false;
