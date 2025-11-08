@@ -225,7 +225,7 @@ class Seguimientos extends Controlador {
 
 	public function caratula(string $pagina="1"):void
 	{
-		$num = $this->modelo->getNumRegistros();
+		$num = $this->modelo->getNumRegistros("ordenreparacion");
 		$inicio = ($pagina-1)*TAMANO_PAGINA;
 		$totalPaginas = ceil($num/TAMANO_PAGINA);
 		$data = $this->modelo->getTablaOrdenReparacion($inicio,TAMANO_PAGINA);
@@ -266,8 +266,7 @@ class Seguimientos extends Controlador {
 		$this->vista("ordenReparacionAltaVista",$datos);
 	}
 
-	public function mostrar(string $id,string $pagina="1"):void
-	{
+	public function mostrar(string $id,string $pagina="1"):void {
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 		$vehiculos = $this->modelo->getVehiculos();
@@ -288,5 +287,29 @@ class Seguimientos extends Controlador {
 		];
 		$this->vista("ordenReparacionMostrarVista",$datos);
 	}
+
+    public function seguimiento(string $idOrdenReparacion, string $pagina="1"):void {
+        $num = $this->modelo->getNumRegistros("seguimientos");
+        $inicio = ($pagina-1)*TAMANO_PAGINA;
+        $totalPaginas = ceil($num/TAMANO_PAGINA);
+        $data = $this->modelo->getTablaSeguimiento($inicio,TAMANO_PAGINA,$idOrdenReparacion);
+        $datos = [
+            "titulo" => "Seguimiento a una orden de reparación",
+            "subtitulo" => "Seguimiento a una orden de reparación",
+            "usuario" => $this->usuario,
+            "activo" => "seguimientos",
+            "admon" => true,
+            "data" => $data,
+            "idOrdenReparacion" => $idOrdenReparacion,
+            "pag" => [
+                "totalPaginas" => $totalPaginas,
+                "regresa" => "seguimientos",
+                "pagina" => $pagina
+            ],
+            "menu" => true
+        ];
+        $this->vista("seguimientosOrdenReparacionCaratulaVista",$datos);
+    }
+
 }
 ?>
