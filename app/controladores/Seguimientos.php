@@ -249,5 +249,52 @@ class Seguimientos extends Controlador {
         $this->vista("seguimientosOrdenReparacionCaratulaVista",$datos);
     }
 
+	public function subirImagenes($fotos_array,$idOrdenReparacion,$idSeguimiento ):bool {
+		$salida = true;
+		if($fotos_array['fotos']){
+			$tipos_array = ["image/jpeg","image/gif","image/png"];
+			$carpeta = 'fotos/'.$idOrdenReparacion."/".$idSeguimiento."/";
+			if (!file_exists($carpeta)) {
+				mkdir($carpeta, 0777, true);
+			}
+			//
+			$archivos_array = [];
+			$archivos_num = count($fotos_array['fotos']['name']);
+			$archivos_keys = array_keys($fotos_array['fotos']);
+			//
+			for ($i=0; $i<$archivos_num; $i++) {
+				foreach ($archivos_keys as $key) {
+					$archivos_array[$i][$key] = $fotos_array['fotos'][$key][$i];
+				}
+			}
+			//
+			foreach ($archivos_array as $archivo) {
+				$nombre = uniqid();
+				$extension =$archivo['type'];
+				if ($archivo['size']<40*1024*1024) {
+					if (in_array($extension, $tipos_array)) {
+						if ($extension==$tipos_array[0]) {
+							$nombre.= $nombre.".jpg";
+						} else if ($extension==$tipos_array[1]) {
+							$nombre.= $nombre.".gif";
+						} else if ($extension==$tipos_array[2]) {
+							$nombre.= $nombre.".png";
+						} 
+						//Subir el archivo
+						if (is_uploaded_file($archivo['tmp_name'])) {
+							//copiamos el archivo temporal
+							copy($archivo['tmp_name'],$carpeta.$nombre);
+						} 
+					} else {
+						$salida = false;
+					}
+				} else {
+					$salida = false;
+				}
+			}
+	  	}
+	  	return $salida;
+	}
+
 }
 ?>
