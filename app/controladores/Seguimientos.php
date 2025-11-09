@@ -58,14 +58,23 @@ class Seguimientos extends Controlador {
 	        	$id = $this->modelo->alta($data);
 				if ($id) {
 					// Imagenes
-					Helper::mostrar($id);
-					$this->mensaje(
-							"Alta de una orden de reparación", 
-							"Alta de una orden de reparación", 
-							"Se añadió correctamente la orden de reparación.", 
-			          		"ordenReparacion/".$pagina, 
-			          		"success"
-					);
+					if ($this->subirImagenes($_FILES,$idOrdenReparacion,$id)) {
+						$this->mensaje(
+							"Alta del seguimiento de una orden de reparación.", 
+							"Alta del seguimiento de una orden de reparación.", 
+							"Se añadió correctamente el seguimiento a la orden de reparación.", 
+							"seguimientos/".$pagina, 
+							"success"
+						);
+					} else {
+						$this->mensaje(
+			          		"Error al subir las imágenes.", 
+			          		"Error al su|r las imágenes.", 
+			          		"Error al subir las imágenes.", 
+			          		"seguimientos/".$pagina,
+			          		"danger"
+			          	);
+					}
 		          } else {
 		          	$this->mensaje(
 		          		"Error al añadir la orden de reparación.", 
