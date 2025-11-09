@@ -33,7 +33,7 @@ class SeguimientosModelo {
 
 	public function getId(string $id=''):array {
 		if(empty($id)) return [];
-		$sql = "SELECT id, idVehiculo, idMecanico, fechaIngreso, fechaSalida, kilometraje, gato, herramientas, triangulos, refaccion, extintor, antena, emblemas, tapones, cables, estereo, encendedor, tapetes, estado ";
+		$sql = "SELECT id, idOrdenReparacion, fecha, observacion ";
 		$sql.= "FROM seguimientos ";
 		$sql.= "WHERE id='".$id."' AND baja=0";
 		return $this->db->query($sql);
