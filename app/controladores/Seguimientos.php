@@ -235,6 +235,24 @@ class Seguimientos extends Controlador {
 		$this->vista("ordenReparacionMostrarVista",$datos);
 	}
 
+	public function modificarSeguimiento(string $idSeguimiento, string $pagina="1"):void {
+		//Leemos los datos de la tabla
+		$data = $this->modelo->getId($idSeguimiento);
+		//
+		$datos = [
+			"titulo" => "Modificar el seguimiento",
+			"subtitulo" =>"Modificar el seguimiento",
+			"menu" => true,
+			"admon" => true,
+			"usuario" => $this->usuario,
+			"activo" => "seguimientos",
+			"idOrdenReparacion"=>$data["idOrdenReparacion"],
+			"pagina" => $pagina,
+			"data" => $data
+		];
+		$this->vista("seguimientosAltaVista",$datos);
+	}
+
     public function seguimiento(string $idOrdenReparacion, string $pagina="1"):void {
         $num = $this->modelo->getNumRegistros("seguimientos");
         $inicio = ($pagina-1)*TAMANO_PAGINA;
