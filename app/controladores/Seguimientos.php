@@ -85,21 +85,31 @@ class Seguimientos extends Controlador {
 		          	);
 		          }
 	        } else {
-			  //Modificar
+			   //Modificar
 			  if ($this->modelo->modificar($data)) {
-					$this->mensaje(
-							"Modificar la orden de reparación.", 
-							"Modificar la orden de reparación.", 
-							"Se modificó correctamente la orden de reparación.",
-							"ordenreparacion/".$pagina, 
+					if ($this->subirImagenes($_FILES,$idOrdenReparacion,$idSeguimiento)) {
+						$this->mensaje(
+							"Modificación del seguimiento de una orden de reparación.", 
+							"Modificación del seguimiento de una orden de reparación.", 
+							"Se modificó correctamente el seguimiento a la orden de reparación.", 
+							"seguimientos/".$pagina, 
 							"success"
 						);
+					} else {
+						$this->mensaje(
+			          		"Error al subir las imágenes.", 
+			          		"Error al subir las imágenes.", 
+			          		"Error al subir las imágenes.", 
+			          		"seguimientos/".$pagina,
+			          		"danger"
+			          	);
+					}
 				} else {
 					$this->mensaje(
-						"Error al modificar el vehículo.", 
-						"Error al modificar el vehículo.", 
-						"Error al modificar el vehículo: ".$marca." ".$modelo, 
-						"ordenreparacion/".$pagina, 
+						"Error al modificar el seguimiento.", 
+						"Error al modificar el seguimiento.", 
+						"Error al modificar el seguimiento.", 
+						"seguimientos/".$pagina, 
 						"danger"
 					);
 				}
