@@ -202,6 +202,31 @@ class Seguimientos extends Controlador {
 		$this->vista("seguimientosCaratulaVista",$datos);
 	}
 
+	public function desplegarSeguimiento(string $idSeguimiento='', string $pagina="1"):void {
+		$data = $this->modelo->getId($idSeguimiento);
+		$id = $data["idOrdenReparacion"];
+		$carpeta = "fotos/".$id."/".$idSeguimiento;
+      	if (file_exists($carpeta)) {
+        	$archivos_array  = scandir($carpeta);
+      	} else {
+        	$archivos_array  = [];
+      	}
+		$datos = [
+			"titulo" => "Imágenes de la orden de reparación",
+			"subtitulo" =>"Imágenes de la orden de reparación",
+			"menu" => true,
+			"admon" => true,
+			"usuario"=>$this->usuario,
+			"activo" => "seguimientos",
+			"archivos" => $archivos_array,
+			"pagina" => $pagina,
+			"data" => $data
+		];
+		$this->vista("seguimientosArchivosVista",$datos);
+	}
+
+
+
 	public function modificar(string $id,string $pagina="1"):void
 	{
 		//Leemos los datos de la tabla
