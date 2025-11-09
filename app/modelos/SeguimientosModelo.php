@@ -74,24 +74,9 @@ class SeguimientosModelo {
 		$salida = false;
 	    if (!empty($data["id"])) {
 		    $sql = "UPDATE seguimientos SET "; 
-			$sql.= "idVehiculo='".$data['idVehiculo']."', ";
-			$sql.= "idMecanico='".$data['idMecanico']."', ";
-			$sql.= "fechaIngreso='".$data['fechaIngreso']."', ";
-			$sql.= "fechaSalida='".$data['fechaSalida']."', ";
-			$sql.= "kilometraje='".$data['kilometraje']."', ";;
-			$sql.= "gato='".$data['gato']."', ";
-			$sql.= "herramientas='".$data['herramientas']."', ";
-			$sql.= "triangulos='".$data['triangulos']."', ";
-			$sql.= "refaccion='".$data['refaccion']."', ";
-			$sql.= "extintor='".$data['extintor']."', ";
-			$sql.= "antena='".$data['antena']."', ";
-			$sql.= "emblemas='".$data['emblemas']."', ";
-			$sql.= "tapones='".$data['tapones']."', ";
-			$sql.= "cables='".$data['cables']."', ";
-			$sql.= "estereo='".$data['estereo']."', ";
-			$sql.= "encendedor='".$data['encendedor']."', ";
-			$sql.= "tapetes='".$data['tapetes']."', ";
-			$sql.= "cambio_dt=(NOW()) ";
+			$sql.= "idOrdenReparacion='".$data['idOrdenReparacion']."', ";
+			$sql.= "fecha='".$data['fecha']."', ";
+			$sql.= "observacion='".$data['observacion']."' ";
 			$sql.= "WHERE id=".$data['id'];
 		    //Enviamos a la base de datos
 		    $salida = $this->db->queryNoSelect($sql);
