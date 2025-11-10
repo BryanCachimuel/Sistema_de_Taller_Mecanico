@@ -134,6 +134,19 @@ class Seguimientos extends Controlador {
 	    }
   	}
 
+	public function borrarImagen(string $id="", string $i="", string $pagina="1") {
+		$this->mensaje(
+    		"Baja de una imagen", 
+    		"Baja de una imagen", 
+    		"¿Desea borrar la imagen? Una vez borrada la imagen no podrá ser recuperada.", 
+    		"seguimientos/desplegarSeguimiento/".$id."/".$pagina, 
+    		"danger",
+    		"seguimientos/borrarArchivo/".$id."/".$i."/".$pagina,
+    		"danger",
+    		"Borrar"
+    	);
+	}
+
 	public function borrar(string $id="",string $pagina="1"):void 
 	{
 		//Leemos los datos del registro del id
