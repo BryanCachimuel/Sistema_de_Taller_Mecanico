@@ -26,7 +26,7 @@ class SeguimientosModelo {
 
 	public function bajaLogica(string $id):bool {
 		$salida = false;
-		$sql = "UPDATE seguimientos SET baja=1, baja_dt=(NOW()) WHERE id=".$id;
+		$sql = "UPDATE seguimientos SET baja=1 WHERE id=".$id;
 		$salida = $this->db->queryNoSelect($sql);
 		return $salida;
 	}
