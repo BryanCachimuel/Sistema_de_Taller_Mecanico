@@ -82,6 +82,42 @@ class Helper
 		}
 	}
 
+	public static function medidaSize(string $bytes):string {
+		 $bytes = floatval($bytes);
+      	 $bytes_array = array(
+			0 => array(
+				"UNIT" => "TB",
+				"VALUE" => pow(1024, 4)
+			),
+			1 => array(
+				"UNIT" => "GB",
+				"VALUE" => pow(1024, 3)
+			),
+			2 => array(
+				"UNIT" => "MB",
+				"VALUE" => pow(1024, 2)
+			),
+			3 => array(
+				"UNIT" => "KB",
+				"VALUE" => 1024
+			),
+			4 => array(
+				"UNIT" => "B",
+				"VALUE" => 1
+			),
+			);
+			foreach($bytes_array as $item)
+			{
+				if($bytes >= $item["VALUE"])
+				{
+					$salida = $bytes / $item["VALUE"];
+					$salida = strval(round($salida, 2))." ".$item["UNIT"];
+					break;
+				}
+			}
+			return $salida;
+	}
+
 	
 }
 
