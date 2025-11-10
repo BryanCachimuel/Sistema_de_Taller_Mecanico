@@ -170,8 +170,39 @@ class Seguimientos extends Controlador {
 		$this->vista("ordenReparacionAltaVista",$datos);
 	}
 
-	public function bajaLogica(string $id='',string $pagina="1"):void
-	{
+	public function borrarArchivo(string $id,string $i,string $pagina):void {
+		$data = $this->modelo->getId($id);
+		$carpeta = "fotos/".$data["idOrdenReparacion"]."/".$data["id"]."/";
+		$foto = "";
+		$salida = false;
+      	if(file_exists($carpeta)) {
+        	$archivos_array = scandir($carpeta);
+        	$foto = $carpeta.$archivos_array[$i];
+        	if(file_exists($foto)){
+        		unlink($foto);
+        		$salida = true;
+        	}
+      	}
+      	if($salida) {
+      		$this->mensaje(
+        		"Borrar una imagen", 
+        		"Borrar una imagen", 
+        		"Se borró correctamente la imagen: ".$foto, 
+        		"seguimientos/desplegarSeguimiento/".$id."/".$pagina,
+        		"success"
+        	);
+      	}else {
+      		$this->mensaje(
+        		"Borrar una imagen", 
+        		"Borrar una imagen", 
+        		"Error al borrar la imagen: ".$foto, 
+        		"seguimientos/".$pagina, 
+        		"danger"
+        	);
+      	}
+	}
+
+	public function bajaLogica(string $id='',string $pagina="1"):void {
 		if (isset($id) && $id!="") {
 			if ($this->modelo->bajaLogica($id)) {
 				$this->mensaje(
