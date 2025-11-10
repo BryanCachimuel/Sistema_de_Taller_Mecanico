@@ -147,29 +147,6 @@ class Seguimientos extends Controlador {
     	);
 	}
 
-	public function borrar(string $id="",string $pagina="1"):void 
-	{
-		//Leemos los datos del registro del id
-		$data = $this->modelo->getId($id);
-		$vehiculos = $this->modelo->getVehiculos();
-	   	$mecanicos = $this->modelo->getMecanicos();
-		$datos = [
-		  "titulo" => "Baja de una orden de reparación",
-		  "subtitulo" => "Baja de una orden de reparación",
-		  "menu" => true,
-		  "admon" => true,
-		  "usuario" => $this->usuario,
-		  "errores" => [],
-		  "activo" => 'ordenreparacion',
-		  "data" => $data,
-		  "pagina" => $pagina,
-		  "vehiculos" => $vehiculos,
-		  "mecanicos" => $mecanicos,
-		  "baja" => true
-		];
-		$this->vista("ordenReparacionAltaVista",$datos);
-	}
-
 	public function borrarArchivo(string $id,string $i,string $pagina):void {
 		$data = $this->modelo->getId($id);
 		$carpeta = "fotos/".$data["idOrdenReparacion"]."/".$data["id"]."/";
@@ -221,8 +198,35 @@ class Seguimientos extends Controlador {
 		$this->vista("seguimientosAltaVista",$datos);
 	}
 
-	public function bajaLogica(string $id='',string $pagina="1"):void {
-		
+	public function bajaLogica(string $id='',string $pagina="1"):void{
+		if ($id!="") {
+			$data = $this->modelo->getId($id);
+			if ($this->modelo->bajaLogica($id)) {
+				$carpeta = "fotos/".$data["idOrdenReparacion"]."/".$data["id"];
+				$archivos = glob($carpeta . '/*');
+			    foreach ($archivos as $archivo) {
+			        if (is_file($archivo)) {
+			            unlink($archivo);
+			        } 
+			    }
+			    if (file_exists($carpeta)) {
+			   		rmdir($carpeta);
+			   	}
+				$this->mensaje(
+				"Baja de un seguimiento a la orden de reparación", 
+				"Baja de un seguimiento a la orden de reparación", 
+				"Se borró correctamente el seguimiento a la orden de reparación.", 
+				"seguimientos/".$pagina, 
+				"success");
+			} else {
+				$this->mensaje(
+				"Baja de un seguimiento a la orden de reparación", 
+				"Baja de un seguimiento a la orden de reparación", 
+				"Error al borrar un seguimiento a la orden de reparación: ".$id, 
+				"seguimientos/".$pagina,
+				"danger");
+			}
+		}
 	}
 
 	public function caratula(string $pagina="1"):void
@@ -268,29 +272,6 @@ class Seguimientos extends Controlador {
 			"data" => $data
 		];
 		$this->vista("seguimientosArchivosVista",$datos);
-	}
-
-
-
-	public function modificar(string $id,string $pagina="1"):void
-	{
-		//Leemos los datos de la tabla
-		$data = $this->modelo->getId($id);
-		$vehiculos = $this->modelo->getVehiculos();
-	    $mecanicos = $this->modelo->getMecanicos();
-		$datos = [
-			"titulo" => "Modificar una orden de reparación",
-			"subtitulo" =>"Modificar una orden de reparación",
-			"menu" => true,
-			"admon" => true,
-			"usuario" => $this->usuario,
-			"activo" => "ordenreparacion",
-			"vehiculos" => $vehiculos,
-		     "mecanicos" => $mecanicos,
-			"pagina" => $pagina,
-			"data" => $data
-		];
-		$this->vista("ordenReparacionAltaVista",$datos);
 	}
 
 	public function mostrar(string $id,string $pagina="1"):void {
