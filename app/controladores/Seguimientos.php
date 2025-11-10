@@ -187,7 +187,7 @@ class Seguimientos extends Controlador {
       		$this->mensaje(
         		"Borrar una imagen", 
         		"Borrar una imagen", 
-        		"Se borró correctamente la imagen: ".$foto, 
+        		"Se borró correctamente la imagen: ".$foto, 	
         		"seguimientos/desplegarSeguimiento/".$id."/".$pagina,
         		"success"
         	);
@@ -202,26 +202,27 @@ class Seguimientos extends Controlador {
       	}
 	}
 
+	public function borrarSeguimiento(string $id="",string $pagina="1"){
+		//Leemos los datos del registro del id
+		$data = $this->modelo->getId($id);
+		$datos = [
+			"titulo" => "Baja de un seguimiento",
+			"subtitulo" => "Baja de un seguimiento",
+			"menu" => true,
+			"admon" => true,
+			"errores" => [],
+			"activo" => 'seguimientos',
+			"usuario" => $this->usuario,
+			"data" => $data,
+			"pagina" => $pagina,
+			"idOrdenReparacion" => $data["idOrdenReparacion"],
+			"baja" => true
+		];
+		$this->vista("seguimientosAltaVista",$datos);
+	}
+
 	public function bajaLogica(string $id='',string $pagina="1"):void {
-		if (isset($id) && $id!="") {
-			if ($this->modelo->bajaLogica($id)) {
-				$this->mensaje(
-					"Baja de una orden de reparación", 
-					"Baja de una orden de reparación", 
-					"Se borró correctamente la orden de reparación: ".$id, 
-					"ordenreparacion/".$pagina, 
-					"success"
-				);
-	        } else {
-	        	$this->mensaje(
-	        		"Baja de una orden de reparación", 
-	        		"Baja de una orden de reparación", 
-	        		"Error al borrar la orden de reparación: ".$id, 
-	        		"ordenreparacion/".$pagina,
-	        		"danger"
-	        	);
-	        }
-	   }
+		
 	}
 
 	public function caratula(string $pagina="1"):void
