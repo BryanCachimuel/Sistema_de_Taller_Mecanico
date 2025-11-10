@@ -288,6 +288,25 @@ class Seguimientos extends Controlador {
 		$this->vista("seguimientosAltaVista",$datos);
 	}
 
+	public function mostrarImagen(string $id="", string $i="", string $pagina="1"):void {
+		$data = $this->modelo->getId($id);
+		$carpeta = "fotos/".$data["idOrdenReparacion"]."/".$data["id"]."/";
+		$foto = "";
+      	if(file_exists($carpeta)) {
+        	$archivos_array = scandir($carpeta);
+        	$foto = $carpeta.$archivos_array[$i];
+      	}else {
+        	$archivos_array = [];
+      	}
+    	$this->mensaje(
+    		"Mostrar una imagen", 
+    		"Archivo: ".$archivos_array[$i], 
+    		"<img src='".RUTA.'public/'.$carpeta.$archivos_array[$i]."' width='100%'/>", 
+    		"seguimientos/desplegarSeguimiento/".$id."/".$pagina, 
+    		"success"
+    	);
+	}
+
     public function seguimiento(string $idOrdenReparacion, string $pagina="1"):void {
         $num = $this->modelo->getNumRegistros("seguimientos");
         $inicio = ($pagina-1)*TAMANO_PAGINA;
