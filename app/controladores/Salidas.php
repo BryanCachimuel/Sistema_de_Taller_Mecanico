@@ -209,5 +209,25 @@ class Salidas extends Controlador {
 		];
 		$this->vista("vehiculosAltaVista",$datos);
 	}
+
+    public function salida(string $idOrdenReparacion,string $pagina="1") {
+        //Leemos los datos del registro del id
+		$data = $this->modelo->getOrdenReparacion($idOrdenReparacion);
+		$piezas = $this->modelo->getPiezas($idOrdenReparacion);
+		$datos = [
+		  "titulo" => "Salida de una órden de reparación",
+		  "subtitulo" => "Salida de una órden de reparación",
+		  "menu" => true,
+		  "admon" => true,
+		  "errores" => [],
+		  "usuario" => $this->usuario,
+		  "activo" => 'salidas',
+		  "data" => $data,
+		  "piezas" => $piezas,
+		  "pagina" => $pagina
+		];
+		Helper::mostrar($datos);
+		$this->vista("salidasAltaVista",$datos);
+    }
 }
 ?>
