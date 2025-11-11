@@ -72,6 +72,20 @@ class SalidasModelo {
 		return $this->db->querySelect($sql);
 	}
 
+    public function getOrdenReparacion(string $idOrdenReparacion=''):array {
+		if(empty($idOrdenReparacion)) return [];
+		$sql = "SELECT  o.id, o.fechaIngreso, o.fechaSalida, o.kilometraje, ";
+		$sql.= "c.id as idCliente, c.rfc, v.id as idVehiculo, ";
+		$sql.= "c.nombres, c.apellidos, c.razonsocial, c.direccion, c.correo, c.telefono,";
+		$sql.= "v.marca, v.modelo, v.color, v.anio, v.placas ";
+		$sql.= "FROM ordenReparacion as o, clientes as c, vehiculos as v ";
+		$sql.= "WHERE o.id=".$idOrdenReparacion." AND ";
+		$sql.= "o.idVehiculo=v.id AND ";
+		$sql.= "v.idCliente=c.id";
+		return $this->db->query($sql);
+	}
+
+
 	public function modificar(array $data):bool
 	{
 		$salida = false;
