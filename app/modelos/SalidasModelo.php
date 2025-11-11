@@ -85,6 +85,15 @@ class SalidasModelo {
 		return $this->db->query($sql);
 	}
 
+    public function getPiezas(string $idOrdenReparacion=''):array {
+		if(empty($idOrdenReparacion)) return [];
+		$sql = "SELECT  a.idOrdenReparacion, p.nombrePieza, d.cantidad, p.costo ";
+		$sql.= "FROM ordenAlmacen as a, ordenAlmacenDetalle as d, piezas as p ";
+		$sql.= "WHERE a.idOrdenReparacion=".$idOrdenReparacion." AND ";
+		$sql.= "a.id=d.idOrdenAlmacen AND ";
+		$sql.= "d.idPieza=p.id";
+		return $this->db->querySelect($sql);
+	}
 
 	public function modificar(array $data):bool
 	{
