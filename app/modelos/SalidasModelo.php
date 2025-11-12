@@ -95,6 +95,14 @@ class SalidasModelo {
 		return $this->db->querySelect($sql);
 	}
 
+	public function getRazonSocial():array {
+		$sql = "SELECT * ";
+		$sql.= "FROM configuracion ";
+		$sql.= "WHERE id=1";
+		return $this->db->query($sql);
+	}
+
+
 	public function modificar(array $data):bool
 	{
 		$salida = false;
