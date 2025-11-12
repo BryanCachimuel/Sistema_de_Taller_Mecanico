@@ -210,6 +210,28 @@ class Salidas extends Controlador {
 		$this->vista("vehiculosAltaVista",$datos);
 	}
 
+	public function mensajeFacturar() {
+		if ($_SERVER['REQUEST_METHOD']=="POST") {
+			//
+			$id = Helper::cadena($_POST['idOrdenReparacion'] ?? "");
+			$manoObra = $_POST['manoObra'] ?? "";
+			$otro = Helper::cadena($_POST['otro'] ?? "");
+			$observacion = Helper::encriptar(Helper::cadena($_POST['observacion'] ?? ""));
+			$pagina = $_POST['pagina'] ?? "1";
+			//
+			$this->mensaje(
+				"Facturar orden de reparación.", 
+				"Facturar orden de reparación.", 
+				"¿Desea generar la factura? Una vez creada no podrá modificarla.", 
+				"salidas/".$pagina,
+				"danger",
+				"salidas/imprimirFactura/".$id."/".$pagina."/".$manoObra."/".$otro."/".$observacion,
+				"success",
+				"Facturar"
+			);
+		}
+	}
+
     public function salida(string $idOrdenReparacion,string $pagina="1") {
         //Leemos los datos del registro del id
 		$data = $this->modelo->getOrdenReparacion($idOrdenReparacion);
@@ -226,7 +248,6 @@ class Salidas extends Controlador {
 		  "piezas" => $piezas,
 		  "pagina" => $pagina
 		];
-		Helper::mostrar($datos);
 		$this->vista("salidasAltaVista",$datos);
     }
 }
