@@ -191,6 +191,20 @@ class Salidas extends Controlador {
 		$this->vista("salidasCaratulaVista",$datos);
 	}
 
+	public function imprimirFactura(string $id,string $pagina,string $manoObra,string $otro,string $observacion):void {
+		$observacion = Helper::desencriptar($observacion);
+		$data = $this->modelo->getOrdenReparacion($id);
+		$piezas = $this->modelo->getPiezas($id);
+		$razonSocial = $this->modelo->getRazonSocial();
+		$materiales = 0;
+		for ($i=0; $i < count($piezas); $i++) { 
+			$materiales+=floatval($piezas[$i]["costo"]);
+		}
+		$iva = ($materiales+$otro+$manoObra)*($razonSocial["iva"]/100);
+		$total = $materiales+$otro+$manoObra+$iva;
+		Helper::mostrar($total);
+  	}
+
 	public function modificar(string $id,string $pagina="1"):void
 	{
 		//Leemos los datos de la tabla
