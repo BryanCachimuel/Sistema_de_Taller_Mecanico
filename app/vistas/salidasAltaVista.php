@@ -1,5 +1,5 @@
 <?php include_once("encabezado.php"); ?>
-  <form action="<?php print RUTA; ?>vehiculos/alta/" method="POST">
+  <form action="<?php print RUTA; ?>salidas/mensajeFacturar/" method="POST">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
       <a class="nav-link active" id="cliente-tab" data-bs-toggle="tab" href="#cliente" role="tab" aria-controls="cliente" aria-selected="true">Cliente</a>
@@ -75,23 +75,48 @@
 
     </div>
     <div class="tab-pane fade" id="materiales" role="tabpanel" aria-labelledby="materiales-tab">
+      <?php
+    if (count($datos['piezas'])>0) {
+      $total = 0;
+      print "<table width='100%' class='table table-striped'><thead><tr><th>Pieza</th><th>Cantidad</th><th>Costo</th></tr></thead><tbody>";
+      for ($i=0; $i < count($datos['piezas']); $i++) { 
+        print "<tr><td>".$datos['piezas'][$i]['nombrePieza']."</td>";
+        print "<td>".$datos['piezas'][$i]['cantidad']."</td>";
+        print "<td>".number_format($datos['piezas'][$i]['costo'],2)."</td></tr>";
+        $total+=$datos['piezas'][$i]['costo'];
+      }
+      print "</tbody><tfoot>";
+      print "<tr class='table-dark'><td>&nbsp;</td>";
+      print "<td>&nbsp;</td>";
+      print "<td>".number_format($total,2)."</td></tr>";
+      print "</tfoot></table>";
+    } else {
+      print "<h2>No hay piezas asignadas a esta órden de reparación.</h2>";
+    }
+    ?>
     </div>
     <div class="tab-pane fade" id="manoobra" role="tabpanel" aria-labelledby="manoobra-tab">
+      <div class="form-group text-left">
+      <label for="manoObra">* Mano de obra:</label>
+      <input type="text" name="manoObra" id="manoObra" class="form-control" value="<?php print isset($datos['data']['manoObra'])?$datos['data']['manoObra']:''; ?>" required>
+    </div>
+    <div class="form-group text-left">
+      <label for="otro">Otro costo:</label>
+      <input type="text" name="otro" id="otro" class="form-control" value="<?php print isset($datos['data']['otro'])?$datos['data']['otro']:''; ?>">
+    </div>
+    <div class="form-group text-left">
+      <label for="observacion">Observación:</label>
+      <textarea class="form-control" id="observacion" name="observacion" rows="3"><?php print isset($datos['data']['observacion'])?$datos['data']['observacion']:''; ?></textarea>
+    </div>
     </div>
   </div>
     
-    <div class="form-group text-start">
-      <input type="hidden" name="id" id="id" value="<?php if (isset($datos['data']['id'])) { print $datos['data']['id']; } else { print ""; } ?>">
+    <div class="form-group text-start mt-3">
+      <input type="hidden" name="idOrdenReparacion" id="idOrdenReparacion" value="<?php if (isset($datos["data"]['id'])) { print $datos["data"]['id']; } else { print ""; } ?>">
       <input type="hidden" name="pagina" id="pagina" value="<?php if (isset($datos['pagina'])) { print $datos['pagina']; } else { print "1"; } ?>">
       
-      <?php if (isset($datos["baja"])) { ?>
-        <a href="<?php print RUTA; ?>vehiculos/bajaLogica/<?php print $datos['data']['id']."/".$datos["pagina"]; ?>" class="btn btn-danger">Borrar</a>
-        <a href="<?php print RUTA.'vehiculos/'.$datos['pagina']; ?>" class="btn btn-danger">Regresar</a>
-        <p><b>Advertencia: una vez borrado el registro, no podrá recuperar la información.</b></p>
-      <?php } else { ?>
-      <input type="submit" value="Enviar" class="btn btn-success">
-      <a href="<?php print RUTA; ?>vehiculos" class="btn btn-info">Regresar</a>
-      <?php } ?> 
+      <input type="submit" value="Facturar" class="btn btn-success">
+      <a href="<?php print RUTA; ?>salidas" class="btn btn-info">Regresar</a> 
     </div>
   </form>
 <?php include_once("piepagina.php"); ?>
