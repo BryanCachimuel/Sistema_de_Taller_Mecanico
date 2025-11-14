@@ -191,7 +191,8 @@ class Salidas extends Controlador {
 		$this->vista("salidasCaratulaVista",$datos);
 	}
 
-	public function imprimirFactura(string $id,string $pagina,string $manoObra,string $otro,string $observacion):void {
+	public function imprimirFactura(string $id,string $pagina,string $manoObra,string $otro,string $observacion):void{
+		//
 		$observacion = Helper::desencriptar($observacion);
 		$data = $this->modelo->getOrdenReparacion($id);
 		$piezas = $this->modelo->getPiezas($id);
@@ -202,11 +203,52 @@ class Salidas extends Controlador {
 		}
 		$iva = ($materiales+$otro+$manoObra)*($razonSocial["iva"]/100);
 		$total = $materiales+$otro+$manoObra+$iva;
-		Helper::mostrar($total);
+		$factura = $this->modelo->altaFactura($data, $manoObra, $otro, $materiales, $iva, $total, $observacion);
+		if ($factura) {
+			if ($this->modelo->cambiarEstadoOrdenReparacion($id)) {
+				$encabezado = $razonSocial["razon"]."\n";
+				$encabezado.= $razonSocial["direccion"]."\nTeléfonos: ";
+				$encabezado.= $razonSocial["telefonos"]."\nRFC: ".$razonSocial["rfc"];
+				$encabezado.= "\nCorreo: ".$razonSocial["correo"];
+				$encabezado.= "\nFactura: ".$factura;
+				$encabezado.= "\nFecha: ".date("d/m/Y")." ".date("h:s A");
+				//
+				$cliente = "Cliente: ".$data["nombres"]." ".$data["apellidos"]."\n";
+				$cliente.= "Razón social: ".$data["razonsocial"]."\n";
+				$cliente.= "RFC: ".$data["rfc"]."\n";
+				$cliente.= "Teléfonos: ".$data["telefono"]."\n";
+				$cliente.= "Correo: ".$data["correo"];
+				//
+				$vehiculo = "Marca: ".$data["marca"]."\n";
+				$vehiculo.= "Modelo: ".$data["modelo"]."\n";
+				$vehiculo.= "Color: ".$data["color"]."\n";
+				$vehiculo.= "Año: ".$data["anio"]."\n";
+				$vehiculo.= "Placas: ".$data["placas"];
+				//
+				$this->factura = new Imprimir($encabezado,$cliente,$vehiculo);
+				$this->factura->AliasNbPages(); 
+				$this->factura->AddPage();
+				$this->factura->cuerpoDocumento($piezas,$manoObra,$otro,$razonSocial["iva"],$observacion);
+				$this->factura->Output('D', 'factura_'.str_pad($factura, 5, "0", STR_PAD_LEFT).'.pdf');
+				//
+				$this->mensaje(
+				"Impresión de una orden de reparación", 
+				"Impresión de una orden de reparación", 
+				"Se generó correctamente la factura: ".$factura, 
+				"salidas/".$pagina, 
+				"success");
+			} else {
+				$this->mensaje(
+				"Error en la generación de la orden de reparación", 
+				"Error en la generación de la orden de reparación", 
+				"Error en la generación de la orden de reparación", 
+				"salidas/".$pagina, 
+				"danger");
+			}
+		}
   	}
 
-	public function modificar(string $id,string $pagina="1"):void
-	{
+	public function modificar(string $id,string $pagina="1"):void {
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 	    $clientes = $this->modelo->getClientes();
