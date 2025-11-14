@@ -193,7 +193,7 @@ class Salidas extends Controlador {
 
 	public function imprimirFactura(string $id,string $pagina,string $manoObra,string $otro,string $observacion):void{
 		//
-		$observacion = Helper::desencriptar($observacion);
+		$observacion = html_entity_decode(Helper::desencriptar($observacion));
 		$data = $this->modelo->getOrdenReparacion($id);
 		$piezas = $this->modelo->getPiezas($id);
 		$razonSocial = $this->modelo->getRazonSocial();
@@ -218,6 +218,7 @@ class Salidas extends Controlador {
 				$cliente.= "RFC: ".$data["rfc"]."\n";
 				$cliente.= "Teléfonos: ".$data["telefono"]."\n";
 				$cliente.= "Correo: ".$data["correo"];
+				$cliente = html_entity_decode($cliente);
 				//
 				$vehiculo = "Marca: ".$data["marca"]."\n";
 				$vehiculo.= "Modelo: ".$data["modelo"]."\n";
