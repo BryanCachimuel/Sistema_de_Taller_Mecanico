@@ -33,16 +33,20 @@ class SalidasModelo {
 	   return $salida;
 	}
 
-	public function bajaLogica(string $id):bool
-	{
+	public function bajaLogica(string $id):bool {
 		$salida = false;
 		$sql = "UPDATE vehiculos SET baja=1, baja_dt=(NOW()) WHERE id=".$id;
 		$salida = $this->db->queryNoSelect($sql);
 		return $salida;
 	}
 
-	public function getClientes():array
-	{
+	public function cambiarEstadoOrdenReparacion($id='') {
+		//$sql = "UPDATE ordenReparacion SET estado=".ORDEN_FACTURADA." ";
+		//$sql.= "WHERE id=".$id;
+		return true; //$this->db->queryNoSelect($sql);
+	}
+
+	public function getClientes():array {
 		$sql = "SELECT id, CONCAT(nombres,' ',apellidos,', ',razonSocial) as cliente ";
 		$sql.= "FROM clientes WHERE baja=0 AND estado=".CLIENTE_ACTIVO." ";
 		$sql.= "ORDER BY nombres, apellidos, razonSocial";
