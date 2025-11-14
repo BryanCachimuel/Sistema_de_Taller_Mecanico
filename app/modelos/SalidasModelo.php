@@ -10,21 +10,27 @@ class SalidasModelo {
 		$this->db = new MySQLdb();
 	}
 
-	public function alta(array $data=[]):bool
-	{
-		$sql = "INSERT INTO vehiculos VALUES(0,";//1. id 
-		$sql.= "'".$data['marca']."', "; 		//2. marca
-		$sql.= "'".$data['modelo']."', "; 		//3. modelo
-		$sql.= "'".$data['color']."', "; 		//4. color
-		$sql.= "'".$data['anio']."', "; 		//5. año
-		$sql.= "'".$data['placas']."', "; 		//6. placas
-		$sql.= "'".$data['idCliente']."', "; 	//7. idCliente
+	public function altaFactura($data, $manoObra, $otro, $materiales, $iva, $total,  $observacion):int {
+		$salida = 0;
+		$sql = "INSERT INTO facturas VALUES(0,";//1. id 
+		$sql.= "'".$data['idCliente']."', ";	//2. idCliente
+		$sql.= "'".$data['id']."', "; 			//3. idOrdenReparacion
+		$sql.= "'".$manoObra."', "; 			//4. manoObra
+		$sql.= "'".$materiales."', "; 			//5. materiales
+		$sql.= "'".$otro."', "; 				//6. otro
+		$sql.= "'".$iva."', "; 					//7. iva
+		$sql.= "'".$total."', "; 				//8. total
+		$sql.= "'".$observacion."', "; 			//9. observacion
 		//
-		$sql.= "0, ";                   //8. baja
-		$sql.= "NOW(), ";               //9. fecha alta
-		$sql.= "'', ";                  //10. fecha baja 
-		$sql.= "'')";                   //11. fecha cambio
-		return $this->db->queryNoSelect($sql);
+		$sql.= "0, ";                   //10. baja
+		$sql.= "NOW(), ";               //11. fecha alta
+		$sql.= "'', ";                  //12. fecha baja 
+		$sql.= "'')";                   //13. fecha cambio
+		if($this->db->queryNoSelect($sql)){
+			$salida = $this->db->query("SELECT LAST_INSERT_ID()");
+			$salida = $salida["LAST_INSERT_ID()"];
+		}
+	   return $salida;
 	}
 
 	public function bajaLogica(string $id):bool
