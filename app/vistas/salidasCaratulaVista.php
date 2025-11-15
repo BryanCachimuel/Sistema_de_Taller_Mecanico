@@ -7,6 +7,7 @@
                 <th>Vehículo</th>
                 <th>Fecha Ingreso</th>
                 <th>Fecha Salida</th>
+                <th>Estado</th>
                 <th>Salida</th>
             </tr>
         </thead>
@@ -18,7 +19,12 @@
                 print "<td class='text-start'>" . $datos["data"][$i]['vehiculo'] . "</td>";
                 print "<td class='text-start'>" . $datos["data"][$i]['fechaIngreso'] . "</td>";
                 print "<td class='text-start'>" . $datos["data"][$i]['fechaSalida'] . "</td>";
-                print "<td><a href='" . RUTA . "salidas/salida/" . $datos["data"][$i]["id"] . "/" . $datos["pag"]["pagina"] . "' class='btn btn-warning'>Salida</a></td>";
+                print "<td class='text-start'>" . $datos["data"][$i]['estado'] . "</td>";
+                print "<td><a href='" . RUTA . "salidas/salida/" . $datos["data"][$i]["id"] . "/" . $datos["pag"]["pagina"] . "' class='btn btn-warning";
+                if ($datos["data"][$i]['edo'] == ORDEN_FACTURADA) {
+                    print " disabled";
+                }
+                print "'>Salida</a></td>";
                 print "</tr>";
             }
             ?>
