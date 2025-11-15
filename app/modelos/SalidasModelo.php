@@ -41,9 +41,9 @@ class SalidasModelo {
 	}
 
 	public function cambiarEstadoOrdenReparacion($id='') {
-		//$sql = "UPDATE ordenReparacion SET estado=".ORDEN_FACTURADA." ";
-		//$sql.= "WHERE id=".$id;
-		return true; //$this->db->queryNoSelect($sql);
+		$sql = "UPDATE ordenReparacion SET estado=".ORDEN_FACTURADA." ";
+		$sql.= "WHERE id=".$id;
+		return $this->db->queryNoSelect($sql);
 	}
 
 	public function getClientes():array {
@@ -72,10 +72,11 @@ class SalidasModelo {
 
 	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0):array {
 		$sql = "SELECT o.id, o.idVehiculo, o.fechaIngreso, o.fechaSalida,  ";
-		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
-		$sql.= "FROM OrdenReparacion as o, Vehiculos as v  ";
+		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, e.estado, o.estado as edo ";
+		$sql.= "FROM OrdenReparacion as o, Vehiculos as v, estadoordenreparacion as e ";
 		$sql.= "WHERE o.baja=0 AND ";
-		$sql.= "o.idVehiculo=v.id ";
+		$sql.= "o.idVehiculo=v.id AND ";
+		$sql.= "o.estado=e.id ";
 		if ($tamano>0) {
 			$sql.= " LIMIT ".$inicio.", ".$tamano;
 		}
