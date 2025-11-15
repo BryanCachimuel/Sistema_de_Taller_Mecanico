@@ -44,6 +44,16 @@ class VehiculosModelo
 		return $this->db->querySelect($sql);
 	}
 
+	public function getIntegridadReferencial($id) {
+		//
+		$ir_array = [0,0];
+		$sql = "SELECT COUNT(*) FROM ordenreparacion WHERE baja=0 AND idVehiculo=".$id;
+		$salida = $this->db->query($sql);
+		$ir_array[1] = $salida["COUNT(*)"];
+		//
+		$ir_array[0] = $ir_array[1];
+		return $ir_array;
+	}
 
 	public function getId(string $id=''):array
 	{
