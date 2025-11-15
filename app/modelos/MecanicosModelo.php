@@ -30,13 +30,24 @@ class MecanicosModelo
 		return $this->db->queryNoSelect($sql);
 	}
 
-	public function bajaLogica(string $id):bool
-	{
+	public function bajaLogica(string $id):bool {
 		$salida = false;
 		$sql = "UPDATE mecanicos SET baja=1, baja_dt=(NOW()) WHERE id=".$id;
 		$salida = $this->db->queryNoSelect($sql);
 		return $salida;
 	}
+
+	public function getIntegridadReferencial($id) {
+		//
+		$ir_array = [0,0,0,0];
+		$sql = "SELECT COUNT(*) FROM ordenreparacion WHERE baja=0 AND idMecanico=".$id;
+		$salida = $this->db->query($sql);
+		$ir_array[1] = $salida["COUNT(*)"];
+		//
+		$ir_array[0] = $ir_array[1] + $ir_array[2] + $ir_array[3];
+		return $ir_array;
+	}
+
 
 	public function getId(string $id=''):array
 	{
