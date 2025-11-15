@@ -133,26 +133,46 @@ class Clientes extends Controlador
 	    }
   	}
 
-	public function borrar(string $id="",string $pagina="1"):void 
-	{
+	public function borrar(string $id="",string $pagina="1"):void {
 		//Leemos los datos del registro del id
 		$data = $this->modelo->getId($id);
 		$estadoCliente = $this->modelo->getEstadoCliente();
-		$datos = [
-		  "titulo" => "Baja de un cliente",
-		  "subtitulo" => "Baja de un cliente",
-		  "menu" => true,
-		  "admon" => true,
-		  "usuario" => $this->usuario,
-		  "errores" => [],
-		  "activo" => 'clientes',
-		  "data" => $data,
-		  "pagina" => $pagina,
-		  "estadoCliente" => $estadoCliente,
-		  "baja" => true
-		];
-		$this->vista("clientesAltaVista",$datos);
+		//Integridad referencial
+    	$ir_array = $this->modelo->getIntegridadReferencial($id);
+
+		if ($ir_array[0]==0) {
+			$datos = [
+			  "titulo" => "Baja de un cliente",
+			  "subtitulo" => "Baja de un cliente",
+			  "menu" => true,
+			  "admon" => true,
+			  "usuario" => $this->usuario,
+			  "errores" => [],
+			  "activo" => 'clientes',
+			  "data" => $data,
+			  "pagina" => $pagina,
+			  "estadoCliente" => $estadoCliente,
+			  "baja" => true
+			];
+			$this->vista("clientesAltaVista",$datos);
+		} else {
+			$m = "No podemos eliminar al cliente porque tiene:<ul>";
+			if ($ir_array[1]==1) {
+				$m.="<li>Un vehículo.</li>";
+			} else if ($ir_array[1]>1) {
+				$m.="<li>".$ir_array[1]." Vehículos.</li>";
+			}
+			$m.="</ul>Primero debe eliminar esas referencias.";
+			$this->mensaje(
+	    		"Error al borrar al cliente", 
+	    		"Error al borrar al cliente", 
+	    		$m, 
+	    		"clientes", 
+	    		"danger"
+	    	);
+		}
 	}
+
 
 	public function bajaLogica(string $id='',string $pagina="1"):void
 	{
