@@ -145,12 +145,12 @@ class OrdenAlmacenModelo
 	}
 
 	public function getTabla(int $inicio=1, int $tamano=0):array {
-		$sql = "SELECT o.id, o.idOrdenReparacion, o.costo, o.alta_dt, ";
+		$sql = "SELECT o.id, o.idOrdenReparacion, o.costo, o.alta_dt, r.estado as idEstado, e.estado, ";
 		$sql.= "CONCAT(o.idOrdenReparacion,') ',v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
-		$sql.= "FROM ordenalmacen as o, ordenReparacion as r, vehiculos as v ";
+		$sql.= "FROM ordenalmacen as o, ordenReparacion as r, vehiculos as v, estadoOrdenReparacion as e ";
 		$sql.= "WHERE o.baja=0 AND ";
 		$sql.= "o.idOrdenReparacion=r.id AND ";
-		$sql.= "r.idVehiculo=v.id";
+		$sql.= "r.idVehiculo=v.id AND r.estado=e.id";
 		if ($tamano>0) {
 			$sql.= " LIMIT ".$inicio.", ".$tamano;
 		}
