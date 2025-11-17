@@ -66,5 +66,10 @@ class MySQLdb
 	public function queryCrudo($sql="") {
 		return $this->conn->query($sql);
 	}
+
+	public function getBaseDatos() {
+		return $this->db;
+	}
+
 }
 ?>
