@@ -62,5 +62,9 @@ class MySQLdb
 		}
 		return $salida;
 	}
+
+	public function queryCrudo($sql="") {
+		return $this->conn->query($sql);
+	}
 }
 ?>
