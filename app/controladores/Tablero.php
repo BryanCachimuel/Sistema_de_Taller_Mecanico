@@ -50,5 +50,22 @@ class Tablero extends Controlador
 	  	);
 	}
 
+	public function respaldarEjecutar() {
+		$fecha = date("Ymdhis");
+		$id = uniqid();
+		$tablas = $this->modelo->getTablas();
+		foreach ($tablas as $tabla) {
+			$this->modelo->respaldarTabla($tabla["Tables_in_taller"],$fecha,$id);
+		}
+		$this->mensaje(
+			"Respaldo de base de datos",
+			"Respaldo de base de datos",
+			"El respaldo de base de datos fue exitosa.<br>En la carpeta:<br>respaldos/".$fecha."-".$id,
+			"tablero",
+			"success"
+		);
+	}
+
+
 }
 ?>
