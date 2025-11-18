@@ -2,17 +2,15 @@
 /**
  * 
  */
-class LoginModelo
-{
+class LoginModelo {
+	
 	private $db="";
 	
-	function __construct()
-	{
+	function __construct() {
 		$this->db = new MySQLdb();
 	}
 
-	public function actualizarClaveAcceso(array $data=[]):bool
-	{
+	public function actualizarClaveAcceso(array $data=[]):bool {
 		if (!empty($data)) {
 			$sql = "UPDATE usuarios SET clave=:clave, estadoUsuario=:estadoUsuario WHERE id=:id";
 			return $this->db->queryNoSelect($sql,$data);
@@ -20,17 +18,15 @@ class LoginModelo
 		return false;
 	}
 
-	public function actualizarLogin(string $id=''):bool
-	{
+	public function actualizarLogin(string $id='',string $tabla):bool {
 		if (!empty($data)) {
-			$sql = "UPDATE usuarios SET login_dt=(NOW()) WHERE id=".$id;
+			$sql = "UPDATE ".$tabla." SET login_dt=(NOW()) WHERE id=".$id;
 			return $this->db->queryNoSelect($sql);
 		}
 		return false;
 	}
 
-	public function buscarCorreo(string $correo=''):array
-	{
+	public function buscarCorreo(string $correo=''):array {
 		if($correo=="") return [];
 	 	$sql = "SELECT id, tipoUsuario, nombres, apellidos, direccion, ";
 	 	$sql.= "telefono, correo, clave, genero, estadoUsuario ";
@@ -38,6 +34,15 @@ class LoginModelo
 	 	$sql.= "WHERE correo = '".$correo."' AND baja=0";
 	 	return $this->db->query($sql);
 	}
+
+	public function buscarCorreoMecanico(string $correo=''):array {
+		if($correo=="") return [];
+	 	$sql = "SELECT id, nombres, apellidos, correo, clave, telefono, idTipoMecanico, estado ";
+	 	$sql.= "FROM mecanicos ";
+	 	$sql.= "WHERE correo = '".$correo."' AND baja=0";
+	 	return $this->db->query($sql);
+	}
+
 }
 
 ?>
