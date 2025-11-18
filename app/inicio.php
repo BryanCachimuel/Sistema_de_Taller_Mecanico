@@ -10,6 +10,7 @@ define('PAGINAS_MAXIMAS',4);
 //
 define('ADMON',1);
 define('OPERADOR',2);
+define('MECANICO',3);
 //
 //Estados Usuario
 //
