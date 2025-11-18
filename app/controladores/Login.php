@@ -2,8 +2,7 @@
 /**
  * 
  */
-class Login extends Controlador
-{
+class Login extends Controlador {
 	private $modelo = "";
 	private $sesion;
 	
@@ -12,8 +11,7 @@ class Login extends Controlador
 		$this->modelo = $this->modelo("LoginModelo");
 	}
 
-	public function caratula()
-	{
+	public function caratula() {
 		$data = [];
 		if (isset($_COOKIE['datos'])) {
 			$datos_array = explode("|",$_COOKIE['datos']);
@@ -32,8 +30,7 @@ class Login extends Controlador
 		$this->vista("loginCaratulaVista",$datos);
 	}
 
-	public function olvido()
-	{
+	public function olvido() {
 		$errores = [];
 		if ($_SERVER['REQUEST_METHOD']=="POST") {
 			$correo = $_POST['correo']??"";
@@ -65,8 +62,7 @@ class Login extends Controlador
 		$this->vista("loginOlvidoVista",$datos);
 	}
 
-	public function cambiarClave(string $id=''):void
-	{
+	public function cambiarClave(string $id=''):void {
 		$id=Helper::desencriptar($id);
 		$errores=[];
 		if ($_SERVER['REQUEST_METHOD']=="POST") {
@@ -120,8 +116,7 @@ class Login extends Controlador
 		$this->vista("loginCambiarVista",$datos);
 	}
 
-	public function verificar()
-	{
+	public function verificar() {
 		$errores=[];
 		if ($_SERVER["REQUEST_METHOD"]=="POST") {
 			$id=$_POST["id"]??"";
@@ -145,31 +140,45 @@ class Login extends Controlador
 				array_push($errores, "El usuario es requerido.");
 			}
 			if (count($errores)==0) {
-				$clave = hash_hmac("sha512", $clave, CLAVE);
+				//Usuario
 				$data = $this->modelo->buscarCorreo($usuario);
-				if ($data && $data["clave"]==$clave) {
-					$estadoUsuario = $data["estadoUsuario"];
-					$tipoUsuario = $data["tipoUsuario"];
-					if ($estadoUsuario==USUARIO_ACTIVO) {
-						$this->modelo->actualizarLogin($data["id"]);
+				//Mecanico
+				if (empty($data)) {
+					$data = $this->modelo->buscarCorreoMecanico($usuario);
+					if ($data["clave"]==$clave) {
+						$data["tipoUsuario"]=MECANICO;
+						$this->modelo->actualizarLogin($data["id"],"mecanicos");
 						$this->sesion = new Sesion();
 						$this->sesion->iniciarLogin($data);
-						if ($tipoUsuario==ADMON) {
-							header("location:".RUTA."Tablero");
-						} else if ($tipoUsuario==OPERADOR) {
-							Helper::mostrar("Bienvenido Operador");
-							//header("location:".RUTA."TableroOperador");
-						}
-					} else {
-						$this->mensaje(
-			          		"Error en el acceso", 
-			          		"Error en el acceso", 
-			          		"Favor de verificar el estado de tu usuario. No está activo. Habla con el administrador.", 
-			          		"login", 
-			          		"danger"
-			          	);
+						header("location:".RUTA."TableroMecanico");
 					}
-				} 
+				} else {
+					//Usuario
+					$clave = hash_hmac("sha512", $clave, CLAVE);
+					if ($data && $data["clave"]==$clave) {
+						$estadoUsuario = $data["estadoUsuario"];
+						$tipoUsuario = $data["tipoUsuario"];
+						if ($estadoUsuario==USUARIO_ACTIVO) {
+							$this->modelo->actualizarLogin($data["id"],"usuarios");
+							$this->sesion = new Sesion();
+							$this->sesion->iniciarLogin($data);
+							if ($tipoUsuario==ADMON) {
+								header("location:".RUTA."Tablero");
+							} else if ($tipoUsuario==OPERADOR) {
+								Helper::mostrar("Bienvenido Operador");
+								//header("location:".RUTA."TableroOperador");
+							}
+						} else {
+							$this->mensaje(
+				          		"Error en el acceso", 
+				          		"Error en el acceso", 
+				          		"Favor de verificar el estado de tu usuario. No está activo. Habla con el administrador.", 
+				          		"login", 
+				          		"danger"
+				          	);
+						}
+					} 
+				}
 			} 
 			$this->mensaje(
 				"Sistema de taller mecánico",
@@ -179,5 +188,6 @@ class Login extends Controlador
 				"danger");
 		}
 	}
+
 }
 ?>
