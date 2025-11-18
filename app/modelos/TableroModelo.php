@@ -61,6 +61,19 @@ class TableroModelo {
 		return file_put_contents($archivo, $salida) !== false;
 	}
 
+	public function setUsuario($id, $nombres, $apellidos, $clave) {
+		$sql = "UPDATE usuarios SET ";
+		$sql.= "nombres='".$nombres."', ";
+		$sql.= "apellidos='".$apellidos."' ";
+		if ($clave!="") {
+			$clave = hash_hmac("sha512", $clave, CLAVE);
+			$sql.= ", clave='".$clave."' ";
+		}
+		$sql.= "WHERE id=".$id;
+		return $this->db->queryNoSelect($sql);
+	}
+
+
 }
 
 ?>
