@@ -69,6 +69,71 @@ class Controlador
 	      exit;
 	  }
 
+	public function perfil() {
+		$errores = [];
+		if ($this->usuario["tipoUsuario"]==ADMON) {
+			$regreso = "tablero";
+		} 
+		//
+		if ($_SERVER['REQUEST_METHOD']=="POST") {
+			//
+			$id = $_POST['id']??"";
+			$nombres = Helper::cadena($_POST['nombres']??"");
+			$apellidos = Helper::cadena($_POST['apellidos']??"");
+			$nueva = $_POST['clave']??"";
+			$verifica = $_POST['verifica']??"";
+
+			if(empty($nombres)){
+				array_push($errores, "El nombre del usuario no puede estar vacío.");
+			}
+			if(empty($apellidos)){
+				array_push($errores, "El apellido paterno no puede estar vacío.");
+			}
+			if(!(empty($nueva) && empty($verifica)) ){
+				if(empty($verifica)){
+					array_push($errores, "La nueva clave de acceso de verificación no puede estar vacía.");
+				}
+				if($nueva!=$verifica){
+					array_push($errores, "Las claves de acceso no coinciden.");
+				}
+			}
+			//
+			if (empty($errores)) {
+				if ($this->modelo->setUsuario($id, $nombres, $apellidos,$nueva)) {
+					$data = $this->modelo->getUsuarioId($id);
+					$this->sesion->setUsuario($data);
+					 $this->mensaje(
+		          		"Modificación del perfil exitoso", 
+		          		"Modificación del perfil exitoso", 
+		          		"Modificación del perfil exitoso ", 
+		          		$regreso, 
+		          		"success"
+		          	);
+				} else {
+					$this->mensaje(
+		          		"Error al modificar del perfil", 
+		          		"Error al modificar del perfil", 
+		          		"Error al modificar del perfil", 
+		          		$regreso, 
+		          		"danger"
+		          	);
+				}
+			}
+		}
+		//
+		$datos = [
+			"titulo"=> "Perfil del usuario",
+			"subtitulo" => "Perfil del usuario",
+			"admon" => $this->usuario["tipoUsuario"],
+			"menu" => true,
+			"regreso" => $regreso,
+			"activo" => "perfil",
+			"errores" => $errores,
+			"data" => $this->usuario
+		];
+		$this->vista("tableroPerfilVista",$datos);
+	}
+
 }
 
 ?>
