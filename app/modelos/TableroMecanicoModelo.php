@@ -7,6 +7,20 @@ class TableroMecanicoModelo {
 	{
 		$this->db = new MySQLdb();
 	}
+
+	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0, string $id):array {
+		$sql = "SELECT o.id, o.idVehiculo, o.fechaIngreso, o.fechaSalida,  ";
+		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, e.estado, o.estado as edo ";
+		$sql.= "FROM OrdenReparacion as o, Vehiculos as v, EstadoOrdenReparacion as e ";
+		$sql.= "WHERE o.baja=0 AND ";
+		$sql.= "o.idVehiculo=v.id AND ";
+		$sql.= "o.estado=e.id AND o.idMecanico=".$id;
+		if ($tamano>0) {
+			$sql.= " LIMIT ".$inicio.", ".$tamano;
+		}
+		return $this->db->querySelect($sql);
+	}
+
 }
 
 ?>
