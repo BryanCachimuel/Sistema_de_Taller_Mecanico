@@ -14,6 +14,19 @@ class TableroMecanicoModelo {
 		return $salida["COUNT(*)"];
 	}
 
+	public function getId(string $id=''):array {
+		if(empty($id)) return [];
+		$sql = "SELECT o.id, o.idVehiculo, o.idMecanico, o.fechaIngreso, o.fechaSalida, ";
+		$sql.= "o.kilometraje, o.gato, o.herramientas, o.triangulos, o.refaccion, o.extintor, ";
+		$sql.= "o.antena, o.emblemas, o.tapones, o.cables, o.estereo, o.encendedor, o.tapetes, ";
+		$sql.= "o.estado, CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, ";
+		$sql.= "CONCAT(m.nombres,' ',m.apellidos) as mecanico, e.estado as edo ";
+		$sql.= "FROM ordenreparacion as o, vehiculos as v, mecanicos as m, EstadoOrdenReparacion as e ";
+		$sql.= "WHERE o.id='".$id."' AND o.baja=0 AND o.estado=e.id AND ";
+		$sql.= "o.idVehiculo=v.id AND o.idMecanico=m.id";
+		return $this->db->query($sql);
+	}
+
 	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0, string $id):array {
 		$sql = "SELECT o.id, o.idVehiculo, o.fechaIngreso, o.fechaSalida,  ";
 		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, e.estado, o.estado as edo ";
