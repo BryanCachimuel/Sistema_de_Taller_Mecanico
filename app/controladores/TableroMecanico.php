@@ -20,17 +20,27 @@ class TableroMecanico extends Controlador
 		}
 	}
 
-	public function caratula()
-	{
+	public function caratula(string $pagina="1") {
+		$num = $this->modelo->getNumRegistros("ordenReparacion",$this->usuario["id"]);
+		$inicio = ($pagina-1)*TAMANO_PAGINA;
+		$totalPaginas = ceil($num/TAMANO_PAGINA);
+		$data = $this->modelo->getTablaOrdenReparacion($inicio,TAMANO_PAGINA,$this->usuario["id"]);
 		$datos = [
-			"titulo" => "Sistema de taller mecánico",
-			"subtitulo" => $this->usuario["nombres"]." ".$this->usuario["apellidos"],
+			"titulo" => "Órdenes de reparación",
+			"subtitulo" => "Órdenes de reparación",
 			"usuario"=>$this->usuario,
-			"data"=>[],
+			"data"=>$data,
+			"activo" => "salidas",
+			"pag" => [
+				"totalPaginas" => $totalPaginas,
+				"regresa" => "salidas",
+				"pagina" => $pagina
+			],
 			"menu" => false
 		];
 		$this->vista("tableroMecanicoCaratulaVista",$datos);
 	}
+
 
 	public function logout()
 	{
