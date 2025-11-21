@@ -37,6 +37,15 @@ class TableroMecanicoModelo {
 		return $this->db->querySelect($sql);
 	}
 
+	public function getSeguimientos(string $idOrdenReparacion):array {
+		$sql = "SELECT s.id, s.fecha, SUBSTRING(s.observacion, 1, 50) as observacion, ";
+		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
+		$sql.= "FROM Seguimientos as s, OrdenReparacion as o, Vehiculos as v ";
+		$sql.= "WHERE s.idOrdenReparacion=o.id AND ";
+		$sql.= "o.idVehiculo=v.id AND s.baja=0 AND s.idOrdenReparacion=".$idOrdenReparacion;
+		return $this->db->querySelect($sql);
+	}
+
 	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0, string $id):array {
 		$sql = "SELECT o.id, o.idVehiculo, o.fechaIngreso, o.fechaSalida,  ";
 		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, e.estado, o.estado as edo ";
