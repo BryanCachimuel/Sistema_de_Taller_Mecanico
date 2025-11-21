@@ -27,6 +27,16 @@ class TableroMecanicoModelo {
 		return $this->db->query($sql);
 	}
 
+	public function getPiezas(string $idOrdenReparacion=''):array {
+		if(empty($idOrdenReparacion)) return [];
+		$sql = "SELECT  a.idOrdenReparacion, p.nombrePieza, d.cantidad, p.costo ";
+		$sql.= "FROM ordenAlmacen as a, ordenAlmacenDetalle as d, piezas as p ";
+		$sql.= "WHERE a.idOrdenReparacion=".$idOrdenReparacion." AND ";
+		$sql.= "a.id=d.idOrdenAlmacen AND ";
+		$sql.= "d.idPieza=p.id";
+		return $this->db->querySelect($sql);
+	}
+
 	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0, string $id):array {
 		$sql = "SELECT o.id, o.idVehiculo, o.fechaIngreso, o.fechaSalida,  ";
 		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, e.estado, o.estado as edo ";
