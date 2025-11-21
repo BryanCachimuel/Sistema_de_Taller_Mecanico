@@ -27,6 +27,14 @@ class TableroMecanicoModelo {
 		return $this->db->query($sql);
 	}
 
+	public function getSeguimientoId(string $id=''):array {
+		if(empty($id)) return [];
+		$sql = "SELECT id, idOrdenReparacion, fecha, observacion ";
+		$sql.= "FROM seguimientos ";
+		$sql.= "WHERE id='".$id."' AND baja=0";
+		return $this->db->query($sql);
+	}
+
 	public function getPiezas(string $idOrdenReparacion=''):array {
 		if(empty($idOrdenReparacion)) return [];
 		$sql = "SELECT  a.idOrdenReparacion, p.nombrePieza, d.cantidad, p.costo ";
