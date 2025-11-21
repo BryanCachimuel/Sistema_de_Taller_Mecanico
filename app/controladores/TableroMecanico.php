@@ -90,6 +90,25 @@ class TableroMecanico extends Controlador
 		$this->vista("tableroMecanicoMostrarVista",$datos);
 	}
 
+	public function mostrarImagen(string $id="",string $i=""):void {
+		$data = $this->modelo->getSeguimientoId($id);
+		$carpeta = "fotos/".$data["idOrdenReparacion"]."/".$data["id"]."/";
+		$foto = "";
+      	if (file_exists($carpeta)) {
+        	$archivos_array = scandir($carpeta);
+        	$foto = $carpeta.$archivos_array[$i];
+      	} else {
+        	$archivos_array = [];
+      	}
+    	$this->mensaje(
+    		"Mostrar una imagen", 
+    		"Archivo: ".$archivos_array[$i], 
+    		"<img src='".RUTA.'public/'.$carpeta.$archivos_array[$i]."' width='100%'/>", 
+    		"tableroMecanico/mostrar/".$data["idOrdenReparacion"], 
+    		"success"
+    	);
+	}
+
 
 }
 ?>
