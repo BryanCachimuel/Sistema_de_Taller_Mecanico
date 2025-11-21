@@ -49,6 +49,27 @@ class TableroMecanico extends Controlador
 		header("location:".RUTA);
 	}
 
+	public function desplegarSeguimiento(string $idSeguimiento=''):void {
+		$data = $this->modelo->getSeguimientoId($idSeguimiento);
+		$id = $data["idOrdenReparacion"];
+		$carpeta = "fotos/".$id."/".$idSeguimiento;
+      	if (file_exists($carpeta)) {
+        	$archivos_array  = scandir($carpeta);
+      	} else {
+        	$archivos_array  = [];
+      	}
+		$datos = [
+			"titulo" => "Imágenes de la orden de reparación",
+			"subtitulo" =>"Imágenes de la orden de reparación",
+			"menu" => false,
+			"admon" => false,
+			"usuario"=>$this->usuario,
+			"archivos" => $archivos_array,
+			"data" => $data
+		];
+		$this->vista("tableroMecanicoArchivosVista",$datos);
+	}
+
 	public function mostrar(string $id,string $pagina="1"):void  {
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
