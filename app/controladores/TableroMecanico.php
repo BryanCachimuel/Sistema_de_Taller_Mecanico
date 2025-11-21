@@ -49,10 +49,11 @@ class TableroMecanico extends Controlador
 		header("location:".RUTA);
 	}
 
-	public function mostrar(string $id,string $pagina="1"):void {
+	public function mostrar(string $id,string $pagina="1"):void  {
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 	    $piezas = $this->modelo->getPiezas($id);
+	    $seguimientos = $this->modelo->getSeguimientos($id);
 		$datos = [
 			"titulo" => "Mostrar una orden de reparación",
 			"subtitulo" =>"Mostrar una orden de reparación",
@@ -60,12 +61,14 @@ class TableroMecanico extends Controlador
 			"admon" => false,
 			"usuario" => $this->usuario,
 			"activo" => "tableroMecanico",
+			"seguimientos" => $seguimientos,
 		    "piezas" => $piezas,
 			"pagina" => $pagina,
 			"data" => $data
 		];
 		$this->vista("tableroMecanicoMostrarVista",$datos);
 	}
+
 
 }
 ?>
