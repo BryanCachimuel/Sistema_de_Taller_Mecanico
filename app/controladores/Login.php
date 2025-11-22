@@ -145,12 +145,25 @@ class Login extends Controlador {
 				//Mecanico
 				if (empty($data)) {
 					$data = $this->modelo->buscarCorreoMecanico($usuario);
-					if ($data["clave"]==$clave) {
-						$data["tipoUsuario"]=MECANICO;
-						$this->modelo->actualizarLogin($data["id"],"mecanicos");
-						$this->sesion = new Sesion();
-						$this->sesion->iniciarLogin($data);
-						header("location:".RUTA."TableroMecanico");
+					if ($data) {
+						if ($data["clave"]==$clave) {
+							$data["tipoUsuario"]=MECANICO;
+							$this->modelo->actualizarLogin($data["id"],"mecanicos");
+							$this->sesion = new Sesion();
+							$this->sesion->iniciarLogin($data);
+							header("location:".RUTA."TableroMecanico");
+						}
+					} else {
+						$data = $this->modelo->buscarCorreoCliente($usuario);
+						if ($data) {
+							if ($data["clave"]==$clave) {
+								$data["tipoUsuario"]=CLIENTE;
+								$this->modelo->actualizarLogin($data["id"],"cliente");
+								$this->sesion = new Sesion();
+								$this->sesion->iniciarLogin($data);
+								header("location:".RUTA."TableroCliente");
+							}
+						}
 					}
 				} else {
 					//Usuario
@@ -188,6 +201,7 @@ class Login extends Controlador {
 				"danger");
 		}
 	}
+
 
 }
 ?>
