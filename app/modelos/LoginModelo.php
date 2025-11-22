@@ -43,6 +43,15 @@ class LoginModelo {
 	 	return $this->db->query($sql);
 	}
 
+	public function buscarCorreoCliente(string $correo=''):array {
+		if($correo=="") return [];
+	 	$sql = "SELECT id, nombres, apellidos, razonSocial, direccion, telefono, rfc, correo, clave, estado ";
+	 	$sql.= "FROM clientes ";
+	 	$sql.= "WHERE correo = '".$correo."' AND baja=0";
+	 	return $this->db->query($sql);
+	}
+
+
 }
 
 ?>
