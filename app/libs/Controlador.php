@@ -73,7 +73,11 @@ class Controlador
 		$errores = [];
 		if ($this->usuario["tipoUsuario"]==ADMON) {
 			$regreso = "tablero";
-		} 
+		} else if ($this->usuario["tipoUsuario"]==MECANICO) {
+			$regreso = "tableroMecanico";
+		} else if ($this->usuario["tipoUsuario"]==CLIENTE) {
+			$regreso = "tableroCliente";
+		}
 		//
 		if ($_SERVER['REQUEST_METHOD']=="POST") {
 			//
@@ -101,6 +105,7 @@ class Controlador
 			if (empty($errores)) {
 				if ($this->modelo->setUsuario($id, $nombres, $apellidos,$nueva)) {
 					$data = $this->modelo->getUsuarioId($id);
+					$data["tipoUsuario"] = $this->usuario["tipoUsuario"];
 					$this->sesion->setUsuario($data);
 					 $this->mensaje(
 		          		"Modificación del perfil exitoso", 
@@ -133,6 +138,7 @@ class Controlador
 		];
 		$this->vista("tableroPerfilVista",$datos);
 	}
+
 
 }
 
