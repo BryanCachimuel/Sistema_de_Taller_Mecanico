@@ -67,6 +67,17 @@ class TableroMecanicoModelo {
 		return $this->db->querySelect($sql);
 	}
 
+	public function setUsuario($id, $nombres, $apellidos, $clave) {
+		$sql = "UPDATE mecanicos SET ";
+		$sql.= "nombres='".$nombres."', ";
+		$sql.= "apellidos='".$apellidos."' ";
+		if ($clave!="") {
+			$sql.= ", clave='".$clave."' ";
+		}
+		$sql.= "WHERE id=".$id;
+		return $this->db->queryNoSelect($sql);
+	}
+
 	public function getUsuarioId($id='') {
 		$sql = "SELECT * FROM mecanicos WHERE id=".$id." AND baja=0";
 		return $this->db->query($sql);
