@@ -67,6 +67,12 @@ class TableroMecanicoModelo {
 		return $this->db->querySelect($sql);
 	}
 
+	public function getUsuarioId($id='') {
+		$sql = "SELECT * FROM mecanicos WHERE id=".$id." AND baja=0";
+		return $this->db->query($sql);
+	}
+
+
 }
 
 ?>
