@@ -64,6 +64,19 @@ class TableroClienteModelo {
 		$sql.= "o.estado=e.id AND v.idCliente=c.id";
 		return $this->db->querySelect($sql);
 	}
+
+	public function setUsuario($id, $nombres, $apellidos, $clave) {
+		$sql = "UPDATE clientes SET ";
+		$sql.= "nombres='".$nombres."', ";
+		$sql.= "apellidos='".$apellidos."' ";
+		if ($clave!="") {
+			$sql.= ", clave='".$clave."' ";
+		}
+		$sql.= "WHERE id=".$id;
+		return $this->db->queryNoSelect($sql);
+	}
+
+	
 }
 
 ?>
