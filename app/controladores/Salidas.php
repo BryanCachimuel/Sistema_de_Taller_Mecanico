@@ -2,13 +2,14 @@
 /**
  * 
  */
-class Salidas extends Controlador {
-
+class Salidas extends Controlador
+{
 	private $modelo = "";
 	private $usuario;
 	private $sesion;
 	
-	function __construct() {
+	function __construct()
+	{
 		//Creamos sesion
 		$this->sesion = new Sesion();
 		if ($this->sesion->getLogin()) {
@@ -247,9 +248,11 @@ class Salidas extends Controlador {
 				"danger");
 			}
 		}
+
   	}
 
-	public function modificar(string $id,string $pagina="1"):void {
+	public function modificar(string $id,string $pagina="1"):void
+	{
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 	    $clientes = $this->modelo->getClientes();
@@ -267,7 +270,8 @@ class Salidas extends Controlador {
 		$this->vista("vehiculosAltaVista",$datos);
 	}
 
-	public function mensajeFacturar() {
+	public function mensajeFacturar()
+	{
 		if ($_SERVER['REQUEST_METHOD']=="POST") {
 			//
 			$id = Helper::cadena($_POST['idOrdenReparacion'] ?? "");
@@ -289,8 +293,8 @@ class Salidas extends Controlador {
 		}
 	}
 
-    public function salida(string $idOrdenReparacion,string $pagina="1") {
-        //Leemos los datos del registro del id
+	public function salida(string $idOrdenReparacion="",string $pagina="1"){
+		//Leemos los datos del registro del id
 		$data = $this->modelo->getOrdenReparacion($idOrdenReparacion);
 		$piezas = $this->modelo->getPiezas($idOrdenReparacion);
 		$datos = [
@@ -306,6 +310,6 @@ class Salidas extends Controlador {
 		  "pagina" => $pagina
 		];
 		$this->vista("salidasAltaVista",$datos);
-    }
+	}
 }
 ?>

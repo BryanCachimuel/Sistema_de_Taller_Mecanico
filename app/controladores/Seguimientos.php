@@ -2,9 +2,9 @@
 /**
  * 
  */
-class Seguimientos extends Controlador {
-	
-    private $modelo = "";
+class Seguimientos extends Controlador
+{
+	private $modelo = "";
 	private $usuario;
 	private $sesion;
 	
@@ -20,7 +20,8 @@ class Seguimientos extends Controlador {
 		}
 	}
 
-	public function alta(string $idOrdenReparacion=""):void {
+	public function alta(string $idOrdenReparacion=""):void
+	{
 	   //Definir los arreglos
 	    $data = array();
 	    $errores = array();
@@ -30,34 +31,36 @@ class Seguimientos extends Controlador {
 	      $idOrdenReparacion = Helper::cadena($_POST['idOrdenReparacion'] ?? "");
 	      $fecha = Helper::cadena($_POST['fecha'] ?? "");
 	      $observacion = Helper::cadena($_POST['observacion'] ?? "");
-
+	      //
 	      $pagina = $_POST['pagina'] ?? "1";
+	      //
+	      // Validamos la información
+	      //
 
-		// validación de información
-	     if(empty($fecha)){
+	      if(empty($fecha)){
 	        array_push($errores,"La fecha del seguimiento es requerida.");
 	      } 
 	      if(Helper::fecha($fecha)==false){
 	      	array_push($errores,"El formato de la fecha no es correcto.");
 	      } 
-
 	      //
 	      if (empty($errores)) { 
 			// Crear arreglo de datos
 			//
 			$data = [
 				"id" => $idSeguimiento,
-				"id" => $idSeguimiento,
 				"idOrdenReparacion"=>$idOrdenReparacion,
 				"fecha"=>$fecha,
 				"observacion"=>$observacion
 			];    
-	         //Enviamos al modelo
+	        //Enviamos al modelo
 	        if(trim($idSeguimiento)===""){
 	          //Alta
 	        	$id = $this->modelo->alta($data);
 				if ($id) {
+					//
 					// Imagenes
+					//
 					if ($this->subirImagenes($_FILES,$idOrdenReparacion,$id)) {
 						$this->mensaje(
 							"Alta del seguimiento de una orden de reparación.", 
@@ -69,7 +72,7 @@ class Seguimientos extends Controlador {
 					} else {
 						$this->mensaje(
 			          		"Error al subir las imágenes.", 
-			          		"Error al su|r las imágenes.", 
+			          		"Error al subir las imágenes.", 
 			          		"Error al subir las imágenes.", 
 			          		"seguimientos/".$pagina,
 			          		"danger"
@@ -85,7 +88,7 @@ class Seguimientos extends Controlador {
 		          	);
 		          }
 	        } else {
-			   //Modificar
+			  //Modificar
 			  if ($this->modelo->modificar($data)) {
 					if ($this->subirImagenes($_FILES,$idOrdenReparacion,$idSeguimiento)) {
 						$this->mensaje(
@@ -126,7 +129,7 @@ class Seguimientos extends Controlador {
 		      "admon" => true,
 		      "usuario" => $this->usuario,
 		      "errores" => $errores,
-			  "idOrdenReparacion" => $idOrdenReparacion,
+		      "idOrdenReparacion"=>$idOrdenReparacion,
 		      "pagina" => 1,
 		      "data" => $data
 		    ];
@@ -134,8 +137,9 @@ class Seguimientos extends Controlador {
 	    }
   	}
 
-	public function borrarImagen(string $id="", string $i="", string $pagina="1") {
-		$this->mensaje(
+  	public function borrarImagen(string $id="",string $i="",string $pagina="1"):void
+  	{
+    	$this->mensaje(
     		"Baja de una imagen", 
     		"Baja de una imagen", 
     		"¿Desea borrar la imagen? Una vez borrada la imagen no podrá ser recuperada.", 
@@ -147,12 +151,13 @@ class Seguimientos extends Controlador {
     	);
 	}
 
-	public function borrarArchivo(string $id,string $i,string $pagina):void {
+	public function borrarArchivo(string $id,string $i,string $pagina):void
+	{
 		$data = $this->modelo->getId($id);
 		$carpeta = "fotos/".$data["idOrdenReparacion"]."/".$data["id"]."/";
 		$foto = "";
 		$salida = false;
-      	if(file_exists($carpeta)) {
+      	if (file_exists($carpeta)) {
         	$archivos_array = scandir($carpeta);
         	$foto = $carpeta.$archivos_array[$i];
         	if(file_exists($foto)){
@@ -160,15 +165,15 @@ class Seguimientos extends Controlador {
         		$salida = true;
         	}
       	}
-      	if($salida) {
+      	if ($salida) {
       		$this->mensaje(
         		"Borrar una imagen", 
         		"Borrar una imagen", 
-        		"Se borró correctamente la imagen: ".$foto, 	
+        		"Se borró correctamente la imagen: ".$foto, 
         		"seguimientos/desplegarSeguimiento/".$id."/".$pagina,
         		"success"
         	);
-      	}else {
+      	} else {
       		$this->mensaje(
         		"Borrar una imagen", 
         		"Borrar una imagen", 
@@ -251,7 +256,8 @@ class Seguimientos extends Controlador {
 		$this->vista("seguimientosCaratulaVista",$datos);
 	}
 
-	public function desplegarSeguimiento(string $idSeguimiento='', string $pagina="1"):void {
+	public function desplegarSeguimiento(string $idSeguimiento='', string $pagina="1"):void
+	{
 		$data = $this->modelo->getId($idSeguimiento);
 		$id = $data["idOrdenReparacion"];
 		$carpeta = "fotos/".$id."/".$idSeguimiento;
@@ -274,12 +280,13 @@ class Seguimientos extends Controlador {
 		$this->vista("seguimientosArchivosVista",$datos);
 	}
 
-	public function mostrar(string $id,string $pagina="1"):void {
+	public function mostrar(string $id,string $pagina="1"):void
+	{
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 		$vehiculos = $this->modelo->getVehiculos();
 	    $mecanicos = $this->modelo->getMecanicos();
-		$piezas = $this->modelo->getPiezas($id);
+	    $piezas = $this->modelo->getPiezas($id);
 		$datos = [
 			"titulo" => "Mostrar una orden de reparación",
 			"subtitulo" =>"Mostrar una orden de reparación",
@@ -289,14 +296,15 @@ class Seguimientos extends Controlador {
 			"activo" => "ordenreparacion",
 			"vehiculos" => $vehiculos,
 		    "mecanicos" => $mecanicos,
-			"piezas" => $piezas,
+		    "piezas" => $piezas,
 			"pagina" => $pagina,
 			"data" => $data
 		];
 		$this->vista("ordenReparacionMostrarVista",$datos);
 	}
 
-	public function modificarSeguimiento(string $idSeguimiento, string $pagina="1"):void {
+	public function modificarSeguimiento(string $idSeguimiento,string $pagina="1"):void
+	{
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($idSeguimiento);
 		//
@@ -314,14 +322,15 @@ class Seguimientos extends Controlador {
 		$this->vista("seguimientosAltaVista",$datos);
 	}
 
-	public function mostrarImagen(string $id="", string $i="", string $pagina="1"):void {
+	public function mostrarImagen(string $id="",string $i="",string $pagina="1"):void
+	{
 		$data = $this->modelo->getId($id);
 		$carpeta = "fotos/".$data["idOrdenReparacion"]."/".$data["id"]."/";
 		$foto = "";
-      	if(file_exists($carpeta)) {
+      	if (file_exists($carpeta)) {
         	$archivos_array = scandir($carpeta);
         	$foto = $carpeta.$archivos_array[$i];
-      	}else {
+      	} else {
         	$archivos_array = [];
       	}
     	$this->mensaje(
@@ -333,30 +342,32 @@ class Seguimientos extends Controlador {
     	);
 	}
 
-    public function seguimiento(string $idOrdenReparacion, string $pagina="1"):void {
-        $num = $this->modelo->getNumRegistros("seguimientos");
-        $inicio = ($pagina-1)*TAMANO_PAGINA;
-        $totalPaginas = ceil($num/TAMANO_PAGINA);
-        $data = $this->modelo->getTablaSeguimiento($inicio,TAMANO_PAGINA,$idOrdenReparacion);
-        $datos = [
-            "titulo" => "Seguimiento a una orden de reparación",
-            "subtitulo" => "Seguimiento a una orden de reparación",
-            "usuario" => $this->usuario,
-            "activo" => "seguimientos",
-            "admon" => true,
-            "data" => $data,
-            "idOrdenReparacion" => $idOrdenReparacion,
-            "pag" => [
-                "totalPaginas" => $totalPaginas,
-                "regresa" => "seguimientos",
-                "pagina" => $pagina
-            ],
-            "menu" => true
-        ];
-        $this->vista("seguimientosOrdenReparacionCaratulaVista",$datos);
-    }
+	public function seguimiento(string $idOrdenReparacion, string $pagina="1"):void
+	{
+		$num = $this->modelo->getNumRegistros("seguimientos");
+		$inicio = ($pagina-1)*TAMANO_PAGINA;
+		$totalPaginas = ceil($num/TAMANO_PAGINA);
+		$data = $this->modelo->getTablaSeguimiento($inicio,TAMANO_PAGINA,$idOrdenReparacion);
+		$datos = [
+			"titulo" => "Seguimiento a una orden de reparación",
+			"subtitulo" => "Seguimiento a una orden de reparación",
+			"usuario"=>$this->usuario,
+			"activo"=>"seguimientos",
+			"admon"=>true,
+			"data"=>$data,
+			"idOrdenReparacion"=>$idOrdenReparacion,
+			"pag" => [
+				"totalPaginas" => $totalPaginas,
+				"regresa" => "seguimientos",
+				"pagina" => $pagina
+			],
+			"menu" => true
+		];
+		$this->vista("seguimientosOrdenReparacionCaratulaVista",$datos);
+	}
 
-	public function subirImagenes($fotos_array,$idOrdenReparacion,$idSeguimiento ):bool {
+	public function subirImagenes($fotos_array,$idOrdenReparacion,$idSeguimiento ):bool
+	{
 		$salida = true;
 		if($fotos_array['fotos']){
 			$tipos_array = ["image/jpeg","image/gif","image/png"];
@@ -402,6 +413,5 @@ class Seguimientos extends Controlador {
 	  	}
 	  	return $salida;
 	}
-
 }
 ?>

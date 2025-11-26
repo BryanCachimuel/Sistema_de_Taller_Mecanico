@@ -65,8 +65,6 @@ class TableroCliente extends Controlador
 
 	public function mostrar(string $id,string $pagina="1"):void
 	{
-		//ElYNBw1B_R
-		//4jG7RrfQ2y
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 	    $piezas = $this->modelo->getPiezas($id);

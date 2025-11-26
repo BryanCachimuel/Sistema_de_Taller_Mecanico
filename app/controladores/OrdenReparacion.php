@@ -272,7 +272,7 @@ class OrdenReparacion extends Controlador
 		$data = $this->modelo->getId($id);
 		$vehiculos = $this->modelo->getVehiculos();
 	    $mecanicos = $this->modelo->getMecanicos();
-		$piezas = $this->modelo->getPiezas($id);
+	    $piezas = $this->modelo->getPiezas($id);
 		$datos = [
 			"titulo" => "Mostrar una orden de reparación",
 			"subtitulo" =>"Mostrar una orden de reparación",
@@ -282,7 +282,7 @@ class OrdenReparacion extends Controlador
 			"activo" => "ordenreparacion",
 			"vehiculos" => $vehiculos,
 		    "mecanicos" => $mecanicos,
-			"piezas" => $piezas,
+		    "piezas" => $piezas,
 			"pagina" => $pagina,
 			"data" => $data
 		];
