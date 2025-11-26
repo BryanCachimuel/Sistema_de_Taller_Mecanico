@@ -2,7 +2,8 @@
 /**
  * 
  */
-class Login extends Controlador {
+class Login extends Controlador
+{
 	private $modelo = "";
 	private $sesion;
 	
@@ -11,7 +12,8 @@ class Login extends Controlador {
 		$this->modelo = $this->modelo("LoginModelo");
 	}
 
-	public function caratula() {
+	public function caratula()
+	{
 		$data = [];
 		if (isset($_COOKIE['datos'])) {
 			$datos_array = explode("|",$_COOKIE['datos']);
@@ -30,7 +32,8 @@ class Login extends Controlador {
 		$this->vista("loginCaratulaVista",$datos);
 	}
 
-	public function olvido() {
+	public function olvido()
+	{
 		$errores = [];
 		if ($_SERVER['REQUEST_METHOD']=="POST") {
 			$correo = $_POST['correo']??"";
@@ -62,7 +65,8 @@ class Login extends Controlador {
 		$this->vista("loginOlvidoVista",$datos);
 	}
 
-	public function cambiarClave(string $id=''):void {
+	public function cambiarClave(string $id=''):void
+	{
 		$id=Helper::desencriptar($id);
 		$errores=[];
 		if ($_SERVER['REQUEST_METHOD']=="POST") {
@@ -116,7 +120,8 @@ class Login extends Controlador {
 		$this->vista("loginCambiarVista",$datos);
 	}
 
-	public function verificar() {
+	public function verificar()
+	{
 		$errores=[];
 		if ($_SERVER["REQUEST_METHOD"]=="POST") {
 			$id=$_POST["id"]??"";
@@ -201,7 +206,5 @@ class Login extends Controlador {
 				"danger");
 		}
 	}
-
-
 }
 ?>

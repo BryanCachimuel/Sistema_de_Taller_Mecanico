@@ -177,13 +177,14 @@ class OrdenAlmacen extends Controlador
 		  "activo" => 'ordenalmacen',
 		  "data" => $data,
 		  "detalle" => $detalle,
-		  "pag" => $pagina, 
+		  "pag" => $pagina,
 		  "baja" => true
 		];
 		$this->vista("ordenAlmacenDesplegarVista",$datos);
 	}
 
-	public function bajaLogica(string $id='',string $pagina="1"):void {
+	public function bajaLogica(string $id='',string $pagina="1"):void
+	{
 		if (isset($id) && $id!="") {
 			if ($this->modelo->bajaLogica($id)) {
 				$detalle = $this->modelo->getOrdenAlmacenDetalle($id);
@@ -199,105 +200,104 @@ class OrdenAlmacen extends Controlador
 						}
 					}
 					$this->mensaje(
-						"Baja de una orden de almacén", 
-						"Baja de una orden de almacén", 
-						"Se borró correctamente la orden de almacén: ".$id, 
-						"ordenalmacen/".$pagina,
-						"success"
-					);
+					"Baja de una orden de almacén", 
+					"Baja de una orden de almacén", 
+					"Se borró correctamente la orden de almacén: ".$id, 
+					"ordenalmacen/".$pagina,
+					"success");
 				} else {
 					$this->mensaje(
-						"Baja de una orden de reparación", 
-						"Baja de una orden de reparación", 
-						"Error al borrar la orden de almacén: ".$id, 
-						"ordenreparacion/".$pagina,
-						"danger"
-					);
+					"Baja de una orden de reparación", 
+					"Baja de una orden de reparación", 
+					"Error al borrar la orden de almacén: ".$id, 
+					"ordenreparacion/".$pagina,
+					"danger");
 				}
 	        } 
 	   }
 	}
 
-
-	public function borrarOrdenAlmacen(string $idOrdenAlmacen=''):void {
+	public function borrarOrdenAlmacen(string $idOrdenAlmacen=''):void
+	{
 		if ($this->modelo->borrarPiezasOrdenAlmacen($idOrdenAlmacen)) {
-			if($this->modelo->bajaLogica($idOrdenAlmacen)) {
+			if ($this->modelo->bajaLogica($idOrdenAlmacen)) {
 				$this->caratula();
-			}else {
+			} else {
 				$this->mensaje(
-					"Error al borrar orden de almacén",
-					"Error al borrar orden de almacén",
-					"Error al borrar orden de almacén: ".$idOrdenAlmacen,
-					"ordenalmacen/".$pag,
-					"danger"
-				);
+				"Error al borrar orden de almacén", 
+				"Error al borrar orden de almacén", 
+				"Error al borrar la orden de almacén: ".$idOrdenAlmacen, 
+				"ordenalmacen/".$pag,
+				"danger");
 			}
 		} else {
 			$this->mensaje(
-					"Error al borrar orden de almacén",
-					"Error al borrar orden de almacén",
-					"Error al borrar las piezas de orden de almacén: ".$idOrdenAlmacen,
-					"ordenalmacen/".$pag,
-					"danger"
-				);
+			"Error al borrar orden de almacén", 
+			"Error al borrar orden de almacén", 
+			"Error al borrar las piezas de orden de almacén: ".$idOrdenAlmacen, 
+			"ordenalmacen/".$pag,
+			"danger");
 		}
-		
 	}
 
-	public function borrarPieza(string $idPieza='', string $pag="1"):void {
-		if ($idPieza=="") {
+	public function borrarPieza(string $idPieza='',string $pag='1'):void
+	{
+		if($idPieza==""){
 			Helper::mostrar("Error fatal :0");
 		} else {
 			$piezaDetalle = $this->modelo->getPiezaDetalle($idPieza);
 			$datos = [
-				"titulo" => "Baja de una pieza",
-				"subtitulo" => "Baja de una pieza",
-				"menu" => true,
-				"admon" => true,
-				"errores" => [],
-				"activo" => 'ordenalmacen',
-				"data" => $piezaDetalle,
-				"pag" => $pag,
-				"baja" => true
+			  "titulo" => "Baja de una pieza.",
+			  "subtitulo" => "Baja de una pieza.",
+			  "menu" => true,
+			  "admon" => true,
+			  "errores" => [],
+			  "activo" => 'ordenalmacen',
+			  "data" => $piezaDetalle,
+			  "pag" => $pag,
+			  "baja" => true
 			];
-			$this->vista("ordenAlmacenBajaPiezaVista", $datos);
-		}	
-	}
-
-	public function borrarOrdenAlmacenPieza():void {
-		/* llamada desde: ordenAlmacenBajaPiezaVista */
-		/* definir los arreglos */
-		$data = array();
-	    $errores = array();
-		if($_SERVER['REQUEST_METHOD'] == "POST") {
-			$idOrdenAlmacen = $_POST['idOrdenAlmacen'] ?? "";
-			$idOrdenAlmacenDetalle = $_POST['idOrdenAlmacenDetalle'] ?? "";
-			$idPieza = Helper::cadena($_POST['idPieza'] ?? "");
-			$pieza = Helper::cadena($_POST['pieza'] ?? "");
-			$cantidad = Helper::cadena($_POST['cantidad'] ?? "");
-			$pag = Helper::cadena($_POST['pag'] ?? "");
-
-			if($this->modelo->bajaPiezaLogica($idOrdenAlmacenDetalle)) {
-				$this->mensaje(
-					"Baja de la pieza del órden de almacen",
-					"Baja de la pieza del órden de almacen",
-					"Se borró correctamente la pieza del órden de almacén: ".$pieza,
-					"ordenalmacen/mostrarOrdenAlmacen/".$idOrdenAlmacen,
-					"success"
-				);
-			}else {
-				$this->mensaje(
-					"Baja de una orden de almacén",
-					"Baja de una orden de almacén",
-					"Error al borrar la pieza de órden de almacén: ".$idOrdenAlmacen,
-					"ordenalmacen/".$pag,
-					"danger"
-				);
-			}
+			$this->vista("ordenAlmacenBajaPiezaVista",$datos);
 		}
 	}
 
-	public function caratula(string $pagina="1"):void {
+	public function borrarOrdenAlmacenPieza():void
+	{
+		//Llamada desde: ordenAlmacenBajaPiezaVista.php
+		//
+		//Definir los arreglos
+		//
+	    $data = array();
+	    $errores = array();
+	    if ($_SERVER['REQUEST_METHOD']=="POST") {
+	    	//
+	    	$idOrdenAlmacen = $_POST['idOrdenAlmacen'] ?? "";
+	    	$idOrdenAlmacenDetalle = $_POST['idOrdenAlmacenDetalle'] ?? "";
+			$idPieza = Helper::cadena($_POST['idPieza'] ?? "");
+			$pieza = Helper::cadena($_POST['pieza'] ?? "");
+			$cantidad = Helper::cadena($_POST['cantidad'] ?? "");
+			$pag = Helper::cadena($_POST['pag'] ?? "1");
+			//
+			if ($this->modelo->bajaPiezaLogica($idOrdenAlmacenDetalle)) {
+				$this->mensaje(
+				"Baja de la pieza del órden de almacén", 
+				"Baja de la pieza del órden de almacén", 
+				"Se borró correctamente la pieza del órden de almacén: ".$pieza, 
+				"ordenalmacen/mostrarOrdenAlmacen/".$idOrdenAlmacen, 
+				"success");
+			} else {
+				$this->mensaje(
+				"Baja de una orden de almacén", 
+				"Baja de una orden de almacén", 
+				"Error al borrar la pieza de orden de almacén: ".$idOrdenAlmacen, 
+				"ordenalmacen/".$pag,
+				"danger");
+			}	
+		}
+	}
+
+	public function caratula(string $pagina="1"):void
+	{
 		$num = $this->modelo->getNumRegistros();
 		$inicio = ($pagina-1)*TAMANO_PAGINA;
 		$totalPaginas = ceil($num/TAMANO_PAGINA);
@@ -318,36 +318,41 @@ class OrdenAlmacen extends Controlador
 		$this->vista("ordenAlmacenCaratulaVista",$datos);
 	}
 
-	public function cancelarOrdenAlmacen(string $idOrdenAlmacen=''): void {
+	public function cancelarOrdenAlmacen(string $idOrdenAlmacen=''):void
+	{
 		$this->mensaje(
-			"Cancelar la órden de almacén",
-			"Cancelar la órden de almacén",
-			"¿Desea cancelar la órden de almacén? Se borrará definitivamente del sistema",
-			"ordenalmacen/mostrarOrdenAlmacen/".$idOrdenAlmacen,
-			"success",
-			"ordenalmacen/borrarOrdenAlmacen/".$idOrdenAlmacen,
-			"danger",
-			"Cancelar la órden de almacén"
-		);
-	}	
+		"Cancelar la órden de almacén", 
+		"Cancelar la órden de almacén", 
+		"¿Desea cancelar la órden de almacén? Se borrará definitivamente del sistema.", 
+		"ordenalmacen/mostrarOrdenAlmacen/".$idOrdenAlmacen, 
+		"success",
+		"ordenalmacen/borrarOrdenAlmacen/".$idOrdenAlmacen,
+		"danger",
+		"Cancelar la órden de almacén");
+	}
 
-	public function desplegarOrdenAlmacen(string $idOrdenAlmacen='', string $pag="1"):void {
+	public function desplegarOrdenAlmacen(string $idOrdenAlmacen='', string $pag="1"):void
+	{
 		$data = $this->modelo->getId($idOrdenAlmacen);
 		$detalle = $this->modelo->getOrdenAlmacenDetalle($idOrdenAlmacen);
 		$datos = [
-			"titulo" => "Detalle de una órden de almacén",
-			"subtitulo" => "Detalle de una órden de almacén",
+			"titulo" => "Detalle de una orden de almacén",
+			"subtitulo" => "Detalle de una orden de almacén",
 			"activo" => "ordenalmacen",
 			"menu" => true,
 			"admon" => true,
-			"pag" => 1,
+			"pag"=>1,
 			"detalle" => $detalle,
 			"data" => $data
-		];
-		$this->vista("ordenAlmacenDesplegarVista", $datos);
+	    ];
+	    $this->vista("ordenAlmacenDesplegarVista",$datos);
 	}
 
-	public function mostrarOrdenAlmacen(string $idOrdenAlmacen='',array $data=[],array $errores=[]):void {
+	public function mostrarOrdenAlmacen(
+		string $idOrdenAlmacen='', 
+		array $data=[], 
+		array $errores=[]):void
+	{
 		if (empty($data)) {
 			$data = $this->modelo->getId($idOrdenAlmacen);
 		}
@@ -366,33 +371,33 @@ class OrdenAlmacen extends Controlador
 	    $this->vista("ordenAlmacenMostrarVista",$datos);
 	}
 
-	public function terminarOrdenAlmacen(string $idOrdenAlmacen='',string $pag="1"): void {
+	public function terminarOrdenAlmacen(string $idOrdenAlmacen='', string $pag="1"):void
+	{
 		$total = $this->modelo->calcularTotal($idOrdenAlmacen);
 		if ($this->modelo->actualizarTotal($idOrdenAlmacen,$total)) {
 			$detalle = $this->modelo->getOrdenAlmacenDetalle($idOrdenAlmacen);
-			for($i=0; $i < count($detalle); $i++) {
-				if(!$this->modelo->actualizarInventario($detalle[$i]["idPieza"],$detalle[$i]["cantidad"])) {
+			for ($i=0; $i < count($detalle); $i++) { 
+				if (!$this->modelo->actualizarInventario($detalle[$i]["idPieza"],$detalle[$i]["cantidad"])) {
 					$this->mensaje(
-						"Error al actualizar el total en la órden de almacén",
-						"Error al actualizar el total en la órden de almacén",
-						"Error al actualizar el total en la órden de almacén",
-						"ordenAlmacen/".$pag,
-						"danger"
-					);
+		          		"Error al actualizar es total en la órden de almacén.", 
+		          		"Error al actualizar es total en la órden de almacén.", 
+		          		"Error al actualizar es total en la órden de almacén", 
+		          		"ordenAlmacen/".$pag,
+		          		"danger"
+		          	);
 				}
 			}
 			$this->caratula();
 			exit;
 		} else {
 			$this->mensaje(
-				"Error al actualizar el total en la órden de almacén",
-				"Error al actualizar el total en la órden de almacén",
-				"Error al actualizar el total en la órden de almacén",
-				"ordenAlmacen/".$pag,
-				"danger"
-			);
+          		"Error al actualizar es total en la órden de almacén.", 
+          		"Error al actualizar es total en la órden de almacén.", 
+          		"Error al actualizar es total en la órden de almacén", 
+          		"ordenAlmacen/".$pag,
+          		"danger"
+          	);
 		}
-		
 	}
 }
 ?>

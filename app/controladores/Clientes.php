@@ -133,7 +133,8 @@ class Clientes extends Controlador
 	    }
   	}
 
-	public function borrar(string $id="",string $pagina="1"):void {
+	public function borrar(string $id="",string $pagina="1"):void 
+	{
 		//Leemos los datos del registro del id
 		$data = $this->modelo->getId($id);
 		$estadoCliente = $this->modelo->getEstadoCliente();
@@ -172,7 +173,6 @@ class Clientes extends Controlador
 	    	);
 		}
 	}
-
 
 	public function bajaLogica(string $id='',string $pagina="1"):void
 	{
