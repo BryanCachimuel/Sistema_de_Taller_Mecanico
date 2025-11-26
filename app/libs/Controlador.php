@@ -69,7 +69,8 @@ class Controlador
 	      exit;
 	  }
 
-	public function perfil() {
+	public function perfil()
+	{
 		$errores = [];
 		if ($this->usuario["tipoUsuario"]==ADMON) {
 			$regreso = "tablero";
@@ -138,8 +139,6 @@ class Controlador
 		];
 		$this->vista("tableroPerfilVista",$datos);
 	}
-
-
 }
 
 ?>

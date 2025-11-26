@@ -63,13 +63,13 @@ class MySQLdb
 		return $salida;
 	}
 
-	public function queryCrudo($sql="") {
+	public function queryCrudo($sql=""){
 		return $this->conn->query($sql);
 	}
 
-	public function getBaseDatos() {
+	public function getBaseDatos()
+	{
 		return $this->db;
 	}
-
 }
 ?>

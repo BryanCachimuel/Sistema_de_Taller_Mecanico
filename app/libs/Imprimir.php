@@ -1,25 +1,25 @@
-<?php
-
+<?php  
 /**
  * 
  */
-class Imprimir extends fpdf {
-    private $razonSocial = "";
-    private $cliente = "";
-    private $vehiculo = "";
-    private $piezas = [];
-
-    function __construct(string $razonSocial, string $cliente, string $vehiculo)
-    {
-        parent::__construct(); //super
-        $this->razonSocial = $razonSocial;
+class Imprimir extends fpdf
+{
+	private $razonSocial="";
+    private $cliente="";
+    private $vehiculo="";
+    private $piezas=[];
+	
+	function __construct(string $razonSocial,string $cliente, string $vehiculo)
+	{
+		parent::__construct(); //super
+		$this->razonSocial = $razonSocial;
         $this->cliente = $cliente;
         $this->vehiculo = $vehiculo;
-    }
+	}
 
-    // Cabecera de página
+	// Cabecera de página
     public function Header() {
-         // Logo
+        // Logo
         $this->Image('img/placeholder.jpg',150,8,50,40,"JPG");
         // Arial bold 15
         $this->SetFont('Arial','B',15);
@@ -40,10 +40,11 @@ class Imprimir extends fpdf {
     }
 
     // Pie de página
-    public function Footer() {}
+    public function Footer() {
+    }
 
     // Contenido del PDF
- public function cuerpoDocumento($piezas,$manoObra,$otros,$iva,$observacion) {
+    public function cuerpoDocumento($piezas,$manoObra,$otros,$iva,$observacion) {
         $iva = floatval($iva) / 100;
         $manoObra = floatval($manoObra);
         $otros = floatval($otros);
@@ -116,6 +117,11 @@ class Imprimir extends fpdf {
         $this->SetTextColor(39,39,51);
         $this->MultiCell(0,9,iconv("UTF-8", "ISO-8859-1",$observacion),0,'C',false);
         $this->MultiCell(0,9,iconv("UTF-8", "ISO-8859-1","Cualquier duda o reclamación es indispensable presentar este documento."),0,'C',false);
+
 	}
 
 }
+
+
+
+?>
