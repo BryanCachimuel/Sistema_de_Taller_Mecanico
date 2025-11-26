@@ -126,7 +126,8 @@ class Vehiculos extends Controlador
 	    }
   	}
 
-	public function borrar(string $id="",string $pagina="1"):void {
+	public function borrar(string $id="",string $pagina="1"):void 
+	{
 		//Leemos los datos del registro del id
 		$data = $this->modelo->getId($id);
 		$clientes = $this->modelo->getClientes();

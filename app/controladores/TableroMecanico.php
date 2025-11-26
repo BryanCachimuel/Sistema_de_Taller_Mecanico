@@ -20,7 +20,8 @@ class TableroMecanico extends Controlador
 		}
 	}
 
-	public function caratula(string $pagina="1") {
+	public function caratula(string $pagina="1")
+	{
 		$num = $this->modelo->getNumRegistros("ordenReparacion",$this->usuario["id"]);
 		$inicio = ($pagina-1)*TAMANO_PAGINA;
 		$totalPaginas = ceil($num/TAMANO_PAGINA);
@@ -41,15 +42,16 @@ class TableroMecanico extends Controlador
 		$this->vista("tableroMecanicoCaratulaVista",$datos);
 	}
 
-
-	public function logout() {
+	public function logout()
+	{
 		if (isset($_SESSION['usuario'])) {
 			$this->sesion->finalizarLogin();
 		}
 		header("location:".RUTA);
 	}
 
-	public function desplegarSeguimiento(string $idSeguimiento=''):void {
+	public function desplegarSeguimiento(string $idSeguimiento=''):void
+	{
 		$data = $this->modelo->getSeguimientoId($idSeguimiento);
 		$id = $data["idOrdenReparacion"];
 		$carpeta = "fotos/".$id."/".$idSeguimiento;
@@ -70,7 +72,10 @@ class TableroMecanico extends Controlador
 		$this->vista("tableroMecanicoArchivosVista",$datos);
 	}
 
-	public function mostrar(string $id,string $pagina="1"):void  {
+	public function mostrar(string $id,string $pagina="1"):void
+	{
+		//ElYNBw1B_R
+		//4jG7RrfQ2y
 		//Leemos los datos de la tabla
 		$data = $this->modelo->getId($id);
 	    $piezas = $this->modelo->getPiezas($id);
@@ -90,7 +95,8 @@ class TableroMecanico extends Controlador
 		$this->vista("tableroMecanicoMostrarVista",$datos);
 	}
 
-	public function mostrarImagen(string $id="",string $i=""):void {
+	public function mostrarImagen(string $id="",string $i=""):void
+	{
 		$data = $this->modelo->getSeguimientoId($id);
 		$carpeta = "fotos/".$data["idOrdenReparacion"]."/".$data["id"]."/";
 		$foto = "";
@@ -108,7 +114,5 @@ class TableroMecanico extends Controlador
     		"success"
     	);
 	}
-
-
 }
 ?>
