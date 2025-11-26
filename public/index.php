@@ -1,4 +1,4 @@
-<?php
-    require_once("../app/inicio.php");
-    $control = new Control();
+<?php  
+require_once("../app/inicio.php");
+$control = new Control();
 ?>
