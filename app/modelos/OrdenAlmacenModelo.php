@@ -41,14 +41,16 @@ class OrdenAlmacenModelo
 		return $this->db->queryNoSelect($sql);
 	}
 
-	public function actualizarTotal(string $idOrdenAlmacen, float $total): bool {
-		$sql = "UPDATE ordenAlmacen ";
+	public function actualizarTotal(string $idOrdenAlmacen,float $total):bool
+	{
+		$sql = "UPDATE OrdenAlmacen ";
 		$sql.= "SET costo=".$total." ";
 		$sql.= "WHERE id=".$idOrdenAlmacen;
 		return $this->db->queryNoSelect($sql);
 	}
 
-	public function actualizarInventario(string $idPieza, float $cantidad):bool {
+	public function actualizarInventario(string $idPieza,float $cantidad):bool
+	{
 		$sql = "UPDATE piezas ";
 		$sql.= "SET stock=stock-".$cantidad;
 		$sql.= " WHERE id=".$idPieza;
@@ -63,23 +65,27 @@ class OrdenAlmacenModelo
 		return $salida;
 	}
 
-	public function borrarPiezasOrdenAlmacen(string $idOrdenAlmacen):bool {
+	public function borrarPiezasOrdenAlmacen(string $idOrdenAlmacen):bool
+	{
 		$sql = "DELETE FROM ordenAlmacenDetalle WHERE idOrdenAlmacen=".$idOrdenAlmacen;
 		return $this->db->queryNoSelect($sql);
 	}
-	
-	public function bajaPiezaLogica(string $id):bool {
+
+	public function bajaPiezaLogica(string $id):bool
+	{
 		$sql = "DELETE FROM ordenAlmacenDetalle WHERE id=".$id;
 		return $this->db->queryNoSelect($sql);
 	}
 
-	public function calcularTotal(string $idOrdenAlmacen):float {
+	public function calcularTotal(string $idOrdenAlmacen):float
+	{
 		$sql = "SELECT SUM(o.costo) as total ";
 		$sql.= "FROM OrdenAlmacenDetalle as o ";
 		$sql.= "WHERE o.idOrdenAlmacen=".$idOrdenAlmacen;
 		$salida = $this->db->query($sql);
 		return $salida["total"];
 	}
+
 
 	public function getId(string $id=''):array
 	{
@@ -127,24 +133,27 @@ class OrdenAlmacenModelo
 		return $this->db->query($sql);
 	}
 
-	public function getPiezaDetalle(string $id=''):array {
+	public function getPiezaDetalle(string $id=''):array
+	{
 		if(empty($id)) return [];
 		$sql = "SELECT o.id, o.idOrdenAlmacen, o.idPieza, o.cantidad, o.costo, ";
 		$sql.= "p.nombrePieza, a.idOrdenReparacion ";
-		$sql.= "FROM ordenalmacendetalle as o, ordenalmacen as a, piezas as p ";
+		$sql.= "FROM OrdenAlmacenDetalle as o, OrdenAlmacen as a, piezas as p ";
 		$sql.= "WHERE o.id='".$id."' AND ";
 		$sql.= "o.idOrdenAlmacen = a.id AND ";
 		$sql.= "o.idPieza = p.id";
 		return $this->db->query($sql);
 	}
 
-	public function getNumRegistros():int {
+	public function getNumRegistros():int
+	{
 		$sql = "SELECT COUNT(*) FROM ordenalmacen WHERE baja=0";
 		$salida = $this->db->query($sql);
 		return $salida["COUNT(*)"];
 	}
 
-	public function getTabla(int $inicio=1, int $tamano=0):array {
+	public function getTabla(int $inicio=1, int $tamano=0):array
+	{
 		$sql = "SELECT o.id, o.idOrdenReparacion, o.costo, o.alta_dt, r.estado as idEstado, e.estado, ";
 		$sql.= "CONCAT(o.idOrdenReparacion,') ',v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
 		$sql.= "FROM ordenalmacen as o, ordenReparacion as r, vehiculos as v, estadoOrdenReparacion as e ";
@@ -157,7 +166,8 @@ class OrdenAlmacenModelo
 		return $this->db->querySelect($sql);
 	}
 
-	public function regresarPiezasOrdenAlmacen(string $idPieza, string $cantidad): bool {
+	public function regresarPiezasOrdenAlmacen(string $idPieza, string $cantidad):bool
+	{
 		$sql = "UPDATE piezas ";
 		$sql.= "SET stock=stock+".intval($cantidad);
 		$sql.= " WHERE id=".$idPieza;

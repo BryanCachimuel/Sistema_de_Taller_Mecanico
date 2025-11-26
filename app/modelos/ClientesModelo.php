@@ -32,14 +32,26 @@ class ClientesModelo
 		return $this->db->queryNoSelect($sql);
 	}
 
-	public function bajaLogica(string $id):bool {
+	public function bajaLogica(string $id):bool
+	{
 		$salida = false;
 		$sql = "UPDATE clientes SET baja=1, baja_dt=(NOW()) WHERE id=".$id;
 		$salida = $this->db->queryNoSelect($sql);
 		return $salida;
 	}
 
-	public function getIntegridadReferencial($id) {
+	public function getId(string $id=''):array
+	{
+		if(empty($id)) return [];
+		$sql = "SELECT id, nombres, apellidos, telefono, ";
+		$sql.= "correo, clave, razonSocial, rfc, direccion, estado ";
+		$sql.= "FROM clientes ";
+		$sql.= "WHERE id='".$id."' AND baja=0";
+		return $this->db->query($sql);
+	}
+
+	public function getIntegridadReferencial($id)
+	{
 		//
 		$ir_array = [0,0];
 		$sql = "SELECT COUNT(*) FROM vehiculos WHERE baja=0 AND idCliente=".$id;
@@ -48,16 +60,6 @@ class ClientesModelo
 		//
 		$ir_array[0] = $ir_array[1];
 		return $ir_array;
-	}
-
-
-	public function getId(string $id=''):array {
-		if(empty($id)) return [];
-		$sql = "SELECT id, nombres, apellidos, telefono, ";
-		$sql.= "correo, clave, razonSocial, rfc, direccion, estado ";
-		$sql.= "FROM clientes ";
-		$sql.= "WHERE id='".$id."' AND baja=0";
-		return $this->db->query($sql);
 	}
 
 	public function getNumRegistros():int
