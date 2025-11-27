@@ -21,7 +21,7 @@
       <input type="password" name="verifica" id="verifica" class="form-control" placeholder="Repite tu nueva clave de acceso" autocomplete="off">
     </div>
 
-    <div class="form-group text-start mt-3">
+    <div class="form-group text-start">
       <input type="hidden" name="id" id="id" value="<?php print $datos['data']["id"]; ?>">
       <input type="submit" class="btn btn-success">
       <a href="<?php print RUTA.$datos['regreso']; ?>" class="btn btn-info">Regresar</a>
