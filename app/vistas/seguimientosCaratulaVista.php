@@ -5,8 +5,8 @@
     <tr>
     <th>id</th>
     <th>Vehículo</th>
-    <th>Fecha Ingreso</th>
-    <th>Fecha Salida</th>
+    <th>Fecha ingreso</th>
+    <th>Fecha salida</th>
     <th>Seguimiento</th>
   </tr>
   </thead>
@@ -25,5 +25,4 @@
   </tbody>
   </table>
   <?php include_once("paginacion.php"); ?> 
-
 <?php include_once("piepagina.php"); ?>					
