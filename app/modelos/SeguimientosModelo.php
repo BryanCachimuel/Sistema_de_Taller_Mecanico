@@ -2,20 +2,23 @@
 /**
  * 
  */
-class SeguimientosModelo {
+class SeguimientosModelo
+{
+	private $db="";
 	
-    private $db="";
-	
-	function __construct() {
+	function __construct()
+	{
 		$this->db = new MySQLdb();
 	}
 
-	public function alta(array $data=[]):bool {
+	public function alta(array $data=[]):int
+	{
 		$salida = 0;
 		$sql = "INSERT INTO seguimientos VALUES(0,";//1. id 
 		$sql.= "'".$data['idOrdenReparacion']."', ";//2. idOrdenReparacion
 		$sql.= "'".$data['fecha']."', "; 			//3. fecha
 		$sql.= "'".$data['observacion']."', "; 		//4. observacion
+		//
 		$sql.= "0) ";                   			//5. baja
 		if ($this->db->queryNoSelect($sql)) {
 			$salida = $this->db->query("SELECT LAST_INSERT_ID()");
@@ -24,14 +27,16 @@ class SeguimientosModelo {
 		return $salida;
 	}
 
-	public function bajaLogica(string $id):bool {
+	public function bajaLogica(string $id):bool
+	{
 		$salida = false;
 		$sql = "UPDATE seguimientos SET baja=1 WHERE id=".$id;
 		$salida = $this->db->queryNoSelect($sql);
 		return $salida;
 	}
 
-	public function getId(string $id=''):array {
+	public function getId(string $id=''):array
+	{
 		if(empty($id)) return [];
 		$sql = "SELECT id, idOrdenReparacion, fecha, observacion ";
 		$sql.= "FROM seguimientos ";
@@ -39,13 +44,15 @@ class SeguimientosModelo {
 		return $this->db->query($sql);
 	}
 
-	public function getNumRegistros(string $tabla):int {
+	public function getNumRegistros(string $tabla):int
+	{
 		$sql = "SELECT COUNT(*) FROM ".$tabla." WHERE baja=0";
 		$salida = $this->db->query($sql);
 		return $salida["COUNT(*)"];
 	}
 
-	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0):array {
+	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0):array
+	{
 		$sql = "SELECT o.id, o.idVehiculo, o.fechaIngreso, o.fechaSalida, ";
 		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
 		$sql.= "FROM OrdenReparacion as o, Vehiculos as v ";
@@ -57,7 +64,8 @@ class SeguimientosModelo {
 		return $this->db->querySelect($sql);
 	}
 
-    public function getTablaSeguimiento(int $inicio=1, int $tamano=0, string $idOrdenReparacion):array {
+	public function getTablaSeguimiento(int $inicio=1, int $tamano=0, string $idOrdenReparacion):array
+	{
 		$sql = "SELECT s.id, s.fecha, SUBSTRING(s.observacion, 1, 50) as observacion, ";
 		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
 		$sql.= "FROM Seguimientos as s, OrdenReparacion as o, Vehiculos as v ";
@@ -69,8 +77,8 @@ class SeguimientosModelo {
 		return $this->db->querySelect($sql);
 	}
 
-
-	public function modificar(array $data):bool {
+	public function modificar(array $data):bool
+	{
 		$salida = false;
 	    if (!empty($data["id"])) {
 		    $sql = "UPDATE seguimientos SET "; 

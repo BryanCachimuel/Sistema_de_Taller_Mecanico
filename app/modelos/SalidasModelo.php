@@ -2,7 +2,8 @@
 /**
  * 
  */
-class SalidasModelo {
+class SalidasModelo
+{
 	private $db="";
 	
 	function __construct()
@@ -10,7 +11,8 @@ class SalidasModelo {
 		$this->db = new MySQLdb();
 	}
 
-	public function altaFactura($data, $manoObra, $otro, $materiales, $iva, $total,  $observacion):int {
+	public function altaFactura($data, $manoObra, $otro, $materiales, $iva, $total,  $observacion):int
+	{
 		$salida = 0;
 		$sql = "INSERT INTO facturas VALUES(0,";//1. id 
 		$sql.= "'".$data['idCliente']."', ";	//2. idCliente
@@ -33,20 +35,23 @@ class SalidasModelo {
 	   return $salida;
 	}
 
-	public function bajaLogica(string $id):bool {
+	public function bajaLogica(string $id):bool
+	{
 		$salida = false;
 		$sql = "UPDATE vehiculos SET baja=1, baja_dt=(NOW()) WHERE id=".$id;
 		$salida = $this->db->queryNoSelect($sql);
 		return $salida;
 	}
 
-	public function cambiarEstadoOrdenReparacion($id='') {
+	public function cambiarEstadoOrdenReparacion($id='')
+	{
 		$sql = "UPDATE ordenReparacion SET estado=".ORDEN_FACTURADA." ";
 		$sql.= "WHERE id=".$id;
 		return $this->db->queryNoSelect($sql);
 	}
 
-	public function getClientes():array {
+	public function getClientes():array
+	{
 		$sql = "SELECT id, CONCAT(nombres,' ',apellidos,', ',razonSocial) as cliente ";
 		$sql.= "FROM clientes WHERE baja=0 AND estado=".CLIENTE_ACTIVO." ";
 		$sql.= "ORDER BY nombres, apellidos, razonSocial";
@@ -64,16 +69,18 @@ class SalidasModelo {
 		return $this->db->query($sql);
 	}
 
-	public function getNumRegistros(string $tabla):int {
+	public function getNumRegistros(string $tabla):int
+	{
 		$sql = "SELECT COUNT(*) FROM ".$tabla." WHERE baja=0";
 		$salida = $this->db->query($sql);
 		return $salida["COUNT(*)"];
 	}
 
-	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0):array {
+	public function getTablaOrdenReparacion(int $inicio=1, int $tamano=0):array
+	{
 		$sql = "SELECT o.id, o.idVehiculo, o.fechaIngreso, o.fechaSalida,  ";
 		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, e.estado, o.estado as edo ";
-		$sql.= "FROM OrdenReparacion as o, Vehiculos as v, estadoordenreparacion as e ";
+		$sql.= "FROM OrdenReparacion as o, Vehiculos as v, EstadoOrdenReparacion as e ";
 		$sql.= "WHERE o.baja=0 AND ";
 		$sql.= "o.idVehiculo=v.id AND ";
 		$sql.= "o.estado=e.id ";
@@ -83,7 +90,8 @@ class SalidasModelo {
 		return $this->db->querySelect($sql);
 	}
 
-    public function getOrdenReparacion(string $idOrdenReparacion=''):array {
+	public function getOrdenReparacion(string $idOrdenReparacion=''):array
+	{
 		if(empty($idOrdenReparacion)) return [];
 		$sql = "SELECT  o.id, o.fechaIngreso, o.fechaSalida, o.kilometraje, ";
 		$sql.= "c.id as idCliente, c.rfc, v.id as idVehiculo, ";
@@ -96,7 +104,8 @@ class SalidasModelo {
 		return $this->db->query($sql);
 	}
 
-    public function getPiezas(string $idOrdenReparacion=''):array {
+	public function getPiezas(string $idOrdenReparacion=''):array
+	{
 		if(empty($idOrdenReparacion)) return [];
 		$sql = "SELECT  a.idOrdenReparacion, p.nombrePieza, d.cantidad, p.costo ";
 		$sql.= "FROM ordenAlmacen as a, ordenAlmacenDetalle as d, piezas as p ";
@@ -106,13 +115,13 @@ class SalidasModelo {
 		return $this->db->querySelect($sql);
 	}
 
-	public function getRazonSocial():array {
+	public function getRazonSocial():array
+	{
 		$sql = "SELECT * ";
 		$sql.= "FROM configuracion ";
 		$sql.= "WHERE id=1";
 		return $this->db->query($sql);
 	}
-
 
 	public function modificar(array $data):bool
 	{

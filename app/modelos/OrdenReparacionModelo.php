@@ -48,6 +48,7 @@ class OrdenReparacionModelo
 		return $salida;
 	}
 
+
 	public function getId(string $id=''):array
 	{
 		if(empty($id)) return [];
@@ -57,9 +58,10 @@ class OrdenReparacionModelo
 		return $this->db->query($sql);
 	}
 
-	public function getPiezas(string $id=''):array {
+	public function getPiezas(string $id=''):array
+	{
 		$sql = "SELECT o.id, p.nombrePieza, d.cantidad, d.costo ";
-		$sql.= "FROM ordenalmacen as o, ordenalmacendetalle as d, piezas as p ";
+		$sql.= "FROM ordenAlmacen as o, ordenAlmacenDetalle as d, piezas as p ";
 		$sql.= "WHERE o.idOrdenReparacion=".$id." AND o.baja=0 AND ";
 		$sql.= "o.id=d.idOrdenAlmacen AND ";
 		$sql.= "d.idPieza=p.id";

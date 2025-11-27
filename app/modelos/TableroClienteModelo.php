@@ -2,20 +2,24 @@
 /**
  * 
  */
-class TableroClienteModelo {
+class TableroClienteModelo
+{
 	private $db="";
 	
-	function __construct() {
+	function __construct()
+	{
 		$this->db = new MySQLdb();
 	}
 
-	public function getNumRegistros(string $tabla, string $id):int {
+	public function getNumRegistros(string $tabla, string $id):int
+	{
 		$sql = "SELECT COUNT(*) FROM ".$tabla." WHERE baja=0 AND idCliente=".$id;
 		$salida = $this->db->query($sql);
 		return $salida["COUNT(*)"];
 	}
 
-	public function getId(string $id=''):array {
+	public function getId(string $id=''):array
+	{
 		if(empty($id)) return [];
 		$sql = "SELECT o.id, o.idVehiculo, o.idMecanico, o.fechaIngreso, o.fechaSalida, ";
 		$sql.= "o.kilometraje, o.gato, o.herramientas, o.triangulos, o.refaccion, o.extintor, ";
@@ -28,7 +32,8 @@ class TableroClienteModelo {
 		return $this->db->query($sql);
 	}
 
-	public function getSeguimientoId(string $id=''):array {
+	public function getSeguimientoId(string $id=''):array
+	{
 		if(empty($id)) return [];
 		$sql = "SELECT id, idOrdenReparacion, fecha, observacion ";
 		$sql.= "FROM seguimientos ";
@@ -36,7 +41,8 @@ class TableroClienteModelo {
 		return $this->db->query($sql);
 	}
 
-	public function getPiezas(string $idOrdenReparacion=''):array {
+	public function getPiezas(string $idOrdenReparacion=''):array
+	{
 		if(empty($idOrdenReparacion)) return [];
 		$sql = "SELECT  a.idOrdenReparacion, p.nombrePieza, d.cantidad, p.costo ";
 		$sql.= "FROM ordenAlmacen as a, ordenAlmacenDetalle as d, piezas as p ";
@@ -46,7 +52,8 @@ class TableroClienteModelo {
 		return $this->db->querySelect($sql);
 	}
 
-	public function getSeguimientos(string $idOrdenReparacion):array {
+	public function getSeguimientos(string $idOrdenReparacion):array
+	{
 		$sql = "SELECT s.id, s.fecha, SUBSTRING(s.observacion, 1, 50) as observacion, ";
 		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo ";
 		$sql.= "FROM Seguimientos as s, OrdenReparacion as o, Vehiculos as v ";
@@ -55,7 +62,8 @@ class TableroClienteModelo {
 		return $this->db->querySelect($sql);
 	}
 
-	public function getTablaOrdenReparacion(string $id):array {
+	public function getTablaOrdenReparacion(string $id):array
+	{
 		$sql = "SELECT o.id, o.idVehiculo, o.fechaIngreso, o.fechaSalida,  ";
 		$sql.= "CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, e.estado, o.estado as edo ";
 		$sql.= "FROM Clientes as c, OrdenReparacion as o, Vehiculos as v, EstadoOrdenReparacion as e ";
@@ -65,7 +73,8 @@ class TableroClienteModelo {
 		return $this->db->querySelect($sql);
 	}
 
-	public function setUsuario($id, $nombres, $apellidos, $clave) {
+	public function setUsuario($id, $nombres, $apellidos, $clave)
+	{
 		$sql = "UPDATE clientes SET ";
 		$sql.= "nombres='".$nombres."', ";
 		$sql.= "apellidos='".$apellidos."' ";
@@ -76,12 +85,11 @@ class TableroClienteModelo {
 		return $this->db->queryNoSelect($sql);
 	}
 
-	public function getUsuarioId($id='') {
+	public function getUsuarioId($id='')
+	{
 		$sql = "SELECT * FROM clientes WHERE id=".$id." AND baja=0";
 		return $this->db->query($sql);
 	}
-
-	
 }
 
 ?>
