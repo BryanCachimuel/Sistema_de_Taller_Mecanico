@@ -2,20 +2,23 @@
 /**
  * 
  */
-class TableroModelo {
-	
+class TableroModelo
+{
 	private $db="";
 	
-	function __construct() {
+	function __construct()
+	{
 		$this->db = new MySQLdb();
 	}
 
-	public function getTablas() {
+	public function getTablas()
+	{
 		return $this->db->querySelect("SHOW TABLES");
 	}
 
-	public function respaldarTabla($tabla='',$fecha="",$id="") {
-		if(empty($tabla) || empty($fecha)) return false;
+	public function respaldarTabla($tabla='',$fecha="",$id="")
+	{
+		if (empty($tabla) || empty($fecha)) return false;
 		$db = $this->db->getBaseDatos();
 		$salida = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\r\nSET time_zone = \"+00:00\";\r\n\r\n\r\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\r\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\r\n/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\r\n/*!40101 SET NAMES utf8 */;\r\n--\r\n-- Database: `" . $db . "`\r\n--\r\n\r\n";
 		$datos = $this->db->queryCrudo("SELECT * FROM ".$tabla);
@@ -61,7 +64,8 @@ class TableroModelo {
 		return file_put_contents($archivo, $salida) !== false;
 	}
 
-	public function setUsuario($id, $nombres, $apellidos, $clave) {
+	public function setUsuario($id, $nombres, $apellidos, $clave)
+	{
 		$sql = "UPDATE usuarios SET ";
 		$sql.= "nombres='".$nombres."', ";
 		$sql.= "apellidos='".$apellidos."' ";
@@ -73,12 +77,11 @@ class TableroModelo {
 		return $this->db->queryNoSelect($sql);
 	}
 
-	public function getUsuarioId($id='') {
+	public function getUsuarioId($id='')
+	{
 		$sql = "SELECT * FROM usuarios WHERE id=".$id." AND baja=0";
 		return $this->db->query($sql);
 	}
-
-
 }
 
 ?>

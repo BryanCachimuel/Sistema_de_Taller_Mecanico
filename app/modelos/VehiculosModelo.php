@@ -44,7 +44,8 @@ class VehiculosModelo
 		return $this->db->querySelect($sql);
 	}
 
-	public function getIntegridadReferencial($id) {
+	public function getIntegridadReferencial($id)
+	{
 		//
 		$ir_array = [0,0];
 		$sql = "SELECT COUNT(*) FROM ordenreparacion WHERE baja=0 AND idVehiculo=".$id;
@@ -72,13 +73,11 @@ class VehiculosModelo
 		return $salida["COUNT(*)"];
 	}
 
-	public function getTabla(int $inicio=1, int $tamano=0):array
+	public function getTabla($inicio=1, $tamano=0)
 	{
-		$sql = "SELECT v.id, CONCAT(v.marca,' ',v.modelo,' ',v.anio) as vehiculo, ";
-		$sql.= "CONCAT(c.apellidos,' ',c.nombres,' / ',c.razonSocial) as nombre ";
-		$sql.= "FROM vehiculos as v, clientes as c ";
-		$sql.= "WHERE v.baja=0 AND ";
-		$sql.= "v.idCliente=c.id ";
+		$sql = "SELECT id, marca, modelo, anio, placas ";
+		$sql.= "FROM vehiculos ";
+		$sql.= "WHERE baja=0";
 		if ($tamano>0) {
 			$sql.= " LIMIT ".$inicio.", ".$tamano;
 		}
