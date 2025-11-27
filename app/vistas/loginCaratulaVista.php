@@ -15,6 +15,6 @@
 		<div class="form-group text-start mt-2">
 			<input type="submit" value="Enviar" class="btn btn-success">
 		</div>
-		<a href="<?php print RUTA; ?>login/olvidoVerificar">¿Olvidaste tu clave de acceso?</a><br>
+		<a href="<?php print RUTA; ?>login/olvido">¿Olvidaste tu clave de acceso?</a><br>
 	</form>
 <?php include_once("piepagina.php"); ?>					
