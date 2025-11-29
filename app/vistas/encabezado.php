@@ -10,7 +10,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<a href="#" class="navbar-brand">Taller</a>
+		<a href="<?php print RUTA; ?>tablero" class="navbar-brand">Taller</a>
 	<?php
 		if (isset($datos["menu"]) && $datos["menu"]==true) {
 			if (isset($datos["usuario"]["tipoUsuario"]) && $datos["usuario"]["tipoUsuario"]==ADMON) {
