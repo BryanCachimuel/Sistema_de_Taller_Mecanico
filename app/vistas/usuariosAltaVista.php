@@ -1,7 +1,7 @@
 <?php include_once("encabezado.php"); ?>
 <form action="<?php print RUTA; ?>usuarios/alta" method="POST">
-	<div class="form-group text-start">
-		<label for="tipoUsuario">* Tipo de usuario:</label>
+	<div class="form-group text-start mb-3">
+		<label for="tipoUsuario">* <i class="fa-solid fa-users-between-lines"></i> Tipo de usuario:</label>
       <select class="form-control" name="tipoUsuario" id="tipoUsuario"
       <?php if (isset($datos["baja"])){ print " disabled "; } ?>>
       <option value="void">---Selecciona un tipo de usuario---</option>
@@ -17,33 +17,33 @@
       </select>
 	</div>
 
-	<div class="form-group text-start">
-		<label for="nombres">* Nombre del usuario:</label>
+	<div class="form-group text-start mb-3">
+		<label for="nombres">* <i class="fa-regular fa-address-card"></i> Nombre del usuario:</label>
 		<input id="nombres" name="nombres" type="text" class="form-control" placeholder="Nombre del usuario" required value="<?php print isset($datos['data']['nombres'])?$datos['data']['nombres']:''; ?>" <?php if (isset($datos["baja"])){ print " disabled "; } ?>>
 	</div>
 
-	<div class="form-group text-start">
-		<label for="apellidos">* Apellidos del usuario:</label>
+	<div class="form-group text-start mb-3">
+		<label for="apellidos">* <i class="fa-regular fa-address-card"></i> Apellidos del usuario:</label>
 		<input id="apellidos" name="apellidos" type="text" class="form-control" placeholder="Apellidos del usuario" required value="<?php print isset($datos['data']['apellidos'])?$datos['data']['apellidos']:''; ?>" <?php if (isset($datos["baja"])){ print " disabled "; } ?>>
 	</div>
 
-	<div class="form-group text-start">
-		<label for="direccion">Dirección:</label>
+	<div class="form-group text-start mb-3">
+		<label for="direccion"><i class="fa-solid fa-location-crosshairs"></i> Dirección:</label>
 		<input id="direccion" name="direccion" type="text" class="form-control" placeholder="Dirección del usuario" value="<?php print isset($datos['data']['direccion'])?$datos['data']['direccion']:''; ?>" <?php if (isset($datos["baja"])){ print " disabled "; } ?>>
 	</div>
 
-	<div class="form-group text-start">
-		<label for="telefono">* Telefono del usuario:</label>
+	<div class="form-group text-start mb-3">
+		<label for="telefono">* <i class="fa-solid fa-mobile-screen"></i> Telefono del usuario:</label>
 		<input id="telefono" name="telefono" type="text" class="form-control" placeholder="Teléfono del usuario" required  value="<?php print isset($datos['data']['telefono'])?$datos['data']['telefono']:''; ?>" <?php if (isset($datos["baja"])){ print " disabled "; } ?>>
 	</div>
 
-	<div class="form-group text-start">
-		<label for="correo">* Correo del usuario:</label>
+	<div class="form-group text-start mb-3">
+		<label for="correo">* <i class="fa-regular fa-envelope"></i> Correo del usuario:</label>
 		<input id="correo" name="correo" type="text" class="form-control" placeholder="Correo del usuario" required value="<?php print isset($datos['data']['correo'])?$datos['data']['correo']:''; ?>" <?php if (isset($datos["baja"])){ print " disabled "; } ?>>
 	</div>
 
-	<div class="form-group text-start">
-	  <label for="genero">* Género del usuario:</label>
+	<div class="form-group text-start mb-3">
+	  <label for="genero">* <i class="fa-solid fa-mars-and-venus"></i> Género del usuario:</label>
       <select class="form-control" name="genero" id="genero" <?php if (isset($datos["baja"])){ print " disabled "; } ?>>
       <option value="void">---Selecciona un género---</option>
         <?php
