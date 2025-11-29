@@ -1,28 +1,28 @@
 <?php include_once("encabezado.php"); ?>
   <form action="<?php print RUTA; ?>mecanicos/alta/" method="POST">
 
-    <div class="form-group text-left">
-      <label for="nombres">* Nombres:</label>
+    <div class="form-group text-left mb-3">
+      <label for="nombres">* <i class="fa-regular fa-address-card"></i> Nombres:</label>
       <input type="text" name="nombres" id="nombres" class="form-control" required value="<?php print isset($datos['data']['nombres'])?$datos['data']['nombres']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="apellidos">* Apellidos:</label>
+    <div class="form-group text-left mt-3">
+      <label for="apellidos">* <i class="fa-regular fa-address-card"></i> Apellidos:</label>
       <input type="text" name="apellidos" id="apellidos" class="form-control" required value="<?php print isset($datos['data']['apellidos'])?$datos['data']['apellidos']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="telefono">Teléfono:</label>
+    <div class="form-group text-left mt-3">
+      <label for="telefono"><i class="fa-solid fa-mobile-screen-button"></i> Teléfono:</label>
       <input type="text" name="telefono" id="telefono" class="form-control" value="<?php print isset($datos['data']['telefono'])?$datos['data']['telefono']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="correo">* Correo:</label>
+    <div class="form-group text-left mt-3">
+      <label for="correo">* <i class="fa-regular fa-envelope"></i> Correo:</label>
       <input type="email" name="correo" id="correo" class="form-control" required value="<?php print isset($datos['data']['correo'])?$datos['data']['correo']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="tipoMecanico">* Tipo de mecánico:</label>
+    <div class="form-group text-left mt-3">
+      <label for="tipoMecanico">* <i class="fa-solid fa-screwdriver-wrench"></i> Tipo de mecánico:</label>
       <select class="form-control" name="tipoMecanico" id="tipoMecanico" 
       <?php if (isset($datos["baja"])) { print " disabled "; } ?>
       >
@@ -39,8 +39,8 @@
       </select>
     </div>
 
-    <div class="form-group text-left">
-      <label for="estado">* Estado del mecánico:</label>
+    <div class="form-group text-left mt-3">
+      <label for="estado">* <i class="fa-solid fa-wrench"></i> Estado del mecánico:</label>
       <select class="form-control" name="estado" id="estado" 
       <?php if (isset($datos["baja"])) { print " disabled "; } ?>
       >
@@ -57,7 +57,7 @@
       </select>
     </div>
 
-    <div class="form-group text-start">
+    <div class="form-group text-start mt-3">
       <input type="hidden" name="id" id="id" value="<?php if (isset($datos['data']['id'])) { print $datos['data']['id']; } else { print ""; } ?>">
       <input type="hidden" name="pagina" id="pagina" value="<?php if (isset($datos['pagina'])) { print $datos['pagina']; } else { print "1"; } ?>">
       
