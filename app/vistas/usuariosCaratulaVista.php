@@ -19,14 +19,13 @@
       print "<td class='text-start'>".$datos["data"][$i]['nombre']."</td>";
       print "<td class='text-start'>".$datos["data"][$i]['tipoUsuario']."</td>";
       print "<td class='text-start'>".$datos["data"][$i]['estado']."</td>";
-      print "<td><a href='".RUTA."usuarios/modificar/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-info'>Modificar</a></td>";
-      print "<td><a href='".RUTA."usuarios/borrar/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-danger'>Borrar</a></td>";
+      print "<td><a href='".RUTA."usuarios/modificar/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-info'><i class='fa-solid fa-marker'></i></a></td>";
+      print "<td><a href='".RUTA."usuarios/borrar/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-danger'><i class='fa-solid fa-trash-can'></i></a></td>";
       print "</tr>";
     }
     ?>
   </tbody>
   </table>
   <?php include_once("paginacion.php"); ?> 
-<a href="<?php print RUTA; ?>usuarios/alta" class="btn btn-success">
-  Dar de alta un usuario</a>
+<a href="<?php print RUTA; ?>usuarios/alta" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> Dar de alta un usuario</a>
 <?php include_once("piepagina.php"); ?>					
