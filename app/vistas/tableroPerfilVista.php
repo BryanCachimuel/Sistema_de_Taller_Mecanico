@@ -2,26 +2,26 @@
   <form action="<?php print RUTA.$datos["regreso"]; ?>/perfil/" method="POST">
 
     <div class="form-group text-left">
-      <label for="nombres">* Nombres:</label>
+      <label for="nombres">* <i class="fa-regular fa-address-card"></i> Nombres:</label>
       <input type="text" name="nombres" id="nombres" class="form-control" required value="<?php print isset($datos['data']['nombres'])?$datos['data']['nombres']:''; ?>">
     </div>
 
     <div class="form-group text-left">
-      <label for="apellidos">* Apellidos:</label>
+      <label for="apellidos">* <i class="fa-regular fa-address-card"></i> Apellidos:</label>
       <input type="text" name="apellidos" id="apellidos" class="form-control" required value="<?php print isset($datos['data']['apellidos'])?$datos['data']['apellidos']:''; ?>">
     </div>
     <hr>
-    <p>NOTA: si no desdea modificar su clave de acceso, verifique que los campos estén vacíos.</p>
+    <p><strong>NOTA: si no desdea modificar su clave de acceso, verifique que los campos estén vacíos.</strong></p>
     <div class="form-group text-left">
-      <label for="clave">* Nueva clave de acceso:</label>
+      <label for="clave">* <i class="fa-solid fa-key"></i> Nueva clave de acceso:</label>
       <input type="password" name="clave" id="clave" class="form-control" placeholder="Escribe tu nueva clave de acceso" autocomplete="off">
     </div>
     <div class="form-group text-left">
-      <label for="verifica">* Repite tu clave de acceso:</label>
+      <label for="verifica">* <i class="fa-solid fa-key"></i> Repite tu clave de acceso:</label>
       <input type="password" name="verifica" id="verifica" class="form-control" placeholder="Repite tu nueva clave de acceso" autocomplete="off">
     </div>
 
-    <div class="form-group text-start">
+    <div class="form-group text-start mt-3">
       <input type="hidden" name="id" id="id" value="<?php print $datos['data']["id"]; ?>">
       <input type="submit" class="btn btn-success">
       <a href="<?php print RUTA.$datos['regreso']; ?>" class="btn btn-info">Regresar</a>
