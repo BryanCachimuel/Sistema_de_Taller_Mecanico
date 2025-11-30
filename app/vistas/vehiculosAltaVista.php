@@ -1,33 +1,33 @@
 <?php include_once("encabezado.php"); ?>
   <form action="<?php print RUTA; ?>vehiculos/alta/" method="POST">
 
-    <div class="form-group text-left">
-      <label for="marca">* Marca:</label>
+    <div class="form-group text-left mb-3">
+      <label for="marca">* <i class="fa-solid fa-car-side"></i> Marca:</label>
       <input type="text" name="marca" id="marca" class="form-control" required value="<?php print isset($datos['data']['marca'])?$datos['data']['marca']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="modelo">* Modelo:</label>
+    <div class="form-group text-left mb-3">
+      <label for="modelo">* <i class="fa-solid fa-car-side"></i> Modelo:</label>
       <input type="text" name="modelo" id="modelo" class="form-control" required value="<?php print isset($datos['data']['modelo'])?$datos['data']['modelo']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="color">* Color:</label>
+    <div class="form-group text-left mb-3">
+      <label for="color">* <i class="fa-solid fa-droplet"></i> Color:</label>
       <input type="text" name="color" id="color" class="form-control" value="<?php print isset($datos['data']['color'])?$datos['data']['color']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?> required>
     </div>
 
-    <div class="form-group text-left">
-      <label for="anio">Año:</label>
+    <div class="form-group text-left mb-3">
+      <label for="anio"><i class="fa-regular fa-calendar-days"></i> Año:</label>
       <input type="text" name="anio" id="anio" class="form-control" value="<?php print isset($datos['data']['anio'])?$datos['data']['anio']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="placas">Placas:</label>
+    <div class="form-group text-left mb-3">
+      <label for="placas"><i class="fa-solid fa-car-rear"></i> Placas:</label>
       <input type="text" name="placas" id="placas" class="form-control" value="<?php print isset($datos['data']['placas'])?$datos['data']['placas']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="idCliente">* Cliente:</label>
+    <div class="form-group text-left mb-3">
+      <label for="idCliente">* <i class="fa-solid fa-user"></i> Cliente:</label>
       <select class="form-control" name="idCliente" id="idCliente" 
       <?php if (isset($datos["baja"])) { print " disabled "; } ?>
       >
