@@ -20,17 +20,15 @@
       print "<td class='text-start'>".$datos["data"][$i]['vehiculo']."</td>";
       print "<td class='text-start'>".$datos["data"][$i]['fecha']."</td>";
       print "<td class='text-start'>".$datos["data"][$i]['observacion']."</td>";
-      print "<td><a href='".RUTA."seguimientos/desplegarSeguimiento/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-warning'>Mostrar</a></td>";
-      print "<td><a href='".RUTA."seguimientos/modificarSeguimiento/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-info'>Modificar</a></td>";
-      print "<td><a href='".RUTA."seguimientos/borrarSeguimiento/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-danger'>Borrar</a></td>";
+      print "<td><a href='".RUTA."seguimientos/desplegarSeguimiento/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-warning'><i class='fa-regular fa-eye'></i></a></td>";
+      print "<td><a href='".RUTA."seguimientos/modificarSeguimiento/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-info'><i class='fa-solid fa-marker'></i></a></td>";
+      print "<td><a href='".RUTA."seguimientos/borrarSeguimiento/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-danger'><i class='fa-solid fa-trash-can'></i></a></td>";
       print "</tr>";
     }
     ?>
   </tbody>
   </table>
   <?php include_once("paginacion.php"); ?> 
-  <a href="<?php print RUTA.'seguimientos/alta/'.$datos['idOrdenReparacion'];?>" class="btn btn-success">
-  Dar de alta el seguimiento</a>
-  <a href="<?php print RUTA; ?>seguimientos/1" class="btn btn-success">
-  Regresar</a>
+  <a href="<?php print RUTA.'seguimientos/alta/'.$datos['idOrdenReparacion'];?>" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> Dar de alta el seguimiento</a>
+  <a href="<?php print RUTA; ?>seguimientos/1" class="btn btn-success"><i class="fa-solid fa-angles-left"></i> Regresar</a>
 <?php include_once("piepagina.php"); ?>					
