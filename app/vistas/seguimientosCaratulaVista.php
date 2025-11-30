@@ -18,7 +18,7 @@
       print "<td class='text-start'>".$datos["data"][$i]['vehiculo']."</td>";
       print "<td class='text-start'>".$datos["data"][$i]['fechaIngreso']."</td>";
       print "<td class='text-start'>".$datos["data"][$i]['fechaSalida']."</td>";
-      print "<td><a href='".RUTA."seguimientos/seguimiento/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-warning'>Seguimiento</a></td>";
+      print "<td><a href='".RUTA."seguimientos/seguimiento/".$datos["data"][$i]["id"]."/".$datos["pag"]["pagina"]."' class='btn btn-warning'><i class='fa-solid fa-list-check'></i> Seguimiento</a></td>";
       print "</tr>";
     }
     ?>
