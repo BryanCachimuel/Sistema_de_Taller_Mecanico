@@ -1,8 +1,8 @@
 <?php include_once("encabezado.php"); ?>
   <form action="<?php print RUTA; ?>ordenAlmacen/altaOrdenAlmacenDetalle/" method="POST">
 
-  <div class="form-group text-left">
-    <label for="idOrdenReparacion">* Orden reparación:</label>
+  <div class="form-group text-left mb-3">
+    <label for="idOrdenReparacion">* <i class="fa-solid fa-person-chalkboard"></i> Orden reparación:</label>
     <select class="form-control" name="idOrdenReparacion" id="idOrdenReparacion" 
     <?php if (isset($datos["baja"])) { print " disabled "; } ?>
     >
@@ -20,7 +20,7 @@
   </div>
 
   <div class="form-group text-left">
-    <label for="observacion">Observación:</label>
+    <label for="observacion"><i class="fa-solid fa-newspaper"></i> Observación:</label>
     <textarea class="form-control" id="observacion" name="observacion" rows="3" ></textarea>
   </div>
 
