@@ -1,43 +1,43 @@
 <?php include_once("encabezado.php"); ?>
   <form action="<?php print RUTA; ?>clientes/alta/" method="POST">
 
-    <div class="form-group text-left">
-      <label for="nombres">* Nombres:</label>
+    <div class="form-group text-left mb-3">
+      <label for="nombres">* <i class="fa-regular fa-address-card"></i> Nombres:</label>
       <input type="text" name="nombres" id="nombres" class="form-control" required value="<?php print isset($datos['data']['nombres'])?$datos['data']['nombres']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="apellidos">* Apellidos:</label>
+    <div class="form-group text-left mb-3">
+      <label for="apellidos">* <i class="fa-regular fa-address-card"></i> Apellidos:</label>
       <input type="text" name="apellidos" id="apellidos" class="form-control" required value="<?php print isset($datos['data']['apellidos'])?$datos['data']['apellidos']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="razonSocial">Razon social:</label>
+    <div class="form-group text-left mb-3">
+      <label for="razonSocial"><i class="fa-solid fa-id-card-clip"></i> Razon social:</label>
       <input type="text" name="razonSocial" id="razonSocial" class="form-control" value="<?php print isset($datos['data']['razonSocial'])?$datos['data']['razonSocial']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="direccion">Dirección:</label>
+    <div class="form-group text-left mb-3">
+      <label for="direccion"><i class="fa-solid fa-location-crosshairs"></i> Dirección:</label>
       <input type="text" name="direccion" id="direccion" class="form-control" value="<?php print isset($datos['data']['direccion'])?$datos['data']['direccion']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="telefono">Teléfono:</label>
+    <div class="form-group text-left mb-3">
+      <label for="telefono"><i class="fa-solid fa-mobile-screen"></i> Teléfono:</label>
       <input type="text" name="telefono" id="telefono" class="form-control" value="<?php print isset($datos['data']['telefono'])?$datos['data']['telefono']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="rfc">Registro federal de contribuyente:</label>
+    <div class="form-group text-left mb-3">
+      <label for="rfc"><i class="fa-solid fa-id-card-clip"></i> Registro federal de contribuyente:</label>
       <input type="text" name="rfc" id="rfc" class="form-control" value="<?php print isset($datos['data']['rfc'])?$datos['data']['rfc']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="correo">* Correo:</label>
+    <div class="form-group text-left mb-3">
+      <label for="correo">* <i class="fa-regular fa-envelope"></i> Correo:</label>
       <input type="email" name="correo" id="correo" class="form-control" required value="<?php print isset($datos['data']['correo'])?$datos['data']['correo']:''; ?>" <?php if (isset($datos["baja"])) { print " disabled "; }?>>
     </div>
 
-    <div class="form-group text-left">
-      <label for="estado">* Estado del cliente:</label>
+    <div class="form-group text-left mb-3">
+      <label for="estado">* <i class="fa-solid fa-person-circle-check"></i> Estado del cliente:</label>
       <select class="form-control" name="estado" id="estado" 
       <?php if (isset($datos["baja"])) { print " disabled "; } ?>
       >
