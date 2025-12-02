@@ -48,28 +48,28 @@
     </div>
 
     <div class="tab-pane fade" id="vehiculo" role="tabpanel" aria-labelledby="vehiculo-tab">
-      <div class="form-group text-left">
-      <label for="marca">Marca del auto:</label>
+      <div class="form-group text-left mt-2">
+      <label for="marca"><i class="fa-solid fa-car-side"></i> Marca del auto:</label>
       <input type="text" name="marca" id="marca" class="form-control" value="<?php print isset($datos['data']['marca'])?$datos['data']['marca']:''; ?>" disabled>
     </div>
 
-    <div class="form-group text-left">
-      <label for="modelo">* Modelo:</label>
+    <div class="form-group text-left mb-3">
+      <label for="modelo">* <i class="fa-solid fa-car-side"></i> Modelo:</label>
       <input type="text" name="modelo" id="modelo" class="form-control" value="<?php print isset($datos['data']['modelo'])?$datos['data']['modelo']:''; ?>"  disabled>
     </div>
 
-    <div class="form-group text-left">
-      <label for="color">* Color:</label>
+    <div class="form-group text-left mb-3">
+      <label for="color">* <i class="fa-solid fa-car-side"></i> Color:</label>
       <input type="text" name="color" id="color" class="form-control" value="<?php print isset($datos['data']['color'])?$datos['data']['color']:''; ?>" disabled>
     </div>
 
-    <div class="form-group text-left">
-      <label for="anio">Año:</label>
+    <div class="form-group text-left mb-3">
+      <label for="anio"><i class="fa-regular fa-calendar-days"></i> Año:</label>
       <input type="text" name="anio" id="anio" class="form-control" value="<?php print isset($datos['data']['anio'])?$datos['data']['anio']:''; ?>" disabled>
     </div>
 
-    <div class="form-group text-left">
-      <label for="placas">Placas:</label>
+    <div class="form-group text-left mb-3">
+      <label for="placas"><i class="fa-solid fa-car-side"></i> Placas:</label>
       <input type="text" name="placas" id="placas" class="form-control" value="<?php print isset($datos['data']['placas'])?$datos['data']['placas']:''; ?>" disabled>
     </div>
 
