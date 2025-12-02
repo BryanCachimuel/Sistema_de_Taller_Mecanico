@@ -24,7 +24,7 @@
       if ($datos["data"][$i]['edo']==ORDEN_FACTURADA) {
         print " disabled";
       }
-      print "'>Salida</a></td>";
+      print "'><i class='fa-solid fa-right-from-bracket'></i> Salida</a></td>";
       print "</tr>";
     }
     ?>
