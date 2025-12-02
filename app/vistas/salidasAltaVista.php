@@ -2,16 +2,16 @@
   <form action="<?php print RUTA; ?>salidas/mensajeFacturar/" method="POST">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="cliente-tab" data-bs-toggle="tab" href="#cliente" role="tab" aria-controls="cliente" aria-selected="true">Cliente</a>
+      <a class="nav-link active" id="cliente-tab" data-bs-toggle="tab" href="#cliente" role="tab" aria-controls="cliente" aria-selected="true"><i class="fa-regular fa-id-card"></i> Cliente</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="vehiculo-tab" data-bs-toggle="tab" href="#vehiculo" role="tab" aria-controls="vehiculo" aria-selected="false">Vehículo</a>
+      <a class="nav-link" id="vehiculo-tab" data-bs-toggle="tab" href="#vehiculo" role="tab" aria-controls="vehiculo" aria-selected="false"><i class="fa-solid fa-car-side"></i> Vehículo</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="materiales-tab" data-bs-toggle="tab" href="#materiales" role="tab" aria-controls="materiales" aria-selected="false">Materiales</a>
+      <a class="nav-link" id="materiales-tab" data-bs-toggle="tab" href="#materiales" role="tab" aria-controls="materiales" aria-selected="false"><i  class="fa-solid fa-screwdriver-wrench"></i>Materiales</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="manoobra-tab" data-bs-toggle="tab" href="#manoobra" role="tab" aria-controls="manoobra" aria-selected="false">Mano de obra</a>
+      <a class="nav-link" id="manoobra-tab" data-bs-toggle="tab" href="#manoobra" role="tab" aria-controls="manoobra" aria-selected="false"><i class="fa-solid fa-person-digging"></i> Mano de obra</a>
     </li>
   </ul>
   <div class="tab-content" id="factura">
@@ -111,7 +111,7 @@
     </div>
   </div>
     
-    <div class="form-group text-start">
+    <div class="form-group text-start mt-3">
       <input type="hidden" name="idOrdenReparacion" id="idOrdenReparacion" value="<?php if (isset($datos["data"]['id'])) { print $datos["data"]['id']; } else { print ""; } ?>">
       <input type="hidden" name="pagina" id="pagina" value="<?php if (isset($datos['pagina'])) { print $datos['pagina']; } else { print "1"; } ?>">
       
