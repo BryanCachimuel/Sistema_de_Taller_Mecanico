@@ -16,33 +16,33 @@
   </ul>
   <div class="tab-content" id="factura">
     <div class="tab-pane fade show active" id="cliente" role="tabpanel" aria-labelledby="cliente-tab">
-      <p>* Si desea cambiar los datos, vaya a la sección correspondiente.</p>
-      <div class="form-group text-left">
-        <label for="nombres">Nombre del cliente:</label>
+      <p class="mt-2"><strong>* Si desea cambiar los datos, vaya a la sección correspondiente.</strong></p>
+      <div class="form-group text-left mb-3">
+        <label for="nombres"><i class="fa-regular fa-id-card"></i> Nombre del cliente:</label>
         <input type="text" name="nombres" id="nombres" class="form-control" value="<?php print isset($datos['data']['nombres'])?$datos['data']['nombres']:''; ?>" disabled>
       </div>
-      <div class="form-group text-left">
-      <label for="apellidos">Apellidos del cliente:</label>
+      <div class="form-group text-left mb-3">
+      <label for="apellidos"><i class="fa-regular fa-id-card"></i> Apellidos del cliente:</label>
       <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?php print isset($datos['data']['apellidos'])?$datos['data']['apellidos']:''; ?>" disabled>
       </div>
 
-    <div class="form-group text-left">
-      <label for="razonsocial">Razón Social:</label>
+    <div class="form-group text-left mb-3">
+      <label for="razonsocial"><i class="fa-regular fa-id-card"></i> Razón Social:</label>
       <input type="text" name="razonsocial" id="razonsocial" class="form-control" value="<?php print isset($datos['data']['razonsocial'])?$datos['data']['razonsocial']:''; ?>" disabled>
     </div>
 
-    <div class="form-group text-left">
-      <label for="direccion">Dirección:</label>
+    <div class="form-group text-left mb-3">
+      <label for="direccion"><i class="fa-solid fa-street-view"></i> Dirección:</label>
       <input type="text" name="direccion" id="direccion" class="form-control" value="<?php print isset($datos['data']['direccion'])?$datos['data']['direccion']:''; ?>" disabled>
     </div>
 
-    <div class="form-group text-left">
-      <label for="correo">Correo electrónico:</label>
+    <div class="form-group text-left mb-3">
+      <label for="correo"><i class="fa-regular fa-envelope"></i> Correo electrónico:</label>
       <input type="text" name="correo" id="correo" class="form-control" value="<?php print isset($datos['data']['correo'])?$datos['data']['direccion']:''; ?>" disabled>
     </div>
 
     <div class="form-group text-left">
-      <label for="telefono">Teléfono:</label>
+      <label for="telefono"><i class="fa-solid fa-mobile-screen"></i> Teléfono:</label>
       <input type="text" name="telefono" id="telefono" class="form-control" value="<?php print isset($datos['data']['telefono'])?$datos['data']['telefono']:''; ?>" disabled>
     </div>
     </div>
