@@ -96,16 +96,16 @@
     ?>
     </div>
     <div class="tab-pane fade" id="manoobra" role="tabpanel" aria-labelledby="manoobra-tab">
-      <div class="form-group text-left">
-      <label for="manoObra">* Mano de obra:</label>
+      <div class="form-group text-left mt-2">
+      <label for="manoObra">* <i class="fa-solid fa-person-digging"></i> Mano de obra:</label>
       <input type="text" name="manoObra" id="manoObra" class="form-control" value="<?php print isset($datos['data']['manoObra'])?$datos['data']['manoObra']:''; ?>" required>
     </div>
-    <div class="form-group text-left">
-      <label for="otro">Otro costo:</label>
+    <div class="form-group text-left mt-3">
+      <label for="otro"><i class="fa-solid fa-hand-holding-dollar"></i> Otro costo:</label>
       <input type="text" name="otro" id="otro" class="form-control" value="<?php print isset($datos['data']['otro'])?$datos['data']['otro']:''; ?>">
     </div>
-    <div class="form-group text-left">
-      <label for="observacion">Observación:</label>
+    <div class="form-group text-left mt-3">
+      <label for="observacion"><i class="fa-regular fa-eye"></i> Observación:</label>
       <textarea class="form-control" id="observacion" name="observacion" rows="3"><?php print isset($datos['data']['observacion'])?$datos['data']['observacion']:''; ?></textarea>
     </div>
     </div>
