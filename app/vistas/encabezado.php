@@ -10,7 +10,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<a href="<?php print RUTA; ?>tablero" class="navbar-brand">Taller</a>
+		<a href="<?php print RUTA; ?>tablero" class="navbar-brand"><i class="fa-solid fa-house-chimney"></i> Taller</a>
 	<?php
 		if (isset($datos["menu"]) && $datos["menu"]==true) {
 			if (isset($datos["usuario"]["tipoUsuario"]) && $datos["usuario"]["tipoUsuario"]==ADMON) {
@@ -19,53 +19,53 @@
 				print "<li class='nav-item'>";
 				print "<a href='".RUTA."salidas' class='nav-link ";
 				if(isset($datos["activo"]) && $datos["activo"]=="salidas") print "active";
-				print "'>Salidas</a>";
+				print "'><i class='fa-solid fa-arrow-right-from-bracket'></i> Salidas</a>";
 				print "</li>";
 				//
 				print "<li class='nav-item'>";
 				print "<a href='".RUTA."seguimientos' class='nav-link ";
 				if(isset($datos["activo"]) && $datos["activo"]=="seguimientos") print "active";
-				print "'>Seguimiento</a>";
+				print "'><i class='fa-solid fa-list-check'></i>Seguimiento</a>";
 				print "</li>";
 				//
 				print "<li class='nav-item'>";
 				print "<a href='".RUTA."ordenreparacion' class='nav-link ";
 				if(isset($datos["activo"]) && $datos["activo"]=="ordenreparacion") print "active";
-				print "'>Orden de reparación</a>";
+				print "'><i class='fa-solid fa-list-ul'></i>Orden de reparación</a>";
 				print "</li>";
 				//
 				print "<li class='nav-item'>";
 				print "<a href='".RUTA."ordenalmacen' class='nav-link ";
 				if(isset($datos["activo"]) && $datos["activo"]=="ordenalmacen") print "active";
-				print "'>Orden de almacén</a>";
+				print "'><i class='fa-solid fa-clipboard-list'></i>Orden de almacén</a>";
 				print "</li>";
 				//
 				print "<li class='nav-item'>";
 				print "<a href='".RUTA."vehiculos' class='nav-link ";
 				if(isset($datos["activo"]) && $datos["activo"]=="vehiculos") print "active";
-				print "'>Vehículos</a>";
+				print "'><i class='fa-solid fa-car-on'></i> Vehículos</a>";
 				print "</li>";
 				//
 				print "<li class='nav-item'>";
 				print "<a href='".RUTA."clientes' class='nav-link ";
 				if(isset($datos["activo"]) && $datos["activo"]=="clientes") print "active";
-				print "'>Clientes</a>";
+				print "'><i class='fa-solid fa-children'></i> Clientes</a>";
 				print "</li>";
 				//
 				print "<li class='nav-item'>";
 				print "<a href='".RUTA."mecanicos' class='nav-link ";
 				if(isset($datos["activo"]) && $datos["activo"]=="mecanicos") print "active";
-				print "'>Mecánicos</a>";
+				print "'><i class='fa-solid fa-people-carry-box'></i> Mecánicos</a>";
 				print "</li>";
 				//
 				print "<li class='nav-item'>";
 				print "<a href='".RUTA."usuarios' class='nav-link ";
 				if(isset($datos["activo"]) && $datos["activo"]=="usuarios") print "active";
-				print "'>Usuarios</a>";
+				print "'><i class='fa-solid fa-users'></i> Usuarios</a>";
 				print "</li>";
 				//
 			    print "<li class='nav-item'>";
-			    print "<a href='".RUTA."tablero/respaldar' class='nav-link'>Respaldar</a>";
+			    print "<a href='".RUTA."tablero/respaldar' class='nav-link'><i class='fa-solid fa-database'></i>Respaldar</a>";
 			    print "</li>";
 				//
 				print "</ul>";
